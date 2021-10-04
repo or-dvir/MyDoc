@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/myDoctorsFragment">
+
+    <fragment
+        android:id="@+id/myDoctorsFragment"
+        android:name="com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragment"
+        android:label="@string/title_myDoctors">
+        <!--        <action-->
+        <!--            android:id="@+id/to_registerFragment"-->
+        <!--            app:destination="@id/registerFragment" />-->
+    </fragment>
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/registerFragment"-->
+    <!--        android:name="com.hotmail.or_dvir.televiziacompose.ui.register.RegisterFragment"-->
+    <!--        android:label="RegisterFragment">-->
+    <!--        <argument-->
+    <!--            android:name="email"-->
+    <!--            app:argType="string" />-->
+    <!--        <argument-->
+    <!--            android:name="password"-->
+    <!--            app:argType="string" />-->
+    <!--    </fragment>-->
+</navigation>
