@@ -35,12 +35,13 @@ class MyDoctorsViewModel(app: Application) : AndroidViewModel(app), KoinComponen
     ////////////////////////////////
 
     data class MyDoctorsUiState(
+        //todo only for testing. uncomment (and remove below row) when ready
+//        val doctors: List<Doctor> = listOf(),
         val doctors: List<Doctor> = List(
             50
         ) { index ->
             Doctor(UUID.randomUUID(), "Dr. $index", "special $index")
         },
-//        val doctors: List<Doctor> = listOf(),
         val isLoading: Boolean = false
     )
 }
