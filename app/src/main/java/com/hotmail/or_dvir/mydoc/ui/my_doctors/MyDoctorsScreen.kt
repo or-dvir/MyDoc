@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
 @Composable
@@ -43,9 +44,7 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {
-                        //todo
-                    }
+                    onClick = { viewModel.navigate(NewDoctorScreen) }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_add_person_filled),

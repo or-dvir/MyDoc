@@ -6,7 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyDoctorsFragment : Fragment()
@@ -40,28 +44,21 @@ class MyDoctorsFragment : Fragment()
 
     private fun collectRegisterEvents()
     {
-        //todo
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.registerEventsFlow.collect {
-//                when (it)
-//                {
-//                    is RegisterResponse.Success ->
-//                    {
-//                        //todo temporary! navigate to appropriate screen
-//                        AlertDialog.Builder(requireContext()).apply {
-//                            setMessage("success")
-//                            setPositiveButton(R.string.ok) { _, _ -> /*do nothing*/ }
-//                        }.show()
-//                    }
-//                    is RegisterResponse.Error ->
-//                    {
-//                        AlertDialog.Builder(requireContext()).apply {
-//                            setMessage(it.error)
-//                            setPositiveButton(R.string.ok) { _, _ -> /*do nothing*/ }
-//                        }.show()
-//                    }
-//                }
-//            }
-//        }
+        lifecycleScope.launchWhenStarted {
+            viewModel.navDestinationFlow.collect { destination ->
+                when (destination)
+                {
+                    is NewDoctorScreen ->
+                    {
+                        //todo
+                    }
+
+                    is DoctorDetailsScreen ->
+                    {
+                        //todo
+                    }
+                }
+            }
+        }
     }
 }
