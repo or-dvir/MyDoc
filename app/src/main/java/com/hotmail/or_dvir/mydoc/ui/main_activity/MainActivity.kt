@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity()
     //todo
     // remove unused strings
     // remove unused icons/drawables
+    // credit all icons
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
