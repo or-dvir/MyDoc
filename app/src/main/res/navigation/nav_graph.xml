@@ -8,20 +8,18 @@
         android:id="@+id/myDoctorsFragment"
         android:name="com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragment"
         android:label="@string/title_myDoctors">
-        <!--        <action-->
-        <!--            android:id="@+id/to_registerFragment"-->
-        <!--            app:destination="@id/registerFragment" />-->
+        <action
+            android:id="@+id/to_doctorDetailsFragment"
+            app:destination="@id/doctorDetailsFragment" />
     </fragment>
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/registerFragment"-->
-    <!--        android:name="com.hotmail.or_dvir.televiziacompose.ui.register.RegisterFragment"-->
-    <!--        android:label="RegisterFragment">-->
-    <!--        <argument-->
-    <!--            android:name="email"-->
-    <!--            app:argType="string" />-->
-    <!--        <argument-->
-    <!--            android:name="password"-->
-    <!--            app:argType="string" />-->
-    <!--    </fragment>-->
+    <fragment
+        android:id="@+id/doctorDetailsFragment"
+        android:name="com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsFragment"
+        android:label="RegisterFragment">
+        <argument
+            android:name="doctorId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
 </navigation>
