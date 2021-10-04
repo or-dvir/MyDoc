@@ -1,5 +1,6 @@
 package com.hotmail.or_dvir.mydoc.ui.my_doctors
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,7 @@ import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
@@ -78,7 +80,9 @@ fun ScreenContent(viewModel: MyDoctorsViewModel)
                 EmptyView()
             } else
             {
-                DoctorsList(doctors)
+                DoctorsList(doctors) {
+                    viewModel.navigate(DoctorDetailsScreen(it.id))
+                }
             }
 
             //this should be the LAST composable so it shows above everything else
@@ -91,14 +95,20 @@ fun ScreenContent(viewModel: MyDoctorsViewModel)
 }
 
 @Composable
-fun DoctorsList(doctors: List<Doctor>)
+fun DoctorsList(doctors: List<Doctor>, onDoctorClicked: (Doctor) -> Unit)
 {
-    //todo change this to grid when stable (currently experimental!)
+    //todo
+    // change this to grid when stable (currently experimental!)
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         itemsIndexed(items = doctors) { index, doc ->
-            DoctorRow(doc)
+            DoctorRow(
+                doc,
+                modifier = Modifier.clickable {
+                    onDoctorClicked(doc)
+                }
+            )
 
             if (index < doctors.lastIndex)
             {
@@ -119,13 +129,13 @@ fun DoctorsList(doctors: List<Doctor>)
 }
 
 @Composable
-fun DoctorRow(doc: Doctor)
+fun DoctorRow(doc: Doctor, modifier: Modifier = Modifier)
 {
     //todo make this nicer
     // add image?
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
     ) {
