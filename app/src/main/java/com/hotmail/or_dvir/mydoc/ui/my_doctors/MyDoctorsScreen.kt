@@ -102,7 +102,7 @@ fun EmptyView()
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                modifier = Modifier.size(150.dp).border(2.dp, Color.Red),
+                modifier = Modifier.size(150.dp),
                 painter = painterResource(id = R.drawable.ic_group_filled),
                 contentDescription = ""
             )
