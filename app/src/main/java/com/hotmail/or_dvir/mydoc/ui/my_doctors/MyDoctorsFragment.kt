@@ -37,12 +37,12 @@ class MyDoctorsFragment : Fragment()
 //                onPasswordInputChanged(fragArgs.password)
 //            }
 
-            collectRegisterEvents()
+            collectNavigationEvents()
             setContent { MyDoctorsScreen(viewModel) }
         }
     }
 
-    private fun collectRegisterEvents()
+    private fun collectNavigationEvents()
     {
         lifecycleScope.launchWhenStarted {
             viewModel.navDestinationFlow.collect { destination ->
@@ -55,7 +55,8 @@ class MyDoctorsFragment : Fragment()
 
                     is DoctorDetailsScreen ->
                     {
-                        //todo
+                        i stopped here!!!!
+//                        findNavController().navigate()
                     }
                 }
             }
