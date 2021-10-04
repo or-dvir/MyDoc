@@ -1,11 +1,16 @@
 package com.hotmail.or_dvir.mydoc.ui.my_doctors
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -21,9 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
@@ -65,26 +72,69 @@ fun ScreenContent(viewModel: MyDoctorsViewModel)
     ) {
         val uiState by viewModel.uiState.observeAsState(MyDoctorsUiState())
 
-        if (uiState.doctors.isEmpty())
-        {
-            EmptyView()
+        uiState.apply {
+            if (doctors.isEmpty())
+            {
+                EmptyView()
+            } else
+            {
+                DoctorsList(doctors)
+            }
+
+            //this should be the LAST composable so it shows above everything else
+            if (isLoading)
+            {
+                LoadingIndicatorFullScreen()
+            }
         }
+    }
+}
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            //todo
+@Composable
+fun DoctorsList(doctors: List<Doctor>)
+{
+    //todo change this to grid when stable (currently experimental!)
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        itemsIndexed(items = doctors) { index, doc ->
+            DoctorRow(doc)
 
+            if (index < doctors.lastIndex)
+            {
+                //todo can i move this to the theme?
+                val dividerColor =
+                    if (MaterialTheme.colors.isLight)
+                    {
+                        Color.Black
+                    } else
+                    {
+                        Color.White
+                    }
 
+                Divider(color = dividerColor)
+            }
         }
+    }
+}
 
-        //this should be the LAST composable so it shows above everything else
-        if (uiState.isLoading)
-        {
-            LoadingIndicatorFullScreen()
-        }
+@Composable
+fun DoctorRow(doc: Doctor)
+{
+    //todo make this nicer
+    // add image?
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Text(
+            fontWeight = FontWeight.Bold,
+            text = doc.name
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        Text(doc.specialty)
     }
 }
 
