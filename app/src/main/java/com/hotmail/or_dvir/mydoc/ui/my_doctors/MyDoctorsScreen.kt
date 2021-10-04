@@ -4,12 +4,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
@@ -19,25 +27,53 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
 {
     //todo look into landscape mode
     MyDocTheme {
-        Box(
+        val scaffoldState = rememberScaffoldState()
+        Scaffold(
+            scaffoldState = scaffoldState,
+            topBar = {
+                TopAppBar(
+                    title = { Text(stringResource(id = R.string.title_myDoctors)) }
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        //todo
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_add_person_filled),
+                        contentDescription = stringResource(id = R.string.contentDescription_addDoctor)
+                    )
+                }
+            },
+            content = { ScreenContent(viewModel) },
+        )
+    }
+}
+
+@Composable
+fun ScreenContent(viewModel: MyDoctorsViewModel)
+{
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val uiState by viewModel.uiState.observeAsState(MyDoctorsUiState())
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(16.dp)
         ) {
-            val uiState by viewModel.uiState.observeAsState(MyDoctorsUiState())
+            //todo
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                Text("my doctors")
-            }
 
-            //this should be the LAST composable so it shows above everything else
-            if (uiState.isLoading)
-            {
-                LoadingIndicatorFullScreen()
-            }
+        }
+
+        //this should be the LAST composable so it shows above everything else
+        if (uiState.isLoading)
+        {
+            LoadingIndicatorFullScreen()
         }
     }
 }
