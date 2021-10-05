@@ -43,7 +43,7 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel, onBackButtonClicked:
 
         Scaffold(
             scaffoldState = scaffoldState,
-            content = { ScreenContent(viewModel, uiState) },
+            content = { ScreenContent(uiState) },
             topBar = {
                 TopAppBar(
                     title = { Text(uiState.doctor.name) },
@@ -128,15 +128,14 @@ fun TopBarActions(onDelete: () -> Unit)
 }
 
 @Composable
-fun ScreenContent(viewModel: DoctorDetailsViewModel, uiState: DoctorDetailsUiState)
+fun ScreenContent(uiState: DoctorDetailsUiState)
 {
-    //todo handle errors
+    //todo handle uiState errors
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         uiState.apply {
-
             //todo make this nicer
             // add photo?
             Column(
