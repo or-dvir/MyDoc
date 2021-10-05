@@ -43,12 +43,18 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
                     copy(isLoading = true)
                 )
 
-                //todo handle errors
                 val success = doctorsRepo.delete(doctor)
 
-                updateUiState(
-                    copy(isLoading = false)
-                )
+                if (success)
+                {
+                    navigateBack()
+                } else
+                {
+                    //todo handle errors
+                    updateUiState(
+                        copy(isLoading = false)
+                    )
+                }
             }
         }
     }
