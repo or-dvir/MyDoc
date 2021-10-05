@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.popStack
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -46,6 +47,8 @@ class MyDoctorsFragment : Fragment()
             viewModel.navDestinationFlow.collect { destination ->
                 when (destination)
                 {
+                    //todo can this be shared?
+                    is popStack -> findNavController().popBackStack()
                     is NewDoctorScreen ->
                     {
                         //todo
