@@ -10,6 +10,7 @@ class MainActivity : AppCompatActivity()
     // remove unused strings
     // remove unused icons/drawables
     // credit all icons
+    // make all composables private!!! (as many as you can)
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
