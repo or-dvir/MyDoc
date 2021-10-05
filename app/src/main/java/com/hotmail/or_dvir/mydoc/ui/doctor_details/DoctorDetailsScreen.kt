@@ -1,7 +1,11 @@
 package com.hotmail.or_dvir.mydoc.ui.doctor_details
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -14,6 +18,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
@@ -60,13 +65,17 @@ fun ScreenContent(viewModel: DoctorDetailsViewModel, uiState: DoctorDetailsUiSta
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-
         uiState.apply {
 
-            //todo
-            // add some content
-            // remove this text
-            Text("doctor details")
+            //todo make this nicer
+            // add photo?
+            Column(
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(stringResource(R.string.doctorDetails_name_s, doctor.name))
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(stringResource(R.string.doctorDetails_speciality_s, doctor.specialty))
+            }
 
             //this should be the LAST composable so it shows above everything else
             if (isLoading)

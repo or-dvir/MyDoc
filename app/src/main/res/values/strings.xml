@@ -17,6 +17,9 @@
     <string name="hint_password">Password</string>
     <string name="hint_passwordConfirmation">Password Confirmation</string>
 
+    <string name="doctorDetails_name_s">Name: %s</string>
+    <string name="doctorDetails_speciality_s">Speciality: %s</string>
+
     <string name="contentDescription_showPassword">Show password</string>
     <string name="contentDescription_hidePassword">Hide password</string>
     <string name="contentDescription_logo">app logo</string>
