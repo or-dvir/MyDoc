@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.hotmail.or_dvir.mydoc.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +33,12 @@ class DoctorDetailsFragment : Fragment()
             )
 
 //            collectRegisterEvents()
-            setContent { DoctorsDetailsScreen(viewModel) }
+            setContent {
+                DoctorsDetailsScreen(
+                    viewModel = viewModel,
+                    onBackButtonClicked = { findNavController().popBackStack() }
+                )
+            }
         }
     }
 

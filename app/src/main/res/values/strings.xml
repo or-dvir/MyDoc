@@ -21,4 +21,5 @@
     <string name="contentDescription_hidePassword">Hide password</string>
     <string name="contentDescription_logo">app logo</string>
     <string name="contentDescription_addDoctor">Add doctor</string>
+    <string name="contentDescription_back">Back</string>
 </resources>
