@@ -5,6 +5,7 @@ import com.hotmail.or_dvir.mydoc.repositories.ClinicsRepository
 import com.hotmail.or_dvir.mydoc.repositories.ClinicsRepositoryImpl
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepositoryImpl
+import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -19,6 +20,7 @@ class MyApplication : Application()
 {
     private val appModule = module {
         viewModel { MyDoctorsViewModel(androidApplication()) }
+        viewModel { DoctorDetailsViewModel(androidApplication()) }
         single<DoctorsRepository> { DoctorsRepositoryImpl() }
         single<ClinicsRepository> { ClinicsRepositoryImpl() }
     }

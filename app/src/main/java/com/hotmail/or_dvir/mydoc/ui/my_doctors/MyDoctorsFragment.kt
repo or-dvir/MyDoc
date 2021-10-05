@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
@@ -55,8 +56,11 @@ class MyDoctorsFragment : Fragment()
 
                     is DoctorDetailsScreen ->
                     {
-                        i stopped here!!!!
-//                        findNavController().navigate()
+                        findNavController().navigate(
+                            MyDoctorsFragmentDirections.toDoctorDetailsFragment(
+                                destination.doctorId.toString()
+                            )
+                        )
                     }
                 }
             }
