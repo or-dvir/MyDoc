@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.hotmail.or_dvir.mydoc.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.UUID
 
 class DoctorDetailsFragment : Fragment()
 {
     private val viewModel: DoctorDetailsViewModel by viewModel()
+    private val fragArgs: DoctorDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,14 +31,15 @@ class DoctorDetailsFragment : Fragment()
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
 
-//            viewModel.apply {
-//                onEmailInputChanged(fragArgs.email)
-//                onPasswordInputChanged(fragArgs.password)
-//            }
-
 //            collectRegisterEvents()
             setContent { DoctorsDetailsScreen(viewModel) }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.loadDoctor(UUID.fromString(fragArgs.doctorId))
     }
 
 //    private fun collectRegisterEvents()

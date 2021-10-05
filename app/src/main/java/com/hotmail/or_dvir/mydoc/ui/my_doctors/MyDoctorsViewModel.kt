@@ -1,31 +1,41 @@
 package com.hotmail.or_dvir.mydoc.ui.my_doctors
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.models.Doctor
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
+import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
+import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
+import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
-import java.util.UUID
+import org.koin.core.component.inject
 
-class MyDoctorsViewModel(app: Application) : AndroidViewModel(app), KoinComponent
+class MyDoctorsViewModel(app: Application) : BaseViewModel<MyDoctorsUiState>(app)
 {
-    private val _uiState = MutableLiveData(MyDoctorsUiState())
-    val uiState: LiveData<MyDoctorsUiState> = _uiState
+    private val doctorsRepo: DoctorsRepository by inject()
 
-    private val navDestination = Channel<NavigationDestination>()
-    val navDestinationFlow = navDestination.receiveAsFlow()
-
-    fun navigate(event: NavigationDestination)
+    init
     {
-        viewModelScope.launch(Dispatchers.Main) {
-            navDestination.send(event)
+        loadAllDoctors()
+    }
+
+    override fun initUiState() = MyDoctorsUiState()
+
+    private fun loadAllDoctors()
+    {
+        viewModelScope.launch(mainDispatcher) {
+            updateUiState(
+                uiState.value!!.copy(isLoading = true)
+            )
+
+            //todo handle errors
+            val allDoctors = doctorsRepo.getAll()
+
+            updateUiState(
+                uiState.value!!.copy(
+                    isLoading = false,
+                    doctors = allDoctors
+                )
+            )
         }
     }
 
@@ -35,13 +45,8 @@ class MyDoctorsViewModel(app: Application) : AndroidViewModel(app), KoinComponen
     ////////////////////////////////
 
     data class MyDoctorsUiState(
-        //todo only for testing. uncomment (and remove below row) when ready
-//        val doctors: List<Doctor> = listOf(),
-        val doctors: List<Doctor> = List(
-            50
-        ) { index ->
-            Doctor(UUID.randomUUID(), "Dr. $index", "special $index")
-        },
+        //todo add error state
+        val doctors: List<Doctor> = listOf(),
         val isLoading: Boolean = false
     )
 }
