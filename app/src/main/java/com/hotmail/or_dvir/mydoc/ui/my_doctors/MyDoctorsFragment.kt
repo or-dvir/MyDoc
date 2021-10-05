@@ -33,16 +33,13 @@ class MyDoctorsFragment : Fragment()
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
 
-//            viewModel.apply {
-//                onEmailInputChanged(fragArgs.email)
-//                onPasswordInputChanged(fragArgs.password)
-//            }
-
             collectNavigationEvents()
             setContent { MyDoctorsScreen(viewModel) }
         }
     }
 
+    //todo can this function be shared?
+    // if so, remove from all other fragments!!!
     private fun collectNavigationEvents()
     {
         lifecycleScope.launchWhenStarted {
