@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.popStack
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.UUID
 
@@ -32,12 +35,9 @@ class DoctorDetailsFragment : Fragment()
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
 
-//            collectNavigationEvents()
+            collectNavigationEvents()
             setContent {
-                DoctorsDetailsScreen(
-                    viewModel = viewModel,
-                    onBackButtonClicked = { findNavController().popBackStack() }
-                )
+                DoctorsDetailsScreen(viewModel)
             }
         }
     }
@@ -48,23 +48,18 @@ class DoctorDetailsFragment : Fragment()
         viewModel.loadDoctor(UUID.fromString(fragArgs.doctorId))
     }
 
-//    private fun collectNavigationEvents()
-//    {
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.navDestinationFlow.collect { destination ->
-//                when (destination)
-//                {
-//                    is NewDoctorScreen ->
-//                    {
-//                        //todo
-//                    }
-//
-//                    is DoctorDetailsScreen ->
-//                    {
-//                        //todo
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private fun collectNavigationEvents()
+    {
+        lifecycleScope.launchWhenStarted {
+            viewModel.navDestinationFlow.collect { destination ->
+                when (destination)
+                {
+                    is popStack ->
+                    {
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        }
+    }
 }

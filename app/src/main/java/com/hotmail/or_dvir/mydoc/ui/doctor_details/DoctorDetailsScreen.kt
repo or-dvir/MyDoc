@@ -32,7 +32,7 @@ import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
 @Composable
-fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel, onBackButtonClicked: () -> Unit)
+fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel)
 {
     //todo
     // look into landscape mode
@@ -48,7 +48,7 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel, onBackButtonClicked:
                 TopAppBar(
                     title = { Text(uiState.doctor.name) },
                     navigationIcon = {
-                        IconButton(onClick = { onBackButtonClicked() }) {
+                        IconButton(onClick = { viewModel.navigateBack() }) {
                             Icon(
                                 painterResource(id = R.drawable.ic_arrow_back),
                                 stringResource(id = R.string.contentDescription_back)
@@ -56,9 +56,10 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel, onBackButtonClicked:
                         }
                     },
                     actions = {
-                        TopBarActions(
-                            onDelete = { viewModel.deleteDoctor() }
-                        )
+                        TopBarActions(viewModel)
+//                        TopBarActions(
+//                            onDelete = { viewModel.deleteDoctor() }
+//                        )
                     }
                 )
             }
@@ -93,7 +94,8 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 }
 
 @Composable
-fun TopBarActions(onDelete: () -> Unit)
+fun TopBarActions(viewModel: DoctorDetailsViewModel)
+//fun TopBarActions(onDelete: () -> Unit)
 {
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
@@ -101,7 +103,7 @@ fun TopBarActions(onDelete: () -> Unit)
     {
         DeleteConfirmationDialog(
             onDismiss = { showDeleteConfirmation = false },
-            onConfirm = { onDelete() }
+            onConfirm = { viewModel.deleteDoctor() }
         )
     }
 
