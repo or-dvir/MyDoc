@@ -16,7 +16,7 @@ abstract class BaseViewModel<UiState>(app: Application) : AndroidViewModel(app),
 {
     internal val mainDispatcher = Dispatchers.Main
 
-    private val _uiState = MutableLiveData(this.initUiState())
+    internal val _uiState = MutableLiveData(this.initUiState())
     val uiState: LiveData<UiState> = _uiState
 
     private val navDestination = Channel<NavigationDestination>()
