@@ -4,6 +4,7 @@ import java.util.UUID
 
 sealed class NavigationDestination
 {
+    object popStack : NavigationDestination()
     object NewDoctorScreen : NavigationDestination()
     class DoctorDetailsScreen(val doctorId: UUID) : NavigationDestination()
 }
