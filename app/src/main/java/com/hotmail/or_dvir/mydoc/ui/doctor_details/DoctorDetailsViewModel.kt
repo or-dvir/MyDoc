@@ -35,6 +35,24 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
         }
     }
 
+    fun deleteDoctor()
+    {
+        viewModelScope.launch(mainDispatcher) {
+            uiState.value?.apply {
+                updateUiState(
+                    copy(isLoading = true)
+                )
+
+                //todo handle errors
+                val success = doctorsRepo.delete(doctor)
+
+                updateUiState(
+                    copy(isLoading = false)
+                )
+            }
+        }
+    }
+
     ////////////////////////////////
     ////////////////////////////////
     ////////////////////////////////
