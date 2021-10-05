@@ -16,13 +16,15 @@ abstract class BaseViewModel<UiState>(app: Application) : AndroidViewModel(app),
 {
     internal val mainDispatcher = Dispatchers.Main
 
-    internal val _uiState = MutableLiveData(this.initUiState())
+    private val _uiState = MutableLiveData(this.initUiState())
     val uiState: LiveData<UiState> = _uiState
 
     private val navDestination = Channel<NavigationDestination>()
     val navDestinationFlow = navDestination.receiveAsFlow()
 
     abstract fun initUiState(): UiState
+
+    fun navigateBack() = navigate(NavigationDestination.popStack)
 
     fun navigate(event: NavigationDestination)
     {
