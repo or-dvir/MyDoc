@@ -117,6 +117,8 @@ fun TopBarActions(viewModel: DoctorDetailsViewModel)
         )
     }
 
+    edit should probably navigate to "new doctor" screen because the contents would be practically identical
+    should i also combine this screen? again the contents would be pretty much identical
     IconButton(onClick = { /* todo */ }) {
         Icon(
             tint = Color.White,
