@@ -67,10 +67,7 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel, onBackButtonClicked:
 }
 
 @Composable
-fun DeleteConfirmationDialog(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit
-)
+fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 {
     AlertDialog(
         onDismissRequest = { onDismiss() },
