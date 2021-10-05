@@ -32,7 +32,7 @@ class DoctorDetailsFragment : Fragment()
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
 
-//            collectRegisterEvents()
+//            collectNavigationEvents()
             setContent {
                 DoctorsDetailsScreen(
                     viewModel = viewModel,
@@ -48,7 +48,7 @@ class DoctorDetailsFragment : Fragment()
         viewModel.loadDoctor(UUID.fromString(fragArgs.doctorId))
     }
 
-//    private fun collectRegisterEvents()
+//    private fun collectNavigationEvents()
 //    {
 //        lifecycleScope.launchWhenStarted {
 //            viewModel.navDestinationFlow.collect { destination ->
