@@ -36,9 +36,6 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel, onBackButtonClicked:
 {
     //todo
     // look into landscape mode
-    // add option to delete doctor. here or from list of doctors?
-    //      if here, it takes an extra step so its safer
-    // add option to edit doctor
 
     MyDocTheme {
         val uiState by viewModel.uiState.observeAsState(DoctorDetailsUiState())
