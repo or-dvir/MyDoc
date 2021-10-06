@@ -1,69 +1,16 @@
 package com.hotmail.or_dvir.mydoc.ui.my_doctors
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
+import androidx.compose.runtime.Composable
 import com.hotmail.or_dvir.mydoc.R
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.popStack
-import kotlinx.coroutines.flow.collect
+import com.hotmail.or_dvir.mydoc.ui.shared.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MyDoctorsFragment : Fragment()
+class MyDoctorsFragment : BaseFragment<MyDoctorsViewModel>()
 {
-    private val viewModel: MyDoctorsViewModel by viewModel()
+    override val viewModel: MyDoctorsViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View
-    {
-        return ComposeView(requireContext()).apply {
-            // In order for savedState to work, the same ID needs to be used for all instances.
-            id = R.id.myDoctorsFragment
+    override val fragmentId = R.id.myDoctorsFragment
 
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-
-            collectNavigationEvents()
-            setContent { MyDoctorsScreen(viewModel) }
-        }
-    }
-
-    //todo can this function be shared?
-    // if so, remove from all other fragments!!!
-    private fun collectNavigationEvents()
-    {
-        lifecycleScope.launchWhenStarted {
-            viewModel.navDestinationFlow.collect { destination ->
-                when (destination)
-                {
-                    //todo can this be shared?
-                    is popStack -> findNavController().popBackStack()
-                    is NewDoctorScreen ->
-                    {
-                        //todo
-                    }
-
-                    is DoctorDetailsScreen ->
-                    {
-                        findNavController().navigate(
-                            MyDoctorsFragmentDirections.toDoctorDetailsFragment(
-                                destination.doctorId.toString()
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
+    @Composable
+    override fun ScreenContent() = MyDoctorsScreen(viewModel)
 }
