@@ -17,4 +17,9 @@ interface BaseRepository<T>
      * @return Boolean `true` if successful, `false` otherwise
      */
     suspend fun delete(obj: T): Boolean
+
+    /**
+     * @return Boolean `true` if successful, `false` otherwise
+     */
+    suspend fun update(obj: T): Boolean
 }

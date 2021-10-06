@@ -36,4 +36,10 @@ class DoctorsRepositoryImpl : DoctorsRepository
         //TODO("not implemented")
         return true
     }
+
+    override suspend fun update(obj: Doctor): Boolean
+    {
+        //TODO("not implemented")
+        return true
+    }
 }
