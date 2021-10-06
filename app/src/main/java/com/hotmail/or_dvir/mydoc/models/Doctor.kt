@@ -10,8 +10,8 @@ data class Doctor(
 )
 
 add address to
-    list of doctors (quick navigation!)
-    doctor details (add navigate button)
+    list of doctors (open maps!)
+    doctor details (open maps!)
     new/edit doctor
 
 //todo
