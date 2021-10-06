@@ -21,7 +21,6 @@ import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.PopStack
 import kotlinx.coroutines.flow.collect
 
 abstract class BaseFragment<out VM : BaseViewModel<out Any>> : Fragment()
-//abstract class BaseFragment<VM: BaseViewModel<Any>>: Fragment()
 {
     @get:IdRes
     internal abstract val fragmentId: Int
