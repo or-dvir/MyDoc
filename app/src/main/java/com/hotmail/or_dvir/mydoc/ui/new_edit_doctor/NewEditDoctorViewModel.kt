@@ -1,7 +1,6 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import android.app.Application
-import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
@@ -15,14 +14,27 @@ import java.util.UUID
 class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiState>(app)
 {
     private val doctorsRepo: DoctorsRepository by inject()
+    private var isEditing = false
 
     override fun initUiState() = NewEditDoctorUiState()
+
+    fun getTitle(): String
+    {
+        return if (isEditing)
+        {
+            getString(R.string.title_editDoctor)
+        } else
+        {
+            getString(R.string.title_newDoctor)
+        }
+    }
 
     fun loadDoctor(doctorId: UUID?)
     {
         //creating a new doctor
         if (doctorId == null)
         {
+            isEditing = false
             updateUiState(
                 uiState.value!!.copy(
                     doctor = Doctor(UUID.randomUUID(), "", "")
@@ -33,6 +45,8 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
 
         //doctorId is not null -> edit an existing doctor
+        isEditing = true
+
         viewModelScope.launch(mainDispatcher) {
             updateUiState(
                 uiState.value!!.copy(isLoading = true)
@@ -50,14 +64,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun createNewDoctor()
-    {
-        //todo can this be combined with editDoctor()?
-        // pretty sure firebase overrides if exists, and creates new if doesn't
-        //todo do me
-    }
-
-    fun updateDoctor()
+    fun createOrUpdateDoctor()
     {
         //todo can this be combined with createNewDoctor()?
 
@@ -68,7 +75,14 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                 )
 
                 doctor?.let {
-                    val success = doctorsRepo.update(it)
+                    val success =
+                        if (isEditing)
+                        {
+                            doctorsRepo.update(it)
+                        } else
+                        {
+                            doctorsRepo.add(it)
+                        }
 
                     if (success)
                     {
@@ -91,19 +105,8 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     ////////////////////////////////
 
     data class NewEditDoctorUiState(
-        val doctor: Doctor? = null,
+        val doctor: Doctor = Doctor(UUID.randomUUID(), "", ""),
         val error: String = "",
         val isLoading: Boolean = false
     )
-    {
-        @StringRes
-        fun getTitle() =
-            if (doctor == null)
-            {
-                R.string.title_newDoctor
-            } else
-            {
-                R.string.title_editDoctor
-            }
-    }
 }
