@@ -70,7 +70,13 @@ abstract class BaseFragment<out VM : BaseViewModel<out Any>> : Fragment()
                         }
                         is NewEditDoctorScreen ->
                         {
-                            //todo
+                            navigate(
+                                MyDoctorsFragmentDirections.toNewEditDoctorFragment(
+                                    //do NOT use extension function toString().
+                                    //for null values it returns the string "null"
+                                    it.doctorId?.toString()
+                                )
+                            )
                         }
                     }
                 }
