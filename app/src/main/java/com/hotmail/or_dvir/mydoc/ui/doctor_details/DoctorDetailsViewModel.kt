@@ -18,6 +18,9 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
 
     fun loadDoctor(doctorId: UUID)
     {
+        //todo replace this function with realtime listener for firebase.
+        // the user can edit the doctor and then return to this screen - data should automatically update
+
         viewModelScope.launch(mainDispatcher) {
             updateUiState(
                 uiState.value!!.copy(isLoading = true)
