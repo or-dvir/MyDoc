@@ -145,5 +145,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             {
                 R.string.emptyString
             }
+
+        fun isInputValid(): Boolean
+        {
+            return doctorNameError == R.string.emptyString
+        }
     }
 }
