@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.Address
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
@@ -131,7 +132,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     ////////////////////////////////
 
     data class NewEditDoctorUiState(
-        val doctor: Doctor = Doctor(UUID.randomUUID(), "", ""),
+        val doctor: Doctor = Doctor(UUID.randomUUID(), "", "", Address()),
         val generalError: String = "",
         val isLoading: Boolean = false
     )
