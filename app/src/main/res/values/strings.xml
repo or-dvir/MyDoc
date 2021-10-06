@@ -3,6 +3,8 @@
 
     <!--todo a lot of strings were copied from another project. when done, remove unused strings-->
     <string name="title_myDoctors">My Doctors</string>
+    <string name="title_newDoctor">New Doctor</string>
+    <string name="title_editDoctor">Edit Doctor</string>
 
     <string name="error_invalidEmail">Invalid email address</string>
     <string name="error_emptyField">Cannot be empty</string>
