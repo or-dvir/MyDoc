@@ -1,4 +1,4 @@
-package com.hotmail.or_dvir.mydoc.ui.doctor_details
+package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,8 +32,10 @@ import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
 @Composable
-fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel)
+fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
 {
+    all copied from other file!!!
+
     //todo
     // look into landscape mode
 
@@ -94,7 +96,7 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 }
 
 @Composable
-fun TopBarActions(viewModel: DoctorDetailsViewModel)
+fun TopBarActions(viewModel: NewEditDoctorViewModel)
 //fun TopBarActions(onDelete: () -> Unit)
 {
     var showDeleteConfirmation by remember { mutableStateOf(false) }
@@ -117,8 +119,8 @@ fun TopBarActions(viewModel: DoctorDetailsViewModel)
         )
     }
 
-//    edit should probably navigate to "new doctor" screen because the contents would be practically identical
-//    should i also combine this screen? again the contents would be pretty much identical
+    edit should probably navigate to "new doctor" screen because the contents would be practically identical
+    should i also combine this screen? again the contents would be pretty much identical
     IconButton(onClick = { /* todo */ }) {
         Icon(
             tint = Color.White,

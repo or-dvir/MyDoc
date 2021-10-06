@@ -4,10 +4,10 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/myDoctorsFragment">
 
+    <!--todo add animations-->
     <fragment
         android:id="@+id/myDoctorsFragment"
-        android:name="com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragment"
-        android:label="@string/title_myDoctors">
+        android:name="com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragment">
         <action
             android:id="@+id/to_doctorDetailsFragment"
             app:destination="@id/doctorDetailsFragment" />
@@ -15,11 +15,19 @@
 
     <fragment
         android:id="@+id/doctorDetailsFragment"
-        android:name="com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsFragment"
-        android:label="RegisterFragment">
+        android:name="com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsFragment">
         <argument
             android:name="doctorId"
             app:argType="string"
             app:nullable="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newEditDoctorFragment"
+        android:name="com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorFragment">
+        <argument
+            android:name="doctorId"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

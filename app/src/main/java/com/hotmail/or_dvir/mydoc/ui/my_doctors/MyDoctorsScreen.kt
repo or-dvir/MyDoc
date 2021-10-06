@@ -35,7 +35,7 @@ import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewDoctorScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
 @Composable
@@ -53,7 +53,7 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { viewModel.navigate(NewDoctorScreen) }
+                    onClick = { viewModel.navigate(NewEditDoctorScreen(null)) }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_add_person_filled),
