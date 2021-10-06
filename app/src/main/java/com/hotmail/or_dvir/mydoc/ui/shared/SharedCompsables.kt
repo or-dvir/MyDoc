@@ -34,7 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 
 @Composable
-fun LoadingIndicatorFullScreen(modifier: Modifier = Modifier) {
+fun LoadingIndicatorFullScreen(modifier: Modifier = Modifier)
+{
     Box(
         modifier = modifier
             .fillMaxSize()
