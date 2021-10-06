@@ -96,7 +96,6 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
             // doctor speciality in edit text (optional)
             //      make optional in model!!!
 
-            does not keep with orientation change!!!
             OutlinedTextFieldWithError(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(

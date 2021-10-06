@@ -16,6 +16,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 {
     private val doctorsRepo: DoctorsRepository by inject()
     private var isEditing = false
+    private var firstTime = true
 
     override fun initUiState() = NewEditDoctorUiState()
 
@@ -32,6 +33,15 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
     fun loadDoctor(doctorId: UUID?)
     {
+        //only load the doctor the first time.
+        //otherwise it would load again on every orientation change
+        if (!firstTime)
+        {
+            return
+        }
+
+        firstTime = false
+
         //creating a new doctor
         if (doctorId == null)
         {
@@ -101,9 +111,6 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             updateUiState(
                 copy(doctor = newDoc)
             )
-
-            new name does not keep in orientation change
-                    test if doctor actually changes
         }
     }
 
