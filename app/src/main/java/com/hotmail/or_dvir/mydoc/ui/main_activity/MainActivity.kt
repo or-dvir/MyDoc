@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity()
     //      can have multiple doctors
     //      each doctor may have different days/hours at clinic
     //      probably will be even more complicated
+    // create a doctor factory (need to initialize a doctor in many places
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
