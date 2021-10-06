@@ -11,6 +11,9 @@
         <action
             android:id="@+id/to_doctorDetailsFragment"
             app:destination="@id/doctorDetailsFragment" />
+        <action
+            android:id="@+id/to_newEditDoctorFragment"
+            app:destination="@id/newEditDoctorFragment" />
     </fragment>
 
     <fragment
