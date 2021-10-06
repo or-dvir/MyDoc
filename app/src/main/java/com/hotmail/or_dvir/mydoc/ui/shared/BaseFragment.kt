@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.hotmail.or_dvir.mydoc.NavGraphDirections
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragmentDirections
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
@@ -54,6 +55,8 @@ abstract class BaseFragment<out VM : BaseViewModel<out Any>> : Fragment()
 
     private fun collectNavigationEvents()
     {
+        //todo probably better for each fragment to handle their own navigation...
+
         lifecycleScope.launchWhenStarted {
             viewModel.navDestinationFlow.collect {
                 findNavController().apply {
@@ -71,7 +74,7 @@ abstract class BaseFragment<out VM : BaseViewModel<out Any>> : Fragment()
                         is NewEditDoctorScreen ->
                         {
                             navigate(
-                                MyDoctorsFragmentDirections.toNewEditDoctorFragment(
+                                NavGraphDirections.toNewEditDoctorFragment(
                                     //do NOT use extension function toString().
                                     //for null values it returns the string "null"
                                     it.doctorId?.toString()

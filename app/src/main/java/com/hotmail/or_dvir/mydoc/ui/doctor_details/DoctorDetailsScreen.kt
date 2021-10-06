@@ -118,7 +118,6 @@ fun TopBarActions(viewModel: DoctorDetailsViewModel)
     }
 
     IconButton(onClick = {
-        app crashes
         viewModel.navigate(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
     }) {
         Icon(
