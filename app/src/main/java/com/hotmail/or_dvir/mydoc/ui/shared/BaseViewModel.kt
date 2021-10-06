@@ -2,6 +2,7 @@ package com.hotmail.or_dvir.mydoc.ui.shared
 
 import android.app.Application
 import androidx.annotation.NonNull
+import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 
-abstract class BaseViewModel<UiState>(app: Application) : AndroidViewModel(app), KoinComponent
+abstract class BaseViewModel<UiState>(val app: Application) : AndroidViewModel(app), KoinComponent
 {
     internal val mainDispatcher = Dispatchers.Main
 
@@ -37,4 +38,6 @@ abstract class BaseViewModel<UiState>(app: Application) : AndroidViewModel(app),
     {
         _uiState.value = newState!!
     }
+
+    internal fun getString(@StringRes stringRes: Int) = app.getString(stringRes)
 }
