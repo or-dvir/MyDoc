@@ -28,6 +28,7 @@
     <string name="contentDescription_addDoctor">Add doctor</string>
     <string name="contentDescription_back">Back</string>
     <string name="contentDescription_delete">Delete</string>
+    <string name="contentDescription_save">Save</string>
     <string name="contentDescription_edit">Edit</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
