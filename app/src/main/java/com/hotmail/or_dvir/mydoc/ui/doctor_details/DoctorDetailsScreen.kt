@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
 @Composable
@@ -95,7 +96,6 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 
 @Composable
 fun TopBarActions(viewModel: DoctorDetailsViewModel)
-//fun TopBarActions(onDelete: () -> Unit)
 {
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
@@ -117,9 +117,10 @@ fun TopBarActions(viewModel: DoctorDetailsViewModel)
         )
     }
 
-//    edit should probably navigate to "new doctor" screen because the contents would be practically identical
-//    should i also combine this screen? again the contents would be pretty much identical
-    IconButton(onClick = { /* todo */ }) {
+    IconButton(onClick = {
+        app crashes
+        viewModel.navigate(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
+    }) {
         Icon(
             tint = Color.White,
             painter = painterResource(id = R.drawable.ic_edit),
