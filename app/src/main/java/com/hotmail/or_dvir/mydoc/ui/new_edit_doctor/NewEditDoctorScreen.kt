@@ -2,8 +2,10 @@ package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -95,18 +97,13 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             val maxWidthModifier = Modifier.fillMaxWidth()
             val focusManager = LocalFocusManager.current
             val clearFocus = { focusManager.clearFocus() }
 
-            //todo
-            // doctor name in edit text
-            //      cannot be empty
-            // doctor speciality in edit text (optional)
-            //      make optional in model!!!
-
+            //doctor name
             OutlinedTextFieldWithError(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
@@ -119,7 +116,22 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                 onTextChanged = { viewModel.onDoctorNameInputChanged(it) }
             )
 
-//            Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(5.dp))
+
+            //doctor speciality.
+            //note: even though there are no errors on this field, using OutlinedTextFieldWithError
+            //for consistency
+            OutlinedTextFieldWithError(
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onAny = { clearFocus() }
+                ),
+                text = uiState.doctor.specialty,
+                error = "", //all inputs are valid for speciality
+                hint = R.string.hint_speciality,
+                modifier = maxWidthModifier,
+                onTextChanged = { viewModel.onDoctorSpecialityInputChanged(it) }
+            )
         }
 
         //this should be the LAST composable so it shows above everything else
