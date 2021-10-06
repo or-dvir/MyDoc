@@ -1,6 +1,7 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import android.app.Application
+import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
@@ -60,7 +61,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
     fun createOrUpdateDoctor()
     {
-        //todo can this be combined with createNewDoctor()?
+        //todo handle invalid input
 
         viewModelScope.launch(mainDispatcher) {
             uiState.value?.apply {
@@ -92,6 +93,31 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
+    fun onDoctorNameInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newDoc = doctor.copy(name = newInput)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+
+            new name does not keep in orientation change
+                    test if doctor actually changes
+        }
+    }
+
+    fun onDoctorSpecialityInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newDoc = doctor.copy(specialty = newInput)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
     ////////////////////////////////
     ////////////////////////////////
     ////////////////////////////////
@@ -99,7 +125,18 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
     data class NewEditDoctorUiState(
         val doctor: Doctor = Doctor(UUID.randomUUID(), "", ""),
-        val error: String = "",
+        val generalError: String = "",
         val isLoading: Boolean = false
     )
+    {
+        @StringRes
+        val doctorNameError =
+            if (doctor.name.isBlank())
+            {
+                R.string.error_emptyField
+            } else
+            {
+                R.string.emptyString
+            }
+    }
 }
