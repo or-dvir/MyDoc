@@ -11,6 +11,10 @@ class MainActivity : AppCompatActivity()
     // remove unused icons/drawables
     // credit all icons
     // make all composables private!!! (as many as you can)
+    // add clinics
+    //      can have multiple doctors
+    //      each doctor may have different days/hours at clinic
+    //      probably will be even more complicated
 
     override fun onCreate(savedInstanceState: Bundle?)
     {

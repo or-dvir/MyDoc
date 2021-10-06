@@ -7,3 +7,7 @@ data class Doctor(
     val name: String,
     val specialty: String
 )
+
+//todo
+// address
+// opening times
