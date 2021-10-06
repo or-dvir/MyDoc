@@ -35,16 +35,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         if (doctorId == null)
         {
             isEditing = false
-            updateUiState(
-                uiState.value!!.copy(
-                    doctor = Doctor(UUID.randomUUID(), "", "")
-                )
-            )
-
             return
         }
 
-        //doctorId is not null -> edit an existing doctor
+        //doctorId is not null -> editing existing doctor
         isEditing = true
 
         viewModelScope.launch(mainDispatcher) {
@@ -74,27 +68,26 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                     copy(isLoading = true)
                 )
 
-                doctor?.let {
-                    val success =
-                        if (isEditing)
-                        {
-                            doctorsRepo.update(it)
-                        } else
-                        {
-                            doctorsRepo.add(it)
-                        }
-
-                    if (success)
+                val success =
+                    if (isEditing)
                     {
-                        navigateBack()
+                        doctorsRepo.update(doctor)
                     } else
                     {
-                        //todo handle errors
-                        updateUiState(
-                            copy(isLoading = false)
-                        )
+                        doctorsRepo.add(doctor)
                     }
+
+                if (success)
+                {
+                    navigateBack()
+                } else
+                {
+                    //todo handle errors
+                    updateUiState(
+                        copy(isLoading = false)
+                    )
                 }
+
             }
         }
     }
