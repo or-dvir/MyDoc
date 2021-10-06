@@ -21,6 +21,11 @@ class NewEditDoctorFragment : BaseFragment<NewEditDoctorViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.loadDoctor(UUID.fromString(fragArgs.doctorId))
+
+        val docId = fragArgs.doctorId?.let {
+            UUID.fromString(it)
+        }
+
+        viewModel.loadDoctor(docId)
     }
 }
