@@ -1,12 +1,15 @@
 package com.hotmail.or_dvir.mydoc.ui.my_doctors
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +17,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -25,9 +29,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
@@ -37,6 +41,7 @@ import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
+import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 
 @Composable
 fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
@@ -64,6 +69,20 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
             content = { ScreenContent(viewModel) },
         )
     }
+}
+
+private fun openMaps(context: Context, query: String)
+{
+    //todo do i need this?
+    //      mapIntent.setPackage("com.google.android.apps.maps")
+    // see https://developers.google.com/maps/documentation/urls/android-intents#intent_requests
+
+    context.startActivity(
+        Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://www.google.com/maps/search/?api=1&query=$query")
+        )
+    )
 }
 
 @Composable
@@ -95,19 +114,22 @@ fun ScreenContent(viewModel: MyDoctorsViewModel)
 }
 
 @Composable
-fun DoctorsList(doctors: List<Doctor>, onDoctorClicked: (Doctor) -> Unit)
+fun DoctorsList(
+    doctors: List<Doctor>,
+    onDoctorClicked: (Doctor) -> Unit
+)
 {
     //todo
     // change this to grid when stable (currently experimental!)
+
+    //todo add padding to bottom at end of list so FAB doesn't hide navigate button
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         itemsIndexed(items = doctors) { index, doc ->
             DoctorRow(
-                doc,
-                modifier = Modifier.clickable {
-                    onDoctorClicked(doc)
-                }
+                doc = doc,
+                onClick = onDoctorClicked
             )
 
             if (index < doctors.lastIndex)
@@ -129,24 +151,49 @@ fun DoctorsList(doctors: List<Doctor>, onDoctorClicked: (Doctor) -> Unit)
 }
 
 @Composable
-fun DoctorRow(doc: Doctor, modifier: Modifier = Modifier)
+fun DoctorRow(
+    doc: Doctor,
+    onClick: (Doctor) -> Unit
+)
 {
     //todo make this nicer
     // add image?
 
-    Column(
-        modifier = modifier
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
             .fillMaxWidth()
+            .clickable { onClick(doc) }
             .padding(8.dp)
     ) {
-        Text(
-            fontWeight = FontWeight.Bold,
-            text = doc.name
-        )
+        //doctor details
+        Column {
+            doc.apply {
+                //name
+                Text(
+                    style = Typography.h6,
+                    text = doc.name
+                )
 
-        doc.specialty?.let {
-            Spacer(modifier = Modifier.height(5.dp))
-            Text(it)
+                specialty?.let { Text(text = it) }
+                address?.let {
+                    Text(text = it.format())
+                }
+            }
+        }
+
+        //navigation icon
+        doc.address?.let {
+            val context = LocalContext.current
+            IconButton(
+                onClick = { openMaps(context, it.format()) }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_location),
+                    contentDescription = stringResource(id = R.string.contentDescription_navigate)
+                )
+            }
         }
     }
 }
@@ -177,96 +224,3 @@ fun EmptyView()
         }
     }
 }
-
-//@Composable
-//fun RegisterScreen(viewModel: MyDoctorsViewModel)
-//{
-//    TeleviZiaComposeTheme {
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .border(2.dp, Color.Green)
-//        ) {
-//            val uiState by viewModel.uiState.observeAsState(RegisterUiState())
-//
-//            val maxWidthModifier = Modifier.fillMaxWidth()
-//            val spacerModifier = Modifier.height(5.dp)
-//
-//            val focusManager = LocalFocusManager.current
-//
-//            val clearFocus = { focusManager.clearFocus() }
-//            val clearFocusAndRegister = {
-//                clearFocus()
-//                viewModel.onRegisterClicked()
-//            }
-//
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .verticalScroll(rememberScrollState())
-//                    .padding(2.dp)
-//                    .border(2.dp, Color.Red)
-//                    .padding(16.dp),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.Center
-//            ) {
-//
-//                //email field
-//                OutlinedTextFieldWithError(
-//                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-//                    keyboardActions = KeyboardActions(
-//                        onAny = { focusManager.moveFocus(FocusDirection.Down) }
-//                    ),
-//                    text = uiState.emailText,
-//                    error = uiState.emailError,
-//                    hint = R.string.hint_email,
-//                    modifier = maxWidthModifier,
-//                    onTextChanged = { viewModel.onEmailInputChanged(it) }
-//                )
-//
-//                Spacer(modifier = spacerModifier)
-//
-//                PasswordTextField(
-//                    imeAction = ImeAction.Next,
-//                    keyboardActions = KeyboardActions(
-//                        onAny = { focusManager.moveFocus(FocusDirection.Down) }
-//                    ),
-//                    text = uiState.passwordText,
-//                    error = uiState.passwordError,
-//                    modifier = maxWidthModifier,
-//                    onTextChanged = { viewModel.onPasswordInputChanged(it) }
-//                )
-//
-//                Spacer(modifier = spacerModifier)
-//
-//                //password confirmation
-//                PasswordTextField(
-//                    imeAction = ImeAction.Done,
-//                    keyboardActions = KeyboardActions(
-//                        onAny = { clearFocus() }
-//                    ),
-//                    text = uiState.passwordConfirmationText,
-//                    error = uiState.passwordConfirmationError,
-//                    hint = R.string.hint_passwordConfirmation,
-//                    modifier = maxWidthModifier,
-//                    onTextChanged = { viewModel.onPasswordConfirmationInputChanged(it) }
-//                )
-//
-//                Spacer(modifier = Modifier.height(16.dp))
-//
-//                Button(
-//                    modifier = maxWidthModifier,
-//                    onClick = { clearFocusAndRegister() }
-//                ) {
-//                    Text(stringResource(id = R.string.register))
-//                }
-//            }
-//
-//            //this should be the LAST composable so it shows above everything else
-//            if (uiState.isLoading)
-//            {
-//                LoadingIndicatorFullScreen()
-//            }
-//        }
-//    }
-//}
