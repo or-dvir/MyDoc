@@ -4,29 +4,27 @@ data class Address(
     val street: String,
     val houseNumber: String,
     val city: String,
-    val apartmentNumber: String? = null,
-    val floor: Int? = null,
     val postCode: Int? = null,
     //todo should country be mandatory?
     // if so, either get it from locale by default, or add it in preferences
-    val country: String? = null
+    val country: String? = null,
+    val apartmentNumber: String? = null,
+    val floor: Int? = null
 )
 {
     fun formatAddress(): String
     {
-        val builder = StringBuilder().apply {
-            append("$street, ")
-            append(street)
-
-        }
-
-//        finish me .
-//        handle case where no information is available
-
-        return builder.toString()
+        //todo format the address according to locale!!!
+        return StringBuilder().apply {
+            append("$street $houseNumber, ")
+            postCode?.let { append("$it ") }
+            append(city)
+            country?.let { append(", $it") }
+        }.toString()
     }
 }
 
-object AddressFactory {
+object AddressFactory
+{
     fun getDummyAddress() = Address("escher str.", "84d", "pulheim")
 }
