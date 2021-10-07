@@ -1,8 +1,5 @@
 package com.hotmail.or_dvir.mydoc.ui.my_doctors
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +37,7 @@ import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiSta
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 
@@ -71,19 +69,10 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
     }
 }
 
-private fun openMaps(context: Context, query: String)
-{
-    //todo do i need this?
-    //      mapIntent.setPackage("com.google.android.apps.maps")
-    // see https://developers.google.com/maps/documentation/urls/android-intents#intent_requests
-
-    context.startActivity(
-        Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://www.google.com/maps/search/?api=1&query=$query")
-        )
-    )
-}
+read about CompositionLocal. can i use it for viewmodels instead of always passing them?
+https://medium.com/geekculture/jetpack-compose-compositionlocal-what-you-need-to-know-979a4aef6412
+https://developer.android.com/jetpack/compose/architecture
+https://stackoverflow.com/questions/68920453/jetpack-compose-how-to-pass-values-to-composables-in-the-tree
 
 @Composable
 fun ScreenContent(viewModel: MyDoctorsViewModel)

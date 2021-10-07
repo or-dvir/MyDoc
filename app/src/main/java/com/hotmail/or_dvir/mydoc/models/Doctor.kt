@@ -9,18 +9,18 @@ data class Doctor(
     val address: Address? = null
 )
 
-//add address to
-//    list of doctors (open maps!)
-//    doctor details (open maps!)
-//    new/edit doctor
+add address to
+    doctor details (open maps!)
+    new/edit doctor
 
 //todo
 // opening times
 // contact details
-//      phone
+//      phone (format with https://developer.android.com/reference/android/telephony/PhoneNumberUtils.html)
 //      email
 // link to website
 
-object DoctorFactory {
+object DoctorFactory
+{
     fun getDummyDoctor() = Doctor(UUID.randomUUID(), "Dr. Evil")
 }
