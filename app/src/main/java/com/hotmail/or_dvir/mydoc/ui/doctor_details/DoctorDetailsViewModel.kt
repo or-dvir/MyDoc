@@ -70,7 +70,7 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
 
     data class DoctorDetailsUiState(
         //todo just for initialization. should i keep this or find another way?
-        val doctor: Doctor = Doctor(UUID.randomUUID(), "", "", Address()),
+        val doctor: Doctor = Doctor(UUID.randomUUID(), ""),
         val error: String = "",
         val isLoading: Boolean = false
     )

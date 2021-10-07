@@ -126,7 +126,7 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                 keyboardActions = KeyboardActions(
                     onAny = { clearFocus() }
                 ),
-                text = uiState.doctor.specialty,
+                text = uiState.doctor.specialty.orEmpty(),
                 error = "", //all inputs are valid for speciality
                 hint = R.string.hint_speciality,
                 modifier = maxWidthModifier,

@@ -143,8 +143,12 @@ fun ScreenContent(uiState: DoctorDetailsUiState)
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(stringResource(R.string.doctorDetails_name_s, doctor.name))
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(stringResource(R.string.doctorDetails_speciality_s, doctor.specialty))
+                //todo should i just hide it or show something like "unknown"
+                // to encourage the user to add those details
+                doctor.specialty?.let {
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(stringResource(R.string.doctorDetails_speciality_s, it))
+                }
             }
 
             //this should be the LAST composable so it shows above everything else

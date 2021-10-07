@@ -143,8 +143,11 @@ fun DoctorRow(doc: Doctor, modifier: Modifier = Modifier)
             fontWeight = FontWeight.Bold,
             text = doc.name
         )
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(doc.specialty)
+
+        doc.specialty?.let {
+            Spacer(modifier = Modifier.height(5.dp))
+            Text(it)
+        }
     }
 }
 

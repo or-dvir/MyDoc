@@ -132,7 +132,8 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     ////////////////////////////////
 
     data class NewEditDoctorUiState(
-        val doctor: Doctor = Doctor(UUID.randomUUID(), "", "", Address()),
+        //todo just for initialization. should i use something else?
+        val doctor: Doctor = Doctor(UUID.randomUUID(), ""),
         val generalError: String = "",
         val isLoading: Boolean = false
     )
