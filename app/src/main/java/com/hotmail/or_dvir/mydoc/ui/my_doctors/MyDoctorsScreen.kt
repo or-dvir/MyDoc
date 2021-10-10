@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -68,11 +69,6 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
         )
     }
 }
-
-read about CompositionLocal. can i use it for viewmodels instead of always passing them?
-https://medium.com/geekculture/jetpack-compose-compositionlocal-what-you-need-to-know-979a4aef6412
-https://developer.android.com/jetpack/compose/architecture
-https://stackoverflow.com/questions/68920453/jetpack-compose-how-to-pass-values-to-composables-in-the-tree
 
 @Composable
 fun ScreenContent(viewModel: MyDoctorsViewModel)
