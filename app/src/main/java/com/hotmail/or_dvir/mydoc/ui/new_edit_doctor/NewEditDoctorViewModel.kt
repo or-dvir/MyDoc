@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.Address
 import com.hotmail.or_dvir.mydoc.models.Doctor
+import com.hotmail.or_dvir.mydoc.models.DoctorFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
@@ -103,7 +105,9 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun onDoctorNameInputChanged(newInput: String)
+    //todo way too many "on X input changed" functions.
+    // can i make it better?
+    fun onNameInputChanged(newInput: String)
     {
         uiState.value?.apply {
             val newDoc = doctor.copy(name = newInput)
@@ -114,10 +118,125 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun onDoctorSpecialityInputChanged(newInput: String)
+    fun onSpecialityInputChanged(newInput: String)
     {
         uiState.value?.apply {
             val newDoc = doctor.copy(specialty = newInput)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onStreetInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newAddress =
+                doctor.address?.copy(street = newInput) ?: Address(newInput, "", "")
+            val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onHouseNumberInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newAddress =
+                doctor.address?.copy(houseNumber = newInput) ?: Address("", newInput, "")
+            val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onCityInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newAddress =
+                doctor.address?.copy(city = newInput) ?: Address("", "", newInput)
+            val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onPostcodeInputChanged(newInput: Int)
+    {
+        uiState.value?.apply {
+            val newAddress =
+                doctor.address?.copy(postCode = newInput) ?: Address(
+                    "",
+                    "",
+                    "",
+                    postCode = newInput
+                )
+
+            val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onCountryInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newAddress =
+                doctor.address?.copy(country = newInput) ?: Address(
+                    "",
+                    "",
+                    "",
+                    country = newInput
+                )
+
+            val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onApartmentInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newAddress =
+                doctor.address?.copy(apartmentNumber = newInput) ?: Address(
+                    "",
+                    "",
+                    "",
+                    apartmentNumber = newInput
+                )
+
+            val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onFloorInputChanged(newInput: Int)
+    {
+        uiState.value?.apply {
+            val newAddress =
+                doctor.address?.copy(floor = newInput) ?: Address(
+                    "",
+                    "",
+                    "",
+                    floor = newInput
+                )
+
+            val newDoc = doctor.copy(address = newAddress)
 
             updateUiState(
                 copy(doctor = newDoc)
@@ -130,13 +249,22 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     ////////////////////////////////
     ////////////////////////////////
 
+    //todo there are too many fields (long form), there has to be a better way than this!!!
     data class NewEditDoctorUiState(
         //todo just for initialization. should i use something else?
-        val doctor: Doctor = Doctor(UUID.randomUUID(), ""),
+        val doctor: Doctor = DoctorFactory.getDummyDoctor(),
+        val isLoading: Boolean = false,
         val generalError: String = "",
-        val isLoading: Boolean = false
+        val streetError: String = "",
+        val houseNumberError: String = "",
+        val cityError: String = ""
     )
     {
+        change the way errors are handled here... first click "done" button, then check input.
+        copy from login screen.
+        address is not mandatory, but if exists it MUST have street, house number, and city
+        //todo this is immediately set, which means the moment the user opens
+        // newEditDoctorScreen, he sees an error - not so nice UX
         @StringRes
         val doctorNameError =
             if (doctor.name.isBlank())

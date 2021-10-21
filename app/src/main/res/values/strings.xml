@@ -19,6 +19,13 @@
 
     <string name="hint_name">Name</string>
     <string name="hint_speciality">Speciality</string>
+    <string name="hint_street">Street</string>
+    <string name="hint_houseNumber">House Number</string>
+    <string name="hint_city">City</string>
+    <string name="hint_postcode">Postcode</string>
+    <string name="hint_country">country</string>
+    <string name="hint_apartment">Apartment</string>
+    <string name="hint_floor">Floor</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_passwordConfirmation">Password Confirmation</string>
