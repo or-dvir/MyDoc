@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.Address
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
@@ -90,7 +91,7 @@ fun FormTextField(
     text: String,
     @StringRes hint: Int,
     error: String = "",
-    putSpacerBelow: Boolean = true,
+    isLast: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     onImeClicked: (() -> Unit)? = null,
@@ -100,32 +101,106 @@ fun FormTextField(
     val focusManager = LocalFocusManager.current
 
     OutlinedTextFieldWithError(
+        text = text,
+        error = error,
+        hint = hint,
+        modifier = Modifier.fillMaxWidth(),
+        onTextChanged = onTextChanged,
         keyboardOptions = KeyboardOptions(
-            imeAction = imeAction,
+            imeAction = if (isLast) ImeAction.Done else imeAction,
             keyboardType = keyboardType
         ),
         keyboardActions = KeyboardActions(
             //todo FocusDirection.Next doesn't seem to be working
             onAny = {
-                if (onImeClicked == null)
+                when
                 {
-                    focusManager.moveFocus(FocusDirection.Next)
-                } else
-                {
-                    onImeClicked()
+                    isLast -> focusManager.clearFocus()
+                    onImeClicked == null -> focusManager.moveFocus(FocusDirection.Next)
+                    else -> onImeClicked()
                 }
             }
         ),
-        text = text,
-        error = error,
-        hint = hint,
-        modifier = Modifier.fillMaxWidth(),
-        onTextChanged = onTextChanged
     )
 
-    if (putSpacerBelow)
+    if (!isLast)
     {
         Spacer(modifier = Modifier.height(5.dp))
+    }
+}
+
+@Composable
+fun AddressContent(
+    address: Address?,
+    //todo passing viewModel and uiState to too many functions... can i improve this?
+    viewModel: NewEditDoctorViewModel,
+    uiState: NewEditDoctorUiState
+)
+{
+    address?.street.orEmpty().apply {
+        FormTextField(
+            text = this,
+            error = uiState.streetError,
+            hint = R.string.hint_street,
+            onTextChanged = { viewModel.onStreetInputChanged(it) }
+        )
+    }
+
+    address?.houseNumber.apply {
+        FormTextField(
+            text = this.orEmpty(),
+            error = uiState.houseNumberError,
+            hint = R.string.hint_houseNumber,
+            onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
+        )
+    }
+
+    address?.city.apply {
+        FormTextField(
+            text = this.orEmpty(),
+            error = uiState.cityError,
+            hint = R.string.hint_city,
+            onTextChanged = { viewModel.onCityInputChanged(it) }
+        )
+    }
+
+    //todo verity what inputs KeyboardType.Number permits
+    // ONLY allow digits! (no special characters!!!)
+    address?.postCode.apply {
+        FormTextField(
+            keyboardType = KeyboardType.Number,
+            text = this?.toString() ?: "",
+            hint = R.string.hint_postcode,
+            onTextChanged = { viewModel.onPostcodeInputChanged(it.toInt()) }
+        )
+    }
+
+    address?.country.apply {
+        FormTextField(
+            text = this.orEmpty(),
+            hint = R.string.hint_country,
+            onTextChanged = { viewModel.onCountryInputChanged(it) }
+        )
+    }
+
+    address?.apartmentNumber.apply {
+        FormTextField(
+            text = this.orEmpty(),
+            hint = R.string.hint_apartment,
+            onTextChanged = { viewModel.onApartmentInputChanged(it) }
+        )
+    }
+
+    //todo verity what inputs KeyboardType.Number permits
+    // ONLY allow digits and dash (basement floor)!
+    address?.floor.apply {
+        FormTextField(
+            keyboardType = KeyboardType.Number,
+            text = this?.toString() ?: "",
+            hint = R.string.hint_floor,
+            onTextChanged = { viewModel.onFloorInputChanged(it.toInt()) },
+            isLast = true
+        )
     }
 }
 
@@ -144,9 +219,6 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            val focusManager = LocalFocusManager.current
-            val clearFocus = { focusManager.clearFocus() }
-
             uiState.doctor.let { doc ->
                 doc.name.apply {
                     FormTextField(
@@ -165,72 +237,7 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                     )
                 }
 
-                doc.address.let { adrs ->
-                    adrs?.street.orEmpty().apply {
-                        FormTextField(
-                            text = this,
-                            error = uiState.streetError,
-                            hint = R.string.hint_street,
-                            onTextChanged = { viewModel.onStreetInputChanged(it) }
-                        )
-                    }
-
-                    adrs?.houseNumber.apply {
-                        FormTextField(
-                            text = this.orEmpty(),
-                            error = uiState.houseNumberError,
-                            hint = R.string.hint_houseNumber,
-                            onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
-                        )
-                    }
-
-                    adrs?.city.apply {
-                        FormTextField(
-                            text = this.orEmpty(),
-                            error = uiState.cityError,
-                            hint = R.string.hint_city,
-                            onTextChanged = { viewModel.onCityInputChanged(it) }
-                        )
-                    }
-
-                    //todo verity what inputs KeyboardType.Number permits
-                    // ONLY allow digits! (no special characters!!!)
-                    adrs?.postCode.apply {
-                        FormTextField(
-                            keyboardType = KeyboardType.Number,
-                            text = this?.toString() ?: "",
-                            hint = R.string.hint_postcode,
-                            onTextChanged = { viewModel.onPostcodeInputChanged(it.toInt()) }
-                        )
-                    }
-
-                    adrs?.country.apply {
-                        FormTextField(
-                            text = this.orEmpty(),
-                            hint = R.string.hint_country,
-                            onTextChanged = { viewModel.onCountryInputChanged(it) }
-                        )
-                    }
-
-                    adrs?.apartmentNumber.apply {
-                        FormTextField(
-                            text = this.orEmpty(),
-                            hint = R.string.hint_apartment,
-                            onTextChanged = { viewModel.onApartmentInputChanged(it) }
-                        )
-                    }
-
-                    //todo verity what inputs KeyboardType.Number permits
-                    // ONLY allow digits and dash (basement floor)!
-                    adrs?.floor.apply {
-                        FormTextField(
-                            keyboardType = KeyboardType.Number,
-                            text = this?.toString() ?: "",
-                            hint = R.string.hint_floor,
-                            onTextChanged = { viewModel.onFloorInputChanged(it.toInt()) }
-                        )
-                    }
-                }
+                AddressContent(doc.address, viewModel, uiState)
             }
 
             //todo on last item in form, set keyboard IME action to "done" and clear focus on click
