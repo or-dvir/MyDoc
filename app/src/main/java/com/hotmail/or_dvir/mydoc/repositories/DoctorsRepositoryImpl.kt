@@ -1,6 +1,5 @@
 package com.hotmail.or_dvir.mydoc.repositories
 
-import com.hotmail.or_dvir.mydoc.models.AddressFactory
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
 import java.util.UUID
@@ -17,11 +16,9 @@ class DoctorsRepositoryImpl : DoctorsRepository
     {
         //TODO("not implemented")
         return List(50) { index ->
-            Doctor(
-                UUID.randomUUID(),
-                "Dr. $index",
-                "special $index",
-                AddressFactory.getDummyAddress()
+            DoctorFactory.getDummyDoctor().copy(
+                name = "Dr. $index",
+                specialty = "special $index"
             )
         }
     }
