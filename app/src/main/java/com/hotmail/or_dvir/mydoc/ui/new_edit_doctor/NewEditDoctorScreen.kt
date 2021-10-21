@@ -1,5 +1,6 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -85,14 +86,55 @@ fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
 }
 
 @Composable
-fun FormSpacer() = Spacer(modifier = Modifier.height(5.dp))
+fun FormTextField(
+    text: String,
+    @StringRes hint: Int,
+    error: String = "",
+    putSpacerBelow: Boolean = true,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Next,
+    onImeClicked: (() -> Unit)? = null,
+    onTextChanged: (String) -> Unit
+)
+{
+    val focusManager = LocalFocusManager.current
+
+    OutlinedTextFieldWithError(
+        keyboardOptions = KeyboardOptions(
+            imeAction = imeAction,
+            keyboardType = keyboardType
+        ),
+        keyboardActions = KeyboardActions(
+            //todo FocusDirection.Next doesn't seem to be working
+            onAny = {
+                if (onImeClicked == null)
+                {
+                    focusManager.moveFocus(FocusDirection.Next)
+                } else
+                {
+                    onImeClicked()
+                }
+            }
+        ),
+        text = text,
+        error = error,
+        hint = hint,
+        modifier = Modifier.fillMaxWidth(),
+        onTextChanged = onTextChanged
+    )
+
+    if (putSpacerBelow)
+    {
+        Spacer(modifier = Modifier.height(5.dp))
+    }
+}
 
 @Composable
 fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiState)
 {
     //todo handle uiState errors
 
-    i stopped here. go over all todo notes on this screen and fix them before continuing!!!
+    i stopped here.go over all todo notes on this screen and fix them before continuing!!!
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -102,159 +144,92 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            val maxWidthModifier = Modifier.fillMaxWidth()
             val focusManager = LocalFocusManager.current
             val clearFocus = { focusManager.clearFocus() }
 
             uiState.doctor.let { doc ->
                 doc.name.apply {
-                    //todo
-                    // this is copied too many times. create a function with defaults
-                    // focusDirection.Next not working
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
+                    FormTextField(
                         text = this,
                         error = stringResource(uiState.doctorNameError),
                         hint = R.string.hint_name,
-                        modifier = maxWidthModifier,
                         onTextChanged = { viewModel.onNameInputChanged(it) }
                     )
                 }
 
-                FormSpacer()
-
                 doc.specialty.apply {
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
+                    FormTextField(
                         text = this.orEmpty(),
-                        error = "", //all inputs are valid
                         hint = R.string.hint_speciality,
-                        modifier = maxWidthModifier,
                         onTextChanged = { viewModel.onSpecialityInputChanged(it) }
                     )
                 }
 
-                FormSpacer()
+                doc.address.let { adrs ->
+                    adrs?.street.orEmpty().apply {
+                        FormTextField(
+                            text = this,
+                            error = uiState.streetError,
+                            hint = R.string.hint_street,
+                            onTextChanged = { viewModel.onStreetInputChanged(it) }
+                        )
+                    }
 
-                doc.address.let { address ->
-                    //street
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
-                        text = address?.street.orEmpty(),
-                        error = uiState.streetError,
-                        hint = R.string.hint_street,
-                        modifier = maxWidthModifier,
-                        onTextChanged = { viewModel.onStreetInputChanged(it) }
-                    )
+                    adrs?.houseNumber.apply {
+                        FormTextField(
+                            text = this.orEmpty(),
+                            error = uiState.houseNumberError,
+                            hint = R.string.hint_houseNumber,
+                            onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
+                        )
+                    }
 
-                    FormSpacer()
-
-                    //house number
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
-                        text = address?.houseNumber.orEmpty(),
-                        error = uiState.houseNumberError,
-                        hint = R.string.hint_houseNumber,
-                        modifier = maxWidthModifier,
-                        onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
-                    )
-
-                    FormSpacer()
-
-                    //city
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
-                        text = address?.city.orEmpty(),
-                        error = uiState.cityError,
-                        hint = R.string.hint_city,
-                        modifier = maxWidthModifier,
-                        onTextChanged = { viewModel.onCityInputChanged(it) }
-                    )
-
-                    FormSpacer()
+                    adrs?.city.apply {
+                        FormTextField(
+                            text = this.orEmpty(),
+                            error = uiState.cityError,
+                            hint = R.string.hint_city,
+                            onTextChanged = { viewModel.onCityInputChanged(it) }
+                        )
+                    }
 
                     //todo verity what inputs KeyboardType.Number permits
                     // ONLY allow digits! (no special characters!!!)
-                    //postcode
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(
+                    adrs?.postCode.apply {
+                        FormTextField(
                             keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Next
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
-                        text = address?.postCode?.toString() ?: "",
-                        error = "", //no errors for this field
-                        hint = R.string.hint_postcode,
-                        modifier = maxWidthModifier,
-                        onTextChanged = { viewModel.onPostcodeInputChanged(it.toInt()) }
-                    )
+                            text = this?.toString() ?: "",
+                            hint = R.string.hint_postcode,
+                            onTextChanged = { viewModel.onPostcodeInputChanged(it.toInt()) }
+                        )
+                    }
 
-                    FormSpacer()
+                    adrs?.country.apply {
+                        FormTextField(
+                            text = this.orEmpty(),
+                            hint = R.string.hint_country,
+                            onTextChanged = { viewModel.onCountryInputChanged(it) }
+                        )
+                    }
 
-                    //country
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
-                        text = address?.country.orEmpty(),
-                        error = "", //no errors for this field
-                        hint = R.string.hint_country,
-                        modifier = maxWidthModifier,
-                        onTextChanged = { viewModel.onCountryInputChanged(it) }
-                    )
+                    adrs?.apartmentNumber.apply {
+                        FormTextField(
+                            text = this.orEmpty(),
+                            hint = R.string.hint_apartment,
+                            onTextChanged = { viewModel.onApartmentInputChanged(it) }
+                        )
+                    }
 
-                    FormSpacer()
-
-                    //apartment number
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
-                        text = address?.apartmentNumber.orEmpty(),
-                        error = "", //no errors for this field
-                        hint = R.string.hint_apartment,
-                        modifier = maxWidthModifier,
-                        onTextChanged = { viewModel.onApartmentInputChanged(it) }
-                    )
-
-                    FormSpacer()
-
-                    //floor
                     //todo verity what inputs KeyboardType.Number permits
                     // ONLY allow digits and dash (basement floor)!
-                    OutlinedTextFieldWithError(
-                        keyboardOptions = KeyboardOptions(
+                    adrs?.floor.apply {
+                        FormTextField(
                             keyboardType = KeyboardType.Number,
-                            imeAction = ImeAction.Next
-                        ),
-                        keyboardActions = KeyboardActions(
-                            onAny = { focusManager.moveFocus(FocusDirection.Next) }
-                        ),
-                        text = address?.floor?.toString() ?: "",
-                        error = "", //no errors for this field
-                        hint = R.string.hint_floor,
-                        modifier = maxWidthModifier,
-                        onTextChanged = { viewModel.onFloorInputChanged(it.toInt()) }
-                    )
+                            text = this?.toString() ?: "",
+                            hint = R.string.hint_floor,
+                            onTextChanged = { viewModel.onFloorInputChanged(it.toInt()) }
+                        )
+                    }
                 }
             }
 
