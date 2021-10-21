@@ -10,7 +10,6 @@ data class Doctor(
 )
 
 //add address to
-//    doctor details (open maps!)
 //    new/edit doctor
 
 //todo
