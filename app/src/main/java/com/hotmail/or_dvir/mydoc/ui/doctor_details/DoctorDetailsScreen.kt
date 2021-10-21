@@ -56,12 +56,7 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel)
                             )
                         }
                     },
-                    actions = {
-                        TopBarActions(viewModel)
-//                        TopBarActions(
-//                            onDelete = { viewModel.deleteDoctor() }
-//                        )
-                    }
+                    actions = { TopBarActions(viewModel) }
                 )
             }
         )
