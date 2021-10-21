@@ -63,7 +63,7 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel)
                             )
                         }
                     },
-                    actions = { TopBarActions(viewModel) }
+                    actions = { TopBarActions(uiState, viewModel) }
                 )
             }
         )
@@ -97,13 +97,13 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 }
 
 @Composable
-fun TopBarActions(viewModel: DoctorDetailsViewModel)
+fun TopBarActions(uiState: DoctorDetailsUiState, viewModel: DoctorDetailsViewModel)
 {
     val iconsTint = Color.White
     val context = LocalContext.current
 
     //navigate
-    viewModel.getDoctorBasicAddress()?.let {
+    uiState.doctor.address?.getBasicAddress()?.let {
         IconButton(onClick = { openMaps(context, it) }) {
             Icon(
                 tint = iconsTint,
