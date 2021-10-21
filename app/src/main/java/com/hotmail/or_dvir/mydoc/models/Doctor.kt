@@ -9,9 +9,9 @@ data class Doctor(
     val address: Address? = null
 )
 
-add address to
-    doctor details (open maps!)
-    new/edit doctor
+//add address to
+//    doctor details (open maps!)
+//    new/edit doctor
 
 //todo
 // opening times
@@ -22,5 +22,11 @@ add address to
 
 object DoctorFactory
 {
-    fun getDummyDoctor() = Doctor(UUID.randomUUID(), "Dr. Evil")
+    //todo delete when no longer needed
+    fun getDummyDoctor() = Doctor(
+        UUID.randomUUID(),
+        "Dr. Evil",
+        "evilness",
+        AddressFactory.getDummyAddress()
+    )
 }
