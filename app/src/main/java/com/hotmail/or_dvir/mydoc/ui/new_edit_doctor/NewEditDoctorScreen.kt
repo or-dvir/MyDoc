@@ -65,14 +65,7 @@ fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
                             enabled = isInputValid,
                             onClick = { viewModel.createOrUpdateDoctor() }
                         ) {
-                            val alpha =
-                                if (isInputValid)
-                                {
-                                    1f
-                                } else
-                                {
-                                    0.5f
-                                }
+                            val alpha = if (isInputValid) 1f else 0.5f
 
                             Icon(
                                 modifier = Modifier.alpha(alpha),
