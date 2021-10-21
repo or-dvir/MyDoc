@@ -137,7 +137,10 @@ fun ScreenContent(uiState: DoctorDetailsUiState)
             Column(
                 modifier = Modifier.padding(8.dp)
             ) {
-                Text(stringResource(R.string.doctorDetails_name_s, doctor.name))
+                doctor.name.apply {
+                    Text(stringResource(R.string.doctorDetails_name_s, this))
+                }
+
                 //todo should i just hide it or show something like "unknown"
                 // to encourage the user to add those details
                 doctor.specialty?.let {
