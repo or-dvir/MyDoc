@@ -150,16 +150,6 @@ fun TopBarActions(viewModel: DoctorDetailsViewModel)
             onConfirm = { viewModel.deleteDoctor() }
         )
     }
-
-//    IconButton(onClick = {
-//        showDeleteConfirmation = true
-//    }) {
-//        Icon(
-//            tint = iconsTint,
-//            painter = painterResource(id = R.drawable.ic_delete),
-//            contentDescription = stringResource(id = R.string.contentDescription_delete)
-//        )
-//    }
 }
 
 @Composable
