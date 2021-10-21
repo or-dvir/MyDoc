@@ -172,7 +172,7 @@ fun DoctorRow(
                 onClick = { openMaps(context, it.getBasicAddress()) }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_location),
+                    painter = painterResource(id = R.drawable.ic_navigate),
                     contentDescription = stringResource(id = R.string.contentDescription_navigate)
                 )
             }

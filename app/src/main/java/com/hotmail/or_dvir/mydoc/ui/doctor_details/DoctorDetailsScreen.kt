@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -15,6 +17,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -94,7 +98,50 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 @Composable
 fun TopBarActions(viewModel: DoctorDetailsViewModel)
 {
+    val iconsTint = Color.White
+
+    //navigate
+    IconButton(onClick = {
+        //todo open google maps
+    }) {
+        Icon(
+            tint = iconsTint,
+            painter = painterResource(id = R.drawable.ic_navigate),
+            contentDescription = stringResource(id = R.string.contentDescription_navigate)
+        )
+    }
+
+    //edit
+    IconButton(onClick = {
+        viewModel.navigate(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
+    }) {
+        Icon(
+            tint = iconsTint,
+            painter = painterResource(id = R.drawable.ic_edit),
+            contentDescription = stringResource(id = R.string.contentDescription_edit)
+        )
+    }
+
+    //overflow menu
+    var showMenu by remember { mutableStateOf(false) }
     var showDeleteConfirmation by remember { mutableStateOf(false) }
+
+    IconButton(onClick = { showMenu = !showMenu }) {
+        Icon(
+            tint = iconsTint,
+            imageVector = Icons.Default.MoreVert,
+            contentDescription = stringResource(id = R.string.contentDescription_more)
+        )
+    }
+
+    DropdownMenu(
+        expanded = showMenu,
+        onDismissRequest = { showMenu = false }
+    ) {
+        DropdownMenuItem(onClick = { showDeleteConfirmation = true }) {
+            Text(stringResource(id = R.string.delete))
+        }
+    }
 
     if (showDeleteConfirmation)
     {
@@ -104,25 +151,15 @@ fun TopBarActions(viewModel: DoctorDetailsViewModel)
         )
     }
 
-    IconButton(onClick = {
-        showDeleteConfirmation = true
-    }) {
-        Icon(
-            tint = Color.White,
-            painter = painterResource(id = R.drawable.ic_delete),
-            contentDescription = stringResource(id = R.string.contentDescription_delete)
-        )
-    }
-
-    IconButton(onClick = {
-        viewModel.navigate(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
-    }) {
-        Icon(
-            tint = Color.White,
-            painter = painterResource(id = R.drawable.ic_edit),
-            contentDescription = stringResource(id = R.string.contentDescription_edit)
-        )
-    }
+//    IconButton(onClick = {
+//        showDeleteConfirmation = true
+//    }) {
+//        Icon(
+//            tint = iconsTint,
+//            painter = painterResource(id = R.drawable.ic_delete),
+//            contentDescription = stringResource(id = R.string.contentDescription_delete)
+//        )
+//    }
 }
 
 @Composable
