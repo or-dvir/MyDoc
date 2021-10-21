@@ -36,6 +36,7 @@ import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
 @Composable
@@ -99,16 +100,17 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 fun TopBarActions(viewModel: DoctorDetailsViewModel)
 {
     val iconsTint = Color.White
+    val context = LocalContext.current
 
     //navigate
-    IconButton(onClick = {
-        //todo open google maps
-    }) {
-        Icon(
-            tint = iconsTint,
-            painter = painterResource(id = R.drawable.ic_navigate),
-            contentDescription = stringResource(id = R.string.contentDescription_navigate)
-        )
+    viewModel.getDoctorBasicAddress()?.let {
+        IconButton(onClick = { openMaps(context, it) }) {
+            Icon(
+                tint = iconsTint,
+                painter = painterResource(id = R.drawable.ic_navigate),
+                contentDescription = stringResource(id = R.string.contentDescription_navigate)
+            )
+        }
     }
 
     //edit

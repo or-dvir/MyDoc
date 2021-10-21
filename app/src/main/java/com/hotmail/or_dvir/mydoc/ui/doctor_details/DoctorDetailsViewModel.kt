@@ -63,6 +63,8 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
         }
     }
 
+    fun getDoctorBasicAddress() = uiState.value?.doctor?.address?.getBasicAddress()
+
     ////////////////////////////////
     ////////////////////////////////
     ////////////////////////////////
