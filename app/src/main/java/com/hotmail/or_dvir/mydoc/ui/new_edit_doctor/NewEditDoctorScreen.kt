@@ -164,14 +164,12 @@ fun AddressContent(
         )
     }
 
-    //todo verity what inputs KeyboardType.Number permits
-    // ONLY allow digits! (no special characters!!!)
     address?.postCode.apply {
         FormTextField(
             keyboardType = KeyboardType.Number,
             text = this?.toString() ?: "",
             hint = R.string.hint_postcode,
-            onTextChanged = { viewModel.onPostcodeInputChanged(it.toInt()) }
+            onTextChanged = { viewModel.onPostcodeInputChanged(it) }
         )
     }
 
@@ -198,7 +196,7 @@ fun AddressContent(
             keyboardType = KeyboardType.Number,
             text = this?.toString() ?: "",
             hint = R.string.hint_floor,
-            onTextChanged = { viewModel.onFloorInputChanged(it.toInt()) },
+            onTextChanged = { viewModel.onFloorInputChanged(it) },
             isLast = true
         )
     }

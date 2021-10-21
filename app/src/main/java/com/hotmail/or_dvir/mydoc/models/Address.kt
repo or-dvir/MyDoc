@@ -12,7 +12,7 @@ data class Address(
     // if so, either get it from locale by default, or add it in preferences
     val country: String? = null,
     val apartmentNumber: String? = null,
-    val floor: Int? = null
+    val floor: String? = null
 )
 {
     fun getBasicAddress(): String
@@ -34,7 +34,7 @@ data class Address(
             // this class should NOT be dependent on R file!!!
             // this class should NOT be dependent on context!!!
             apartmentNumber?.let { append(context.getString(R.string.apartment_s, it)) }
-            floor?.let { append(", ${context.getString(R.string.floor_d, it)}") }
+            floor?.let { append(", ${context.getString(R.string.floor_s, it)}") }
         }.toString()
 
         return details.takeIf { it.isNotEmpty() }
@@ -51,6 +51,6 @@ object AddressFactory
         50259,
         "Germany",
         "5",
-        1
+        "1"
     )
 }

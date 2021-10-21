@@ -35,7 +35,7 @@
     <string name="doctorDetails_address_s">Address: %s</string>
 
     <string name="apartment_s">Apartment: %s</string>
-    <string name="floor_d">Floor: %d</string>
+    <string name="floor_s">Floor: %s</string>
 
     <string name="contentDescription_showPassword">Show password</string>
     <string name="contentDescription_hidePassword">Hide password</string>

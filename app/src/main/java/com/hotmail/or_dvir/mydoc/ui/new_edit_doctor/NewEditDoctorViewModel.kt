@@ -13,9 +13,17 @@ import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 import java.util.UUID
+import java.util.regex.Pattern
 
 class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiState>(app)
 {
+    private companion object
+    {
+        private val PATTERN_NUMBER = Pattern.compile("^[0-9]*$")
+        private val PATTERN_NEGATIVE_NUMBER = Pattern.compile("^-[0-9]*$")
+    }
+
+
     private val doctorsRepo: DoctorsRepository by inject()
     private var isEditing = false
     private var firstTime = true
@@ -168,16 +176,24 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun onPostcodeInputChanged(newInput: Int)
+    fun onPostcodeInputChanged(newInput: String)
     {
+        //only numbers are allowed for postcode
+        if (!PATTERN_NUMBER.matcher(newInput).matches())
+        {
+            return
+        }
+
         uiState.value?.apply {
+            val postcode = if (newInput.isNotBlank()) newInput.toInt() else null
             val newAddress =
-                doctor.address?.copy(postCode = newInput) ?: Address(
-                    "",
-                    "",
-                    "",
-                    postCode = newInput
-                )
+                doctor.address?.copy(postCode = postcode)
+                    ?: Address(
+                        "",
+                        "",
+                        "",
+                        postCode = postcode
+                    )
 
             val newDoc = doctor.copy(address = newAddress)
 
@@ -225,15 +241,25 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun onFloorInputChanged(newInput: Int)
+    fun onFloorInputChanged(newInput: String)
     {
+        val numberMatcher = PATTERN_NUMBER.matcher(newInput)
+        val negativeNumberMatcher = PATTERN_NEGATIVE_NUMBER.matcher(newInput)
+
+        //only numbers and negative numbers allowed for floor
+        if (!numberMatcher.matches() && !negativeNumberMatcher.matches())
+        {
+            return
+        }
+
         uiState.value?.apply {
+            val floor = if (newInput.isNotBlank()) newInput else null
             val newAddress =
-                doctor.address?.copy(floor = newInput) ?: Address(
+                doctor.address?.copy(floor = floor) ?: Address(
                     "",
                     "",
                     "",
-                    floor = newInput
+                    floor = floor
                 )
 
             val newDoc = doctor.copy(address = newAddress)
