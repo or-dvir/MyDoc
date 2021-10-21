@@ -2,8 +2,8 @@ package com.hotmail.or_dvir.mydoc.ui.doctor_details
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import com.hotmail.or_dvir.mydoc.models.Address
 import com.hotmail.or_dvir.mydoc.models.Doctor
+import com.hotmail.or_dvir.mydoc.models.DoctorFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
@@ -70,7 +70,7 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
 
     data class DoctorDetailsUiState(
         //todo just for initialization. should i keep this or find another way?
-        val doctor: Doctor = Doctor(UUID.randomUUID(), ""),
+        val doctor: Doctor = DoctorFactory.getDummyDoctor(),
         val error: String = "",
         val isLoading: Boolean = false
     )
