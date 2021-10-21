@@ -1,5 +1,8 @@
 package com.hotmail.or_dvir.mydoc.models
 
+import android.content.Context
+import com.hotmail.or_dvir.mydoc.R
+
 data class Address(
     val street: String,
     val houseNumber: String,
@@ -21,6 +24,20 @@ data class Address(
             append(city)
             country?.let { append(", $it") }
         }.toString()
+    }
+
+    fun getAddressDetails(context: Context): String?
+    {
+        //todo present in a nicer way? handle "1st, 2nd, 3rd..."
+        val details = StringBuilder().apply {
+            //todo find a better way!
+            // this class should NOT be dependent on R file!!!
+            // this class should NOT be dependent on context!!!
+            apartmentNumber?.let { append(context.getString(R.string.apartment_s, it)) }
+            floor?.let { append(", ${context.getString(R.string.floor_d, it)}") }
+        }.toString()
+
+        return details.takeIf { it.isNotEmpty() }
     }
 }
 

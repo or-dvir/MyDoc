@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Icon
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -124,9 +126,16 @@ fun TopBarActions(viewModel: DoctorDetailsViewModel)
 }
 
 @Composable
+fun DoctorDetailsSpacer()
+{
+    Spacer(modifier = Modifier.height(5.dp))
+}
+
+@Composable
 fun ScreenContent(uiState: DoctorDetailsUiState)
 {
     //todo handle uiState errors
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -143,9 +152,21 @@ fun ScreenContent(uiState: DoctorDetailsUiState)
 
                 //todo should i just hide it or show something like "unknown"
                 // to encourage the user to add those details
-                doctor.specialty?.let {
-                    Spacer(modifier = Modifier.height(5.dp))
-                    Text(stringResource(R.string.doctorDetails_speciality_s, it))
+                doctor.specialty?.apply {
+                    DoctorDetailsSpacer()
+                    Text(stringResource(R.string.doctorDetails_speciality_s, this))
+                }
+
+                doctor.address?.apply {
+                    DoctorDetailsSpacer()
+                    Text(stringResource(R.string.doctorDetails_address_s, this.getBasicAddress()))
+
+                    getAddressDetails(context)?.let {
+                        Text(
+                            modifier = Modifier.offset(8.dp),
+                            text = it
+                        )
+                    }
                 }
             }
 
