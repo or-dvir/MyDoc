@@ -125,6 +125,7 @@ fun TopBarActions(uiState: DoctorDetailsUiState, viewModel: DoctorDetailsViewMod
     }
 
     //overflow menu
+    //todo align menu end to end of icon
     var showMenu by remember { mutableStateOf(false) }
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
