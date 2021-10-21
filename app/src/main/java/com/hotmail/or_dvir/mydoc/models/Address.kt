@@ -26,7 +26,7 @@ data class Address(
         }.toString()
     }
 
-    fun getAddressDetails(context: Context): String?
+    fun getDetailedAddress(context: Context): String?
     {
         //todo present in a nicer way? handle "1st, 2nd, 3rd..."
         val details = StringBuilder().apply {

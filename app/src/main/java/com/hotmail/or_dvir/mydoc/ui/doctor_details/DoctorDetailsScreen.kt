@@ -190,7 +190,7 @@ fun ScreenContent(uiState: DoctorDetailsUiState)
                     DoctorDetailsSpacer()
                     Text(stringResource(R.string.doctorDetails_address_s, this.getBasicAddress()))
 
-                    getAddressDetails(context)?.let {
+                    getDetailedAddress(context)?.let {
                         Text(
                             modifier = Modifier.offset(8.dp),
                             text = it
