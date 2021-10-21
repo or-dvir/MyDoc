@@ -12,7 +12,7 @@ data class Address(
     val floor: Int? = null
 )
 {
-    fun format(): String
+    fun getBasicAddress(): String
     {
         //todo format the address according to locale!!!
         return StringBuilder().apply {
