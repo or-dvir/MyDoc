@@ -97,7 +97,6 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        //todo move content of screen above keyboard
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
