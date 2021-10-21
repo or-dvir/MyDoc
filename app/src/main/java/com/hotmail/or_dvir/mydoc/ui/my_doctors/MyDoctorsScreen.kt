@@ -162,9 +162,7 @@ fun DoctorRow(
                 )
 
                 specialty?.let { Text(text = it) }
-                address?.let {
-                    Text(text = it.format())
-                }
+                address?.let { Text(text = it.format()) }
             }
         }
 
