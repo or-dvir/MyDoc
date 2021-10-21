@@ -25,9 +25,9 @@ abstract class BaseViewModel<UiState>(val app: Application) : AndroidViewModel(a
 
     abstract fun initUiState(): UiState
 
-    fun navigateBack() = navigate(NavigationDestination.PopStack)
+    fun navigateBack() = navigateToAppDestination(NavigationDestination.PopStack)
 
-    fun navigate(event: NavigationDestination)
+    fun navigateToAppDestination(event: NavigationDestination)
     {
         viewModelScope.launch(mainDispatcher) {
             navDestination.send(event)

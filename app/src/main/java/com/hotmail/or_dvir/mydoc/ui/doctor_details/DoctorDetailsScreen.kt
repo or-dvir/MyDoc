@@ -115,7 +115,7 @@ fun TopBarActions(uiState: DoctorDetailsUiState, viewModel: DoctorDetailsViewMod
 
     //edit
     IconButton(onClick = {
-        viewModel.navigate(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
+        viewModel.navigateToAppDestination(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
     }) {
         Icon(
             tint = iconsTint,

@@ -56,7 +56,7 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = { viewModel.navigate(NewEditDoctorScreen(null)) }
+                    onClick = { viewModel.navigateToAppDestination(NewEditDoctorScreen(null)) }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_add_person_filled),
@@ -84,7 +84,7 @@ fun ScreenContent(viewModel: MyDoctorsViewModel)
             } else
             {
                 DoctorsList(doctors) {
-                    viewModel.navigate(DoctorDetailsScreen(it.id))
+                    viewModel.navigateToAppDestination(DoctorDetailsScreen(it.id))
                 }
             }
 
