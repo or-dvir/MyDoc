@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -90,11 +92,16 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
 {
     //todo handle uiState errors
 
+    i stopped here. go over all todo notes on this screen and fix them before continuing!!!
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
+        //todo move content of screen above keyboard
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
         ) {
             val maxWidthModifier = Modifier.fillMaxWidth()
             val focusManager = LocalFocusManager.current
@@ -102,8 +109,9 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
 
             uiState.doctor.let { doc ->
                 doc.name.apply {
-                    //todo this is copied too many times.
-                    // create a function with defaults
+                    //todo
+                    // this is copied too many times. create a function with defaults
+                    // focusDirection.Next not working
                     OutlinedTextFieldWithError(
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                         keyboardActions = KeyboardActions(
@@ -248,8 +256,6 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                         modifier = maxWidthModifier,
                         onTextChanged = { viewModel.onFloorInputChanged(it.toInt()) }
                     )
-
-                    FormSpacer()
                 }
             }
 
