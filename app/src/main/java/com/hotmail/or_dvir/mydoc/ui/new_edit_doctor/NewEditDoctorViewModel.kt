@@ -253,7 +253,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
 
         uiState.value?.apply {
-            val floor = if (newInput.isNotBlank()) newInput else null
+            val floor = if (newInput.isNotBlank()) newInput.toInt() else null
             val newAddress =
                 doctor.address?.copy(floor = floor) ?: Address(
                     "",

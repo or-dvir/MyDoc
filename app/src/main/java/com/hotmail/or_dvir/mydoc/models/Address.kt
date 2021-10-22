@@ -12,7 +12,7 @@ data class Address(
     // if so, either get it from locale by default, or add it in preferences
     val country: String? = null,
     val apartmentNumber: String? = null,
-    val floor: String? = null
+    val floor: Int? = null
 )
 {
     fun getBasicAddress(): String
@@ -51,6 +51,6 @@ object AddressFactory
         50259,
         "Germany",
         "5",
-        "1"
+        1
     )
 }
