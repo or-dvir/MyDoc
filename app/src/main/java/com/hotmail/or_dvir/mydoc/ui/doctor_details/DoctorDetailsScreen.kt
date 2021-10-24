@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 

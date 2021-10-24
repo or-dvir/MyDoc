@@ -35,8 +35,8 @@ import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.DoctorDetailsScreen
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography

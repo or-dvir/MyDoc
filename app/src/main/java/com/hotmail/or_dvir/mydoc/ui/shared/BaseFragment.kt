@@ -13,9 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.hotmail.or_dvir.mydoc.NavGraphDirections
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragmentDirections
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.DoctorDetailsScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.NewEditDoctorScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.NavigationDestination.PopStack
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.DoctorDetailsScreen
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.PopStack
 import kotlinx.coroutines.flow.collect
 
 abstract class BaseFragment<out VM : BaseViewModel<out Any>> : Fragment()

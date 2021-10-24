@@ -1,4 +1,4 @@
-package com.hotmail.or_dvir.mydoc.ui.shared
+package com.hotmail.or_dvir.mydoc.navigation
 
 import java.util.UUID
 
