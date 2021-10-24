@@ -111,12 +111,13 @@ fun FormTextField(
             keyboardType = keyboardType
         ),
         keyboardActions = KeyboardActions(
-            //todo FocusDirection.Next doesn't seem to be working
             onAny = {
                 when
                 {
                     isLast -> focusManager.clearFocus()
-                    onImeClicked == null -> focusManager.moveFocus(FocusDirection.Next)
+                    //todo when changing screen format from colums to something else,
+                    // remember to change this
+                    onImeClicked == null -> focusManager.moveFocus(FocusDirection.Down)
                     else -> onImeClicked()
                 }
             }
@@ -189,8 +190,6 @@ fun AddressContent(
         )
     }
 
-    //todo verity what inputs KeyboardType.Number permits
-    // ONLY allow digits and dash (basement floor)!
     address?.floor.apply {
         FormTextField(
             keyboardType = KeyboardType.Number,
