@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -47,7 +46,6 @@ fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
     MyDocTheme {
         val uiState by viewModel.uiState.observeAsState(NewEditDoctorUiState())
         val scaffoldState = rememberScaffoldState()
-        val isInputValid = uiState.isInputValid()
 
         Scaffold(
             scaffoldState = scaffoldState,
@@ -67,13 +65,10 @@ fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
                     },
                     actions = {
                         IconButton(
-                            enabled = isInputValid,
+                            fix me! first check input!!
                             onClick = { viewModel.createOrUpdateDoctor() }
                         ) {
-                            val alpha = if (isInputValid) 1f else 0.5f
-
                             Icon(
-                                modifier = Modifier.alpha(alpha),
                                 tint = Color.White,
                                 painter = painterResource(id = R.drawable.ic_check),
                                 contentDescription = stringResource(R.string.contentDescription_save)
@@ -218,7 +213,7 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                 doc.name.apply {
                     FormTextField(
                         text = this,
-                        error = stringResource(uiState.doctorNameError),
+                        error = uiState.nameError,
                         hint = R.string.hint_name,
                         onTextChanged = { viewModel.onNameInputChanged(it) }
                     )
