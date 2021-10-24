@@ -7,7 +7,6 @@ import com.hotmail.or_dvir.mydoc.models.Address
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
-import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
@@ -28,6 +27,8 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     private var firstTime = true
 
     override fun initUiState() = NewEditDoctorUiState()
+
+    //todo trim all inputs before updating state or before updating in database
 
     //todo move title to the UI state
     fun getTitle(): String
@@ -222,7 +223,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
         uiState.value!!.let { state ->
             state.doctor.apply {
-                if (name.trim().isBlank())
+                if (name.isBlank())
                 {
                     nameError = getString(R.string.error_emptyField)
                     isValid = false
@@ -234,19 +235,19 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                 address?.apply {
                     val addressError = getString(R.string.error_emptyAddressField)
 
-                    if (street.trim().isBlank())
+                    if (street.isBlank())
                     {
                         streetError = addressError
                         isValid = false
                     }
 
-                    if (houseNumber.trim().isBlank())
+                    if (houseNumber.isBlank())
                     {
                         houseNumberError = addressError
                         isValid = false
                     }
 
-                    if (city.trim().isBlank())
+                    if (city.isBlank())
                     {
                         cityError = addressError
                         isValid = false
@@ -278,11 +279,35 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                     country = newInput
                 )
 
-            val newDoc = doctor.copy(address = newAddress)
 
-            updateUiState(
-                copy(doctor = newDoc)
-            )
+
+
+            doctor.address?.copy(country = newInput) ?: run {
+                if(newInput.isBlank()) {
+                    set address to null
+
+                    this will not work. assume ONLY city is set to "g", now the user
+                    erases it. this block will not be invoked because address is not null.
+                            maybe similar logic needs to be invoked before copying???
+                }
+
+                Address(
+                    "",
+                    "",
+                    "",
+                    country = newInput
+                )
+            }
+
+
+
+
+                val newDoc = doctor.copy(address = newAddress)
+
+                updateUiState(
+                    copy(doctor = newDoc)
+                )
+            }
         }
     }
 
