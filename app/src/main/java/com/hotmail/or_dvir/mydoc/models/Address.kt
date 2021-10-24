@@ -34,7 +34,7 @@ data class Address(
             // this class should NOT be dependent on R file!!!
             // this class should NOT be dependent on context!!!
             apartmentNumber?.let { append(context.getString(R.string.apartment_s, it)) }
-            floor?.let { append(", ${context.getString(R.string.floor_s, it)}") }
+            floor?.let { append(", ${context.getString(R.string.floor_d, it)}") }
         }.toString()
 
         return details.takeIf { it.isNotEmpty() }
