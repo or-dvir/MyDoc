@@ -9,9 +9,6 @@ data class Doctor(
     val address: Address? = null
 )
 
-//add address to
-//    new/edit doctor
-
 //todo
 // opening times
 // contact details
