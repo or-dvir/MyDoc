@@ -1,7 +1,6 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import android.app.Application
-import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Address
@@ -23,13 +22,14 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         private val PATTERN_NEGATIVE_NUMBER = Pattern.compile("^-[0-9]*$")
     }
 
-
     private val doctorsRepo: DoctorsRepository by inject()
+
     private var isEditing = false
     private var firstTime = true
 
     override fun initUiState() = NewEditDoctorUiState()
 
+    //todo move title to the UI state
     fun getTitle(): String
     {
         return if (isEditing)
@@ -121,7 +121,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             val newDoc = doctor.copy(name = newInput)
 
             updateUiState(
-                copy(doctor = newDoc)
+                copy(
+                    nameError = "", //reset previous error
+                    doctor = newDoc
+                )
             )
         }
     }
@@ -145,7 +148,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             val newDoc = doctor.copy(address = newAddress)
 
             updateUiState(
-                copy(doctor = newDoc)
+                copy(
+                    streetError = "", //reset any errors
+                    doctor = newDoc
+                )
             )
         }
     }
@@ -158,7 +164,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             val newDoc = doctor.copy(address = newAddress)
 
             updateUiState(
-                copy(doctor = newDoc)
+                copy(
+                    houseNumberError = "", //reset any errors
+                    doctor = newDoc
+                )
             )
         }
     }
@@ -171,7 +180,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             val newDoc = doctor.copy(address = newAddress)
 
             updateUiState(
-                copy(doctor = newDoc)
+                copy(
+                    cityError = "", //reset any errors
+                    doctor = newDoc
+                )
             )
         }
     }
@@ -201,6 +213,58 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                 copy(doctor = newDoc)
             )
         }
+    }
+
+    fun validateInput(): Boolean
+    {
+        var isValid = true
+        var (nameError, streetError, houseNumberError, cityError) = listOf("")
+
+        uiState.value!!.let { state ->
+            state.doctor.apply {
+                if (name.trim().isBlank())
+                {
+                    nameError = getString(R.string.error_emptyField)
+                    isValid = false
+                }
+
+                potential bug .
+                if user erases all address fields, is it set back to null?
+                if not, this will trigger even though it shouldnt
+                address?.apply {
+                    val addressError = getString(R.string.error_emptyAddressField)
+
+                    if (street.trim().isBlank())
+                    {
+                        streetError = addressError
+                        isValid = false
+                    }
+
+                    if (houseNumber.trim().isBlank())
+                    {
+                        houseNumberError = addressError
+                        isValid = false
+                    }
+
+                    if (city.trim().isBlank())
+                    {
+                        cityError = addressError
+                        isValid = false
+                    }
+                }
+            }
+
+            updateUiState(
+                state.copy(
+                    nameError = nameError,
+                    streetError = streetError,
+                    houseNumberError = houseNumberError,
+                    cityError = cityError
+                )
+            )
+        }
+
+        return isValid
     }
 
     fun onCountryInputChanged(newInput: String)
@@ -280,30 +344,9 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         //todo just for initialization. should i use something else?
         val doctor: Doctor = DoctorFactory.getDummyDoctor(),
         val isLoading: Boolean = false,
-        val generalError: String = "",
+        val nameError: String = "",
         val streetError: String = "",
         val houseNumberError: String = "",
         val cityError: String = ""
     )
-    {
-        change the way errors are handled here... first click "done" button, then check input.
-        copy from login screen.
-        address is not mandatory, but if exists it MUST have street, house number, and city
-        //todo this is immediately set, which means the moment the user opens
-        // newEditDoctorScreen, he sees an error - not so nice UX
-        @StringRes
-        val doctorNameError =
-            if (doctor.name.isBlank())
-            {
-                R.string.error_emptyField
-            } else
-            {
-                R.string.emptyString
-            }
-
-        fun isInputValid(): Boolean
-        {
-            return doctorNameError == R.string.emptyString
-        }
-    }
 }

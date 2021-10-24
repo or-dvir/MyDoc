@@ -10,6 +10,9 @@
 
     <string name="error_invalidEmail">Invalid email address</string>
     <string name="error_emptyField">Cannot be empty</string>
+    <string name="error_emptyAddressField">
+        When providing a full or partial address, this cannot be empty
+    </string>
     <string name="error_passwordDoesNotMatch">Passwords do not match</string>
     <string name="error_networkError">There was a network error. Check your internet connection</string>
     <string name="error_nonExistingUser">This user does not exist. Please register</string>
