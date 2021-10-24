@@ -206,8 +206,6 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
 {
     //todo handle uiState errors
 
-    i stopped here.go over all todo notes on this screen and fix them before continuing!!!
-
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
