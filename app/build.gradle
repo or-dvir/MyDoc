@@ -5,14 +5,14 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk global_compileSdk
 
     defaultConfig {
         applicationId "com.hotmail.or_dvir.mydoc"
-        minSdk 23
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        minSdk global_minSdk
+        targetSdk global_targetSdk
+        versionCode global_versionCode
+        versionName global_versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
