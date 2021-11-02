@@ -1,9 +1,9 @@
-package com.hotmail.or_dvir.database
+package com.hotmail.or_dvir.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.hotmail.or_dvir.database.DoctorEntity.Companion.TABLE_DOCTORS
+import com.hotmail.or_dvir.database.entities.DoctorEntity.Companion.TABLE_DOCTORS
 
 @Entity(tableName = TABLE_DOCTORS)
 data class DoctorEntity(

@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.hotmail.or_dvir.database.DoctorEntity
-import com.hotmail.or_dvir.database.DoctorEntity.Companion.TABLE_DOCTORS
+import com.hotmail.or_dvir.database.entities.DoctorEntity
+import com.hotmail.or_dvir.database.entities.DoctorEntity.Companion.TABLE_DOCTORS
 import kotlinx.coroutines.flow.Flow
 
 @Dao
