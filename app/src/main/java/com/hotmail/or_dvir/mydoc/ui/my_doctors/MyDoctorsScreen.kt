@@ -160,23 +160,23 @@ fun DoctorRow(
                     text = doc.name
                 )
 
-                specialty?.let { Text(text = it) }
-                address?.let { Text(text = it.getBasicAddress()) }
+//                specialty?.let { Text(text = it) }
+//                address?.let { Text(text = it.getBasicAddress()) }
             }
         }
 
         //navigation icon
-        doc.address?.let {
-            val context = LocalContext.current
-            IconButton(
-                onClick = { openMaps(context, it.getBasicAddress()) }
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_navigate),
-                    contentDescription = stringResource(id = R.string.contentDescription_navigate)
-                )
-            }
-        }
+//        doc.address?.let {
+//            val context = LocalContext.current
+//            IconButton(
+//                onClick = { openMaps(context, it.getBasicAddress()) }
+//            ) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_navigate),
+//                    contentDescription = stringResource(id = R.string.contentDescription_navigate)
+//                )
+//            }
+//        }
     }
 }
 

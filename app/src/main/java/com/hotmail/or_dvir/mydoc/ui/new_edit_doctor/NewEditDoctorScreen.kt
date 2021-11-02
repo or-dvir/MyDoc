@@ -65,7 +65,7 @@ fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
                     },
                     actions = {
                         IconButton(
-                            fix me! first check input!!
+//                            fix me! first check input!!
                             onClick = { viewModel.createOrUpdateDoctor() }
                         ) {
                             Icon(
@@ -133,67 +133,67 @@ fun AddressContent(
     uiState: NewEditDoctorUiState
 )
 {
-    address?.street.orEmpty().apply {
-        FormTextField(
-            text = this,
-            error = uiState.streetError,
-            hint = R.string.hint_street,
-            onTextChanged = { viewModel.onStreetInputChanged(it) }
-        )
-    }
+//    address?.street.orEmpty().apply {
+//        FormTextField(
+//            text = this,
+//            error = uiState.streetError,
+//            hint = R.string.hint_street,
+//            onTextChanged = { viewModel.onStreetInputChanged(it) }
+//        )
+//    }
 
-    address?.houseNumber.apply {
-        FormTextField(
-            text = this.orEmpty(),
-            error = uiState.houseNumberError,
-            hint = R.string.hint_houseNumber,
-            onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
-        )
-    }
+//    address?.houseNumber.apply {
+//        FormTextField(
+//            text = this.orEmpty(),
+//            error = uiState.houseNumberError,
+//            hint = R.string.hint_houseNumber,
+//            onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
+//        )
+//    }
 
-    address?.city.apply {
-        FormTextField(
-            text = this.orEmpty(),
-            error = uiState.cityError,
-            hint = R.string.hint_city,
-            onTextChanged = { viewModel.onCityInputChanged(it) }
-        )
-    }
+//    address?.city.apply {
+//        FormTextField(
+//            text = this.orEmpty(),
+//            error = uiState.cityError,
+//            hint = R.string.hint_city,
+//            onTextChanged = { viewModel.onCityInputChanged(it) }
+//        )
+//    }
 
-    address?.postCode.apply {
-        FormTextField(
-            keyboardType = KeyboardType.Number,
-            text = this?.toString() ?: "",
-            hint = R.string.hint_postcode,
-            onTextChanged = { viewModel.onPostcodeInputChanged(it) }
-        )
-    }
+//    address?.postCode.apply {
+//        FormTextField(
+//            keyboardType = KeyboardType.Number,
+//            text = this?.toString() ?: "",
+//            hint = R.string.hint_postcode,
+//            onTextChanged = { viewModel.onPostcodeInputChanged(it) }
+//        )
+//    }
 
-    address?.country.apply {
-        FormTextField(
-            text = this.orEmpty(),
-            hint = R.string.hint_country,
-            onTextChanged = { viewModel.onCountryInputChanged(it) }
-        )
-    }
+//    address?.country.apply {
+//        FormTextField(
+//            text = this.orEmpty(),
+//            hint = R.string.hint_country,
+//            onTextChanged = { viewModel.onCountryInputChanged(it) }
+//        )
+//    }
 
-    address?.apartmentNumber.apply {
-        FormTextField(
-            text = this.orEmpty(),
-            hint = R.string.hint_apartment,
-            onTextChanged = { viewModel.onApartmentInputChanged(it) }
-        )
-    }
+//    address?.apartmentNumber.apply {
+//        FormTextField(
+//            text = this.orEmpty(),
+//            hint = R.string.hint_apartment,
+//            onTextChanged = { viewModel.onApartmentInputChanged(it) }
+//        )
+//    }
 
-    address?.floor.apply {
-        FormTextField(
-            keyboardType = KeyboardType.Number,
-            text = this?.toString() ?: "",
-            hint = R.string.hint_floor,
-            onTextChanged = { viewModel.onFloorInputChanged(it) },
-            isLast = true
-        )
-    }
+//    address?.floor.apply {
+//        FormTextField(
+//            keyboardType = KeyboardType.Number,
+//            text = this?.toString() ?: "",
+//            hint = R.string.hint_floor,
+//            onTextChanged = { viewModel.onFloorInputChanged(it) },
+//            isLast = true
+//        )
+//    }
 }
 
 @Composable
@@ -219,15 +219,15 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                     )
                 }
 
-                doc.specialty.apply {
-                    FormTextField(
-                        text = this.orEmpty(),
-                        hint = R.string.hint_speciality,
-                        onTextChanged = { viewModel.onSpecialityInputChanged(it) }
-                    )
-                }
+//                doc.specialty.apply {
+//                    FormTextField(
+//                        text = this.orEmpty(),
+//                        hint = R.string.hint_speciality,
+//                        onTextChanged = { viewModel.onSpecialityInputChanged(it) }
+//                    )
+//                }
 
-                AddressContent(doc.address, viewModel, uiState)
+//                AddressContent(doc.address, viewModel, uiState)
             }
 
             //todo on last item in form, set keyboard IME action to "done" and clear focus on click

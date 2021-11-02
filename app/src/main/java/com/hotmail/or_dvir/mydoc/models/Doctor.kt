@@ -5,8 +5,8 @@ import java.util.UUID
 data class Doctor(
     val id: UUID,
     val name: String,
-    val specialty: String? = null,
-    val address: Address? = null
+//    val specialty: String? = null,
+//    val address: Address? = null
 )
 
 //todo
@@ -22,7 +22,7 @@ object DoctorFactory
     fun getDummyDoctor() = Doctor(
         UUID.randomUUID(),
         "Dr. Evil",
-        "evilness",
-        AddressFactory.getDummyAddress()
+//        "evilness",
+//        AddressFactory.getDummyAddress()
     )
 }

@@ -103,15 +103,15 @@ fun TopBarActions(uiState: DoctorDetailsUiState, viewModel: DoctorDetailsViewMod
     val context = LocalContext.current
 
     //navigate
-    uiState.doctor.address?.getBasicAddress()?.let {
-        IconButton(onClick = { openMaps(context, it) }) {
-            Icon(
-                tint = iconsTint,
-                painter = painterResource(id = R.drawable.ic_navigate),
-                contentDescription = stringResource(id = R.string.contentDescription_navigate)
-            )
-        }
-    }
+//    uiState.doctor.address?.getBasicAddress()?.let {
+//        IconButton(onClick = { openMaps(context, it) }) {
+//            Icon(
+//                tint = iconsTint,
+//                painter = painterResource(id = R.drawable.ic_navigate),
+//                contentDescription = stringResource(id = R.string.contentDescription_navigate)
+//            )
+//        }
+//    }
 
     //edit
     IconButton(onClick = {
@@ -182,22 +182,22 @@ fun ScreenContent(uiState: DoctorDetailsUiState)
 
                 //todo should i just hide it or show something like "unknown"
                 // to encourage the user to add those details
-                doctor.specialty?.apply {
-                    DoctorDetailsSpacer()
-                    Text(stringResource(R.string.doctorDetails_speciality_s, this))
-                }
+//                doctor.specialty?.apply {
+//                    DoctorDetailsSpacer()
+//                    Text(stringResource(R.string.doctorDetails_speciality_s, this))
+//                }
 
-                doctor.address?.apply {
-                    DoctorDetailsSpacer()
-                    Text(stringResource(R.string.doctorDetails_address_s, this.getBasicAddress()))
-
-                    getDetailedAddress(context)?.let {
-                        Text(
-                            modifier = Modifier.offset(8.dp),
-                            text = it
-                        )
-                    }
-                }
+//                doctor.address?.apply {
+//                    DoctorDetailsSpacer()
+//                    Text(stringResource(R.string.doctorDetails_address_s, this.getBasicAddress()))
+//
+//                    getDetailedAddress(context)?.let {
+//                        Text(
+//                            modifier = Modifier.offset(8.dp),
+//                            text = it
+//                        )
+//                    }
+//                }
             }
 
             //this should be the LAST composable so it shows above everything else

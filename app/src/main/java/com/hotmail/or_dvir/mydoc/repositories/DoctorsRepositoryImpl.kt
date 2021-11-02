@@ -18,7 +18,7 @@ class DoctorsRepositoryImpl : DoctorsRepository
         return List(50) { index ->
             DoctorFactory.getDummyDoctor().copy(
                 name = "Dr. $index",
-                specialty = "special $index"
+//                specialty = "special $index"
             )
         }
     }
