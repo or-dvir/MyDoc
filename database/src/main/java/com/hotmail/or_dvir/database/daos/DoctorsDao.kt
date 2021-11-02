@@ -13,15 +13,21 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DoctorsDao
 {
-    //returns the new rowId of the inserted item
+    /**
+     * @return the new rowId of the inserted item
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(doctor: DoctorEntity): Int
 
-    //returns the number of rows that were deleted
+    /**
+     * @return the number of rows that were deleted
+     */
     @Delete
     suspend fun delete(doctor: DoctorEntity): Int
 
-    //returns the number of rows that were updated
+    /**
+     * @return the number of rows that were updated
+     */
     @Update
     suspend fun update(doctor: DoctorEntity): Int
 
