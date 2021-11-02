@@ -87,6 +87,7 @@ dependencies {
     def coroutine_version = "1.5.2"
     //todo for firebase. use later (should already include kotlinx-coroutines-android)
 //    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
 
     //navigation
