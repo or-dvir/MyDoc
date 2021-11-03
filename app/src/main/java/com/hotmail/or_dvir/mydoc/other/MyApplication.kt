@@ -1,6 +1,7 @@
 package com.hotmail.or_dvir.mydoc.other
 
 import android.app.Application
+import com.hotmail.or_dvir.database.AppDatabase
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepositoryImpl
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel
@@ -22,6 +23,7 @@ class MyApplication : Application()
         viewModel { DoctorDetailsViewModel(androidApplication()) }
         viewModel { NewEditDoctorViewModel(androidApplication()) }
         single<DoctorsRepository> { DoctorsRepositoryImpl() }
+        single { AppDatabase.getDatabase(androidContext()) }
     }
 
     override fun onCreate()
