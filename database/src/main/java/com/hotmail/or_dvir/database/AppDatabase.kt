@@ -8,17 +8,17 @@ import com.hotmail.or_dvir.database.daos.DoctorsDao
 import com.hotmail.or_dvir.database.entities.DoctorEntity
 
 @Database(
-    entities = arrayOf(DoctorEntity::class),
+    entities = [DoctorEntity::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase()
 {
-    abstract fun userDao(): DoctorsDao
+    abstract fun doctorsDao(): DoctorsDao
 
     companion object
     {
-        //todo when app is done, ifthe name of the app changed, also change this
-        const val DB_NAME = "MyDoc.db"
+        //todo when app is done, if the name of the app changed, also change this
+        private const val DB_NAME = "MyDoc-db"
 
         //Singleton prevents multiple instances of database opening at the
         //same time.
@@ -34,7 +34,9 @@ abstract class AppDatabase : RoomDatabase()
                     context.applicationContext,
                     AppDatabase::class.java,
                     DB_NAME
-                ).build()
+                //todo WHEN AOO IS READY DELETE ME!!!!
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 //return instance
                 instance
