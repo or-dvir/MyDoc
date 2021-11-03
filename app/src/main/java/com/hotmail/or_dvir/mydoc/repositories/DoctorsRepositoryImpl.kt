@@ -4,6 +4,7 @@ import com.hotmail.or_dvir.mydoc.database.daos.DoctorsDao
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.other.toDoctor
 import com.hotmail.or_dvir.mydoc.other.toDoctorEntity
+import com.hotmail.or_dvir.mydoc.other.toDoctors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,8 +27,8 @@ class DoctorsRepositoryImpl(private val doctorsDao: DoctorsDao) : DoctorsReposit
         }
     }
 
-    override fun getAllDoctors(): Flow<Doctor> =
-        doctorsDao.getAllDoctors().map { it.toDoctor() }
+    override fun getAllDoctors(): Flow<List<Doctor>> =
+        doctorsDao.getAllDoctors().map { it.toDoctors() }
 
     override suspend fun addDoctor(doc: Doctor): Boolean
     {

@@ -36,5 +36,5 @@ interface DoctorsDao
     suspend fun getDoctor(id: String): DoctorEntity?
 
     @Query("select * from $TABLE_DOCTORS")
-    fun getAllDoctors(): Flow<DoctorEntity>
+    fun getAllDoctors(): Flow<List<DoctorEntity>>
 }

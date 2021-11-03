@@ -8,7 +8,7 @@ interface DoctorsRepository
 {
     suspend fun getDoctor(id: UUID): Doctor?
 
-    fun getAllDoctors(): Flow<Doctor>
+    fun getAllDoctors(): Flow<List<Doctor>>
 
 //    suspend fun search(query: String): List<Doctor>
 
