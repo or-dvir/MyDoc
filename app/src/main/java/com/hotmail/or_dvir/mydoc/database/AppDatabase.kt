@@ -1,16 +1,13 @@
-package com.hotmail.or_dvir.database
+package com.hotmail.or_dvir.mydoc.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.hotmail.or_dvir.database.daos.DoctorsDao
-import com.hotmail.or_dvir.database.entities.DoctorEntity
+import com.hotmail.or_dvir.mydoc.database.daos.DoctorsDao
+import com.hotmail.or_dvir.mydoc.database.entities.DoctorEntity
 
-@Database(
-    entities = [DoctorEntity::class],
-    version = 1
-)
+@Database(entities = [DoctorEntity::class], version = 1)
 abstract class AppDatabase : RoomDatabase()
 {
     abstract fun doctorsDao(): DoctorsDao
@@ -34,7 +31,7 @@ abstract class AppDatabase : RoomDatabase()
                     context.applicationContext,
                     AppDatabase::class.java,
                     DB_NAME
-                //todo WHEN AOO IS READY DELETE ME!!!!
+                    //todo WHEN AOO IS READY DELETE ME!!!!
                 ).fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
