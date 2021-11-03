@@ -1,49 +1,47 @@
 package com.hotmail.or_dvir.mydoc.repositories
 
+import com.hotmail.or_dvir.mydoc.database.daos.DoctorsDao
 import com.hotmail.or_dvir.mydoc.models.Doctor
-import com.hotmail.or_dvir.mydoc.models.DoctorFactory
+import com.hotmail.or_dvir.mydoc.other.toDoctor
+import com.hotmail.or_dvir.mydoc.other.toDoctorEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
-class DoctorsRepositoryImpl : DoctorsRepository
+class DoctorsRepositoryImpl(private val doctorsDao: DoctorsDao) : DoctorsRepository
 {
-    override suspend fun getDoctor(id: UUID): Doctor
+    private companion object
     {
-        //TODO("not implemented")
-        return DoctorFactory.getDummyDoctor()
+        private val IoDispatcher = Dispatchers.IO
     }
 
-    override suspend fun getAll(): List<Doctor>
+    override suspend fun getDoctor(id: UUID): Doctor?
     {
-        //TODO("not implemented")
-        return List(50) { index ->
-            DoctorFactory.getDummyDoctor().copy(
-                name = "Dr. $index",
-//                specialty = "special $index"
-            )
+        return withContext(IoDispatcher) {
+            //todo check if non existent id indeed returns null or something else
+            // maybe i need a list of length 1 here?
+            doctorsDao.getDoctor(id.toString())?.toDoctor()
         }
     }
 
-    override suspend fun search(searchQuery: String): List<Doctor>
+    override fun getAllDoctors(): Flow<Doctor> =
+        doctorsDao.getAllDoctors().map { it.toDoctor() }
+
+    override suspend fun addDoctor(doc: Doctor): Boolean
     {
-        //TODO("not implemented")
-        return listOf()
+        return withContext(IoDispatcher) {
+            val rowId = doctorsDao.insert(doc.toDoctorEntity())
+            rowId != -1L
+        }
     }
 
-    override suspend fun add(obj: Doctor): Boolean
+    override suspend fun deleteDoctor(doc: Doctor): Boolean
     {
-        //TODO("not implemented")
-        return true
-    }
-
-    override suspend fun delete(obj: Doctor): Boolean
-    {
-        //TODO("not implemented")
-        return true
-    }
-
-    override suspend fun update(obj: Doctor): Boolean
-    {
-        //TODO("not implemented")
-        return true
+        return withContext(IoDispatcher) {
+            val rowsDeleted = doctorsDao.delete(doc.toDoctorEntity())
+            rowsDeleted == 1
+        }
     }
 }
