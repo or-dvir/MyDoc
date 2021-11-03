@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.DropdownMenu
@@ -26,18 +26,21 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.Doctor
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
-import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
+import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 
 @Composable
 fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel)
@@ -162,31 +165,33 @@ fun DoctorDetailsSpacer()
 }
 
 @Composable
-fun ScreenContent(uiState: DoctorDetailsUiState)
+fun DoctorDetailsView(doc: Doctor)
 {
-    //todo handle uiState errors
-    val context = LocalContext.current
-
-    Box(
-        modifier = Modifier.fillMaxSize()
+    //todo make this nicer
+    // add photo?
+    Column(
+        modifier = Modifier.padding(8.dp)
     ) {
-        uiState.apply {
-            //todo make this nicer
-            // add photo?
-            Column(
-                modifier = Modifier.padding(8.dp)
-            ) {
-                doctor.name.apply {
-                    Text(stringResource(R.string.doctorDetails_name_s, this))
-                }
+        //name and speciality
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            doc.name.apply {
+                Text(
+                    style = Typography.h1,
+                    text = this
+                )
+            }
+        }
 
-                //todo should i just hide it or show something like "unknown"
-                // to encourage the user to add those details
+//        //todo should i just hide it or show something like "unknown"
+//        // to encourage the user to add those details
 //                doctor.specialty?.apply {
 //                    DoctorDetailsSpacer()
 //                    Text(stringResource(R.string.doctorDetails_speciality_s, this))
 //                }
-
+//
 //                doctor.address?.apply {
 //                    DoctorDetailsSpacer()
 //                    Text(stringResource(R.string.doctorDetails_address_s, this.getBasicAddress()))
@@ -198,6 +203,38 @@ fun ScreenContent(uiState: DoctorDetailsUiState)
 //                        )
 //                    }
 //                }
+    }
+}
+
+@Composable
+fun ErrorView(error: String)
+{
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            textAlign = TextAlign.Center,
+            text = error
+        )
+    }
+}
+
+@Composable
+fun ScreenContent(uiState: DoctorDetailsUiState)
+{
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        uiState.apply {
+            if (error.isNotBlank())
+            {
+                //todo test this
+                ErrorView(error)
+            } else
+            {
+                //todo test this
+                DoctorDetailsView(doctor)
             }
 
             //this should be the LAST composable so it shows above everything else

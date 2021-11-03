@@ -2,6 +2,7 @@ package com.hotmail.or_dvir.mydoc.ui.doctor_details
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
+import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
@@ -24,18 +25,30 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
 
         viewModelScope.launch(mainDispatcher) {
             updateUiState(
-                uiState.value!!.copy(isLoading = true)
-            )
-
-            //todo handle errors
-            val doctor = doctorsRepo.getDoctor(doctorId)
-
-            updateUiState(
                 uiState.value!!.copy(
-                    isLoading = false,
-                    doctor = doctor
+                    error = "", //reset any errors
+                    isLoading = true
                 )
             )
+
+            val doctor = doctorsRepo.getDoctor(doctorId)
+            if (doctor == null)
+            {
+                updateUiState(
+                    uiState.value!!.copy(
+                        isLoading = false,
+                        error = getString(R.string.error_loadingDoctor)
+                    )
+                )
+            } else
+            {
+                updateUiState(
+                    uiState.value!!.copy(
+                        isLoading = false,
+                        doctor = doctor
+                    )
+                )
+            }
         }
     }
 
