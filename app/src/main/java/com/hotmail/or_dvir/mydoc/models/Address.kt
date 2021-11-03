@@ -41,16 +41,16 @@ data class Address(
     }
 }
 
-object AddressFactory
-{
-    //todo remove when no longer needed
-    fun getDummyAddress() = Address(
-        "escher str.",
-        "84d",
-        "pulheim",
-        50259,
-        "Germany",
-        "5",
-        1
-    )
-}
+//object AddressFactory
+//{
+//    //todo remove when no longer needed
+//    fun getDummyAddress() = Address(
+//        "escher str.",
+//        "84d",
+//        "pulheim",
+//        50259,
+//        "Germany",
+//        "5",
+//        1
+//    )
+//}

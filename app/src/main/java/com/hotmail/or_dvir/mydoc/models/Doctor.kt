@@ -16,13 +16,13 @@ data class Doctor(
 //      email
 // link to website
 
-object DoctorFactory
-{
-    //todo delete when no longer needed
-    fun getDummyDoctor() = Doctor(
-        UUID.randomUUID(),
-        "Dr. Evil",
-//        "evilness",
-//        AddressFactory.getDummyAddress()
-    )
-}
+//object DoctorFactory
+//{
+//    //todo delete when no longer needed
+//    fun getDummyDoctor() = Doctor(
+//        UUID.randomUUID(),
+//        "Dr. Evil",
+////        "evilness",
+////        AddressFactory.getDummyAddress()
+//    )
+//}
