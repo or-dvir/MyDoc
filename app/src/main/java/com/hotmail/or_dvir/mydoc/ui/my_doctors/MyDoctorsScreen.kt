@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -26,18 +25,16 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
-import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
-import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
+import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
+import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 
@@ -78,14 +75,17 @@ fun ScreenContent(viewModel: MyDoctorsViewModel)
         val uiState by viewModel.uiState.observeAsState(MyDoctorsUiState())
 
         uiState.apply {
-            if (doctors.isEmpty())
+            when
             {
-                EmptyView()
-            } else
-            {
-                DoctorsList(doctors) {
-                    viewModel.navigateToAppDestination(DoctorDetailsScreen(it.id))
-                }
+                error.isNotBlank() ->
+                    EmptyViewWithText(error)
+                doctors.isEmpty() ->
+                    EmptyViewWithText(stringResource(id = R.string.emptyView_myDoctors))
+                doctors.isNotEmpty() ->
+                    DoctorsList(doctors) {
+                        //on doctor clicked
+                        viewModel.navigateToAppDestination(DoctorDetailsScreen(it.id))
+                    }
             }
 
             //this should be the LAST composable so it shows above everything else
@@ -181,7 +181,7 @@ fun DoctorRow(
 }
 
 @Composable
-fun EmptyView()
+fun EmptyViewWithText(text: String)
 {
     //todo make this look nicer.
 
@@ -201,7 +201,7 @@ fun EmptyView()
             Text(
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.h5,
-                text = stringResource(id = R.string.emptyView_myDoctors)
+                text = text
             )
         }
     }
