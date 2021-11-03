@@ -3,7 +3,6 @@ package com.hotmail.or_dvir.mydoc.ui.doctor_details
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.models.Doctor
-import com.hotmail.or_dvir.mydoc.models.DoctorFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
@@ -47,7 +46,7 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
                     copy(isLoading = true)
                 )
 
-                val success = doctorsRepo.delete(doctor)
+                val success = doctorsRepo.deleteDoctor(doctor)
 
                 if (success)
                 {
