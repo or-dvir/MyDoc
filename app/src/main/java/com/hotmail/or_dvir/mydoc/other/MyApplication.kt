@@ -22,8 +22,13 @@ class MyApplication : Application()
         viewModel { MyDoctorsViewModel(androidApplication()) }
         viewModel { DoctorDetailsViewModel(androidApplication()) }
         viewModel { NewEditDoctorViewModel(androidApplication()) }
-        single<DoctorsRepository> { DoctorsRepositoryImpl() }
+
+        //database
         single { AppDatabase.getDatabase(androidContext()) }
+        single { get<AppDatabase>().doctorsDao() }
+
+        //repositories
+        single<DoctorsRepository> { DoctorsRepositoryImpl() }
     }
 
     override fun onCreate()
