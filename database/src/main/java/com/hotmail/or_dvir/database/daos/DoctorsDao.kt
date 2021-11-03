@@ -17,7 +17,7 @@ interface DoctorsDao
      * @return the new rowId of the inserted item
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(doctor: DoctorEntity): Int
+    suspend fun insert(doctor: DoctorEntity): Long
 
     /**
      * @return the number of rows that were deleted
