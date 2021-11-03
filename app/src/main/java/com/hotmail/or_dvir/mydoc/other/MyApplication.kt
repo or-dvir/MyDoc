@@ -28,7 +28,7 @@ class MyApplication : Application()
         single { get<AppDatabase>().doctorsDao() }
 
         //repositories
-        single<DoctorsRepository> { DoctorsRepositoryImpl() }
+        single<DoctorsRepository> { DoctorsRepositoryImpl(get()) }
     }
 
     override fun onCreate()
