@@ -367,7 +367,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     //todo there are too many fields (long form), there has to be a better way than this!!!
     data class NewEditDoctorUiState(
         //todo just for initialization. should i use something else?
-        val doctor: Doctor = DoctorFactory.getDummyDoctor(),
+        val doctor: Doctor = DoctorFactory.createEmptyDoctor(),
         val isLoading: Boolean = false,
         val nameError: String = "",
         val streetError: String = "",
