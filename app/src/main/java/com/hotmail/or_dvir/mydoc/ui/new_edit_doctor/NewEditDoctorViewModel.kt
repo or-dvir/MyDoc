@@ -68,15 +68,25 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                 uiState.value!!.copy(isLoading = true)
             )
 
-            //todo handle errors
             val doctor = doctorsRepo.getDoctor(doctorId)
-
-            updateUiState(
-                uiState.value!!.copy(
-                    isLoading = false,
-                    doctor = doctor
+            if (doctor == null)
+            {
+                updateUiState(
+                    uiState.value!!.copy(
+                        isLoading = false,
+                        //todo handle errors
+//                        error = getString(R.string.error_loadingDoctor)
+                    )
                 )
-            )
+            } else
+            {
+                updateUiState(
+                    uiState.value!!.copy(
+                        isLoading = false,
+                        doctor = doctor
+                    )
+                )
+            }
         }
     }
 
@@ -93,10 +103,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                 val success =
                     if (isEditing)
                     {
-                        doctorsRepo.update(doctor)
+                        doctorsRepo.updateDoctor(doctor)
                     } else
                     {
-                        doctorsRepo.add(doctor)
+                        doctorsRepo.addDoctor(doctor)
                     }
 
                 if (success)
