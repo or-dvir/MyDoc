@@ -45,4 +45,12 @@ class DoctorsRepositoryImpl(private val doctorsDao: DoctorsDao) : DoctorsReposit
             rowsDeleted == 1
         }
     }
+
+    override suspend fun updateDoctor(doc: Doctor): Boolean
+    {
+        return withContext(IoDispatcher) {
+            val updatedRows = doctorsDao.update(doc.toDoctorEntity())
+            updatedRows == 1
+        }
+    }
 }

@@ -22,8 +22,8 @@ interface DoctorsRepository
      */
     suspend fun deleteDoctor(doc: Doctor): Boolean
 
-//    /**
-//     * @return Boolean `true` if successful, `false` otherwise
-//     */
-//    suspend fun updateDoctor(doc: Doctor): Boolean
+    /**
+     * @return Boolean `true` if successful, `false` otherwise
+     */
+    suspend fun updateDoctor(doc: Doctor): Boolean
 }
