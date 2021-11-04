@@ -18,6 +18,8 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
 
     override fun initUiState() = DoctorDetailsUiState()
 
+    //todo instead of loading the doctor by request, observe the doctor as a Flow
+    // because this screen can directly lead to the edit doctor screen!
     fun loadDoctor(doctorId: UUID)
     {
         //todo replace this function with realtime listener for firebase.
