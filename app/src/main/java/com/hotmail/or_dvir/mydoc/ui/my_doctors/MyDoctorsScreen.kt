@@ -36,7 +36,6 @@ import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorS
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
-import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 
 @Composable
 fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
@@ -116,20 +115,17 @@ fun DoctorsList(
                 onClick = onDoctorClicked
             )
 
-            if (index < doctors.lastIndex)
-            {
-                //todo can i move this to the theme?
-                val dividerColor =
-                    if (MaterialTheme.colors.isLight)
-                    {
-                        Color.Black
-                    } else
-                    {
-                        Color.White
-                    }
+            //todo can i move this to the theme?
+            val dividerColor =
+                if (MaterialTheme.colors.isLight)
+                {
+                    Color.Black
+                } else
+                {
+                    Color.White
+                }
 
-                Divider(color = dividerColor)
-            }
+            Divider(color = dividerColor)
         }
     }
 }
@@ -155,10 +151,7 @@ fun DoctorRow(
         Column {
             doc.apply {
                 //name
-                Text(
-                    style = Typography.h6,
-                    text = doc.name
-                )
+                Text(text = doc.name)
 
 //                specialty?.let { Text(text = it) }
 //                address?.let { Text(text = it.getBasicAddress()) }
