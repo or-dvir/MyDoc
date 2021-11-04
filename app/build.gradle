@@ -105,6 +105,7 @@ dependencies {
 
     //koin (already includes koin-android and koin-androidx-scope)
     implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
     //todo not sure if i need this
 //    implementation ("io.insert-koin:koin-androidx-compose:$koin_version")
     testImplementation "io.insert-koin:koin-test:$koin_version"
