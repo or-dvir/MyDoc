@@ -28,8 +28,6 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
     override fun initUiState() = NewEditDoctorUiState()
 
-    //todo trim all inputs before updating state or before updating in database
-
     //todo move title to the UI state
     fun getTitle(): String
     {
@@ -133,10 +131,12 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     {
         uiState.value?.apply {
             val newDoc = doctor.copy(name = newInput)
+            val newErrors = errors.copy(nameError = "")
 
             updateUiState(
                 copy(
-                    nameError = "", //reset previous error
+                    //reset previous error
+                    errors = newErrors,
                     doctor = newDoc
                 )
             )
@@ -232,14 +232,15 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     private fun validateInput(): Boolean
     {
         var isValid = true
-        var (nameError, streetError, houseNumberError, cityError) = listOf("")
+        //start with fresh error state
+        var errors = UiErrors()
 
         uiState.value!!.let { state ->
             state.doctor.apply {
                 name.apply {
                     if (isBlank())
                     {
-                        nameError = getString(R.string.error_emptyField)
+                        errors = errors.copy(nameError = getString(R.string.error_emptyField))
                         isValid = false
                     }
                 }
@@ -273,12 +274,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 //                }
 
             updateUiState(
-                state.copy(
-                    nameError = nameError,
-                    streetError = streetError,
-                    houseNumberError = houseNumberError,
-                    cityError = cityError
-                )
+                state.copy(errors = errors)
             )
         }
 
@@ -386,6 +382,13 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         //todo just for initialization. should i use something else?
         val doctor: Doctor = DoctorFactory.createEmptyDoctor(),
         val isLoading: Boolean = false,
+        val errors: UiErrors = UiErrors()
+    )
+
+    //todo observe this class separately from the UI???
+    //todo copying behaviour of UiState (all variables immutable and using copy() to change them)
+    // can variables be var???
+    data class UiErrors(
         val nameError: String = "",
         val streetError: String = "",
         val houseNumberError: String = "",

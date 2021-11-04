@@ -213,7 +213,7 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                 doc.name.apply {
                     FormTextField(
                         text = this,
-                        error = uiState.nameError,
+                        error = uiState.errors.nameError,
                         hint = R.string.hint_name,
                         onTextChanged = { viewModel.onNameInputChanged(it) }
                     )
