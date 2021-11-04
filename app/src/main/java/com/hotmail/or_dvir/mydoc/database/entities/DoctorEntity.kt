@@ -11,7 +11,9 @@ data class DoctorEntity(
     @ColumnInfo(name = COLUMN_ID)
     val id: String,
     @ColumnInfo(name = COLUMN_NAME)
-    val name: String
+    val name: String,
+    @ColumnInfo(name = COLUMN_SPECIALITY)
+    val speciality: String?
 )
 {
     companion object
@@ -19,5 +21,6 @@ data class DoctorEntity(
         const val TABLE_DOCTORS = "Doctors"
         const val COLUMN_ID = "_id"
         const val COLUMN_NAME = "_name"
+        const val COLUMN_SPECIALITY = "_speciality"
     }
 }

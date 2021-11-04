@@ -6,14 +6,14 @@ import java.util.UUID
 
 fun DoctorEntity.toDoctor(): Doctor
 {
-    return Doctor(UUID.fromString(id), name)
+    return Doctor(UUID.fromString(id), name, speciality)
 }
 
 fun List<DoctorEntity>.toDoctors(): List<Doctor> = this.map { it.toDoctor() }
 
 fun Doctor.toDoctorEntity(): DoctorEntity
 {
-    return DoctorEntity(id.toString(), name)
+    return DoctorEntity(id.toString(), name, specialty)
 }
 
 fun List<Doctor>.toDoctorEntities(): List<DoctorEntity> = this.map { it.toDoctorEntity() }

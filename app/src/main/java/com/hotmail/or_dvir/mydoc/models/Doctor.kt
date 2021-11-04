@@ -5,7 +5,7 @@ import java.util.UUID
 data class Doctor(
     val id: UUID,
     val name: String,
-//    val specialty: String? = null,
+    val specialty: String?,
 //    val address: Address? = null
 )
 
@@ -22,7 +22,7 @@ object DoctorFactory
     fun createEmptyDoctor() = Doctor(
         UUID.randomUUID(),
         "",
-//        "evilness",
+        null,
 //        AddressFactory.getDummyAddress()
     )
 }
