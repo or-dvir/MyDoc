@@ -36,6 +36,7 @@ import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorS
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
+import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 
 typealias OnDoctorClicked = (Doctor) -> Unit
 
@@ -153,8 +154,16 @@ fun DoctorRow(doc: Doctor, onClick: OnDoctorClicked)
         Column {
             doc.apply {
                 //name
-                Text(text = doc.name)
-//                specialty?.let { Text(text = it) }
+                Text(
+                    style = Typography.subtitle1,
+                    text = doc.name
+                )
+                specialty?.let {
+                    Text(
+                        style = Typography.subtitle2,
+                        text = it
+                    )
+                }
 //                address?.let { Text(text = it.getBasicAddress()) }
             }
         }

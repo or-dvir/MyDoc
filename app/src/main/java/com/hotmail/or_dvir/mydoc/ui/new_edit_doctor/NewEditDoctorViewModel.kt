@@ -143,16 +143,16 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-//    fun onSpecialityInputChanged(newInput: String)
-//    {
-//        uiState.value?.apply {
-//            val newDoc = doctor.copy(specialty = newInput)
-//
-//            updateUiState(
-//                copy(doctor = newDoc)
-//            )
-//        }
-//    }
+    fun onSpecialityInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newDoc = doctor.copy(specialty = newInput)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
 
 //    fun onStreetInputChanged(newInput: String)
 //    {

@@ -36,20 +36,22 @@ import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEd
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
+fun NewEditDoctorScreen()
 {
     //todo
     // look into landscape mode
 
     MyDocTheme {
+        val viewModel = getViewModel<NewEditDoctorViewModel>()
         val uiState by viewModel.uiState.observeAsState(NewEditDoctorUiState())
         val scaffoldState = rememberScaffoldState()
 
         Scaffold(
             scaffoldState = scaffoldState,
-            content = { ScreenContent(viewModel, uiState) },
+            content = { ScreenContent(uiState) },
             topBar = {
                 TopAppBar(
                     title = {
@@ -65,7 +67,7 @@ fun NewEditDoctorScreen(viewModel: NewEditDoctorViewModel)
                     },
                     actions = {
                         IconButton(
-//                            fix me! first check input!!
+                            //todo fix me! first check input!!
                             onClick = { viewModel.createOrUpdateDoctor() }
                         ) {
                             Icon(
@@ -110,7 +112,7 @@ fun FormTextField(
                 when
                 {
                     isLast -> focusManager.clearFocus()
-                    //todo when changing screen format from colums to something else,
+                    //todo when changing screen format from columns to something else,
                     // remember to change this
                     onImeClicked == null -> focusManager.moveFocus(FocusDirection.Down)
                     else -> onImeClicked()
@@ -128,8 +130,6 @@ fun FormTextField(
 @Composable
 fun AddressContent(
     address: Address?,
-    //todo passing viewModel and uiState to too many functions... can i improve this?
-    viewModel: NewEditDoctorViewModel,
     uiState: NewEditDoctorUiState
 )
 {
@@ -196,9 +196,13 @@ fun AddressContent(
 //    }
 }
 
+check ALL screens! where ever we pass down the view model, USE KOIN!!!
+
 @Composable
-fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiState)
+fun ScreenContent(uiState: NewEditDoctorUiState)
 {
+    val viewModel = getViewModel<NewEditDoctorViewModel>()
+
     //todo handle uiState errors
 
     Box(
@@ -219,13 +223,13 @@ fun ScreenContent(viewModel: NewEditDoctorViewModel, uiState: NewEditDoctorUiSta
                     )
                 }
 
-//                doc.specialty.apply {
-//                    FormTextField(
-//                        text = this.orEmpty(),
-//                        hint = R.string.hint_speciality,
-//                        onTextChanged = { viewModel.onSpecialityInputChanged(it) }
-//                    )
-//                }
+                doc.specialty.apply {
+                    FormTextField(
+                        text = this.orEmpty(),
+                        hint = R.string.hint_speciality,
+                        onTextChanged = { viewModel.onSpecialityInputChanged(it) }
+                    )
+                }
 
 //                AddressContent(doc.address, viewModel, uiState)
             }

@@ -41,14 +41,16 @@ import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.Doctor
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel)
+fun DoctorsDetailsScreen()
 {
     //todo
     // look into landscape mode
 
     MyDocTheme {
+        val viewModel = getViewModel<DoctorDetailsViewModel>()
         val uiState by viewModel.uiState.observeAsState(DoctorDetailsUiState())
         val scaffoldState = rememberScaffoldState()
 
@@ -66,7 +68,7 @@ fun DoctorsDetailsScreen(viewModel: DoctorDetailsViewModel)
                             )
                         }
                     },
-                    actions = { TopBarActions(uiState, viewModel) }
+                    actions = { TopBarActions(uiState) }
                 )
             }
         )
@@ -100,10 +102,11 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 }
 
 @Composable
-fun TopBarActions(uiState: DoctorDetailsUiState, viewModel: DoctorDetailsViewModel)
+fun TopBarActions(uiState: DoctorDetailsUiState)
 {
     val iconsTint = Color.White
     val context = LocalContext.current
+    val viewModel = getViewModel<DoctorDetailsViewModel>()
 
     //navigate
 //    uiState.doctor.address?.getBasicAddress()?.let {
@@ -118,6 +121,13 @@ fun TopBarActions(uiState: DoctorDetailsUiState, viewModel: DoctorDetailsViewMod
 
     //edit
     IconButton(onClick = {
+        viewModel.apply {
+            navigateToAppDestination(NewEditDoctorScreen(uiState.doctor.id))
+        }
+
+        i stopped here. in ALL screens use koin to inject view model, then START OVER by adding
+        speciality to all screens (start over to make sure you dont forget anything)
+        fix me . use apply and the given ui state, not from the vm
         viewModel.navigateToAppDestination(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
     }) {
         Icon(

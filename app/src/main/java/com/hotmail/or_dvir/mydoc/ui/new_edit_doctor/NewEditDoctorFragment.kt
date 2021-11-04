@@ -16,7 +16,7 @@ class NewEditDoctorFragment : BaseFragment<NewEditDoctorViewModel>()
     override val fragmentId = R.id.newEditDoctorFragment
 
     @Composable
-    override fun ScreenContent() = NewEditDoctorScreen(viewModel)
+    override fun ScreenContent() = NewEditDoctorScreen()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
