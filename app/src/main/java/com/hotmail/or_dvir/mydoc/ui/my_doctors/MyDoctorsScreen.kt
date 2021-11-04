@@ -139,6 +139,7 @@ fun DoctorRow(
     //todo make this nicer
     // add image?
 
+    
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
