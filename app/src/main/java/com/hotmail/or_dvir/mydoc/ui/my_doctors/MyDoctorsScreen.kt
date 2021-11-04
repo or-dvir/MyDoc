@@ -31,15 +31,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
-import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.DoctorDetailsScreen
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 
+typealias OnDoctorClicked = (Doctor) -> Unit
+
 @Composable
 fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
 {
+    val uiState by viewModel.uiState.observeAsState(MyDoctorsUiState())
+
     //todo look into landscape mode
     MyDocTheme {
         val scaffoldState = rememberScaffoldState()
@@ -51,40 +55,44 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { viewModel.navigateToAppDestination(NewEditDoctorScreen(null)) }
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_add_person_filled),
-                        contentDescription = stringResource(id = R.string.contentDescription_addDoctor)
-                    )
+                //only show FAB if there is no error
+                if (uiState.error.isBlank())
+                {
+                    FloatingActionButton(
+                        onClick = { viewModel.navigateToAppDestination(NewEditDoctorScreen(null)) }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_add_person_filled),
+                            contentDescription = stringResource(id = R.string.contentDescription_addDoctor)
+                        )
+                    }
                 }
             },
-            content = { ScreenContent(viewModel) },
+            content = {
+                ScreenContent(uiState) {
+                    //on doctor click
+                    viewModel.navigateToAppDestination(NavigationDestination.DoctorDetailsScreen(it.id))
+                }
+            },
         )
     }
 }
 
 @Composable
-fun ScreenContent(viewModel: MyDoctorsViewModel)
+fun ScreenContent(uiState: MyDoctorsUiState, onDoctorClicked: OnDoctorClicked)
 {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        val uiState by viewModel.uiState.observeAsState(MyDoctorsUiState())
-
         uiState.apply {
             when
             {
-                error.isNotBlank() ->
-                    EmptyViewWithText(error)
+                error.isNotBlank() -> EmptyViewWithText(error)
                 doctors.isEmpty() ->
+                {
                     EmptyViewWithText(stringResource(id = R.string.emptyView_myDoctors))
-                doctors.isNotEmpty() ->
-                    DoctorsList(doctors) {
-                        //on doctor clicked
-                        viewModel.navigateToAppDestination(DoctorDetailsScreen(it.id))
-                    }
+                }
+                doctors.isNotEmpty() -> DoctorsList(doctors, onDoctorClicked)
             }
 
             //this should be the LAST composable so it shows above everything else
@@ -97,10 +105,7 @@ fun ScreenContent(viewModel: MyDoctorsViewModel)
 }
 
 @Composable
-fun DoctorsList(
-    doctors: List<Doctor>,
-    onDoctorClicked: (Doctor) -> Unit
-)
+fun DoctorsList(doctors: List<Doctor>, onDoctorClicked: OnDoctorClicked)
 {
     //todo
     // change this to grid when stable (currently experimental!)
@@ -131,14 +136,11 @@ fun DoctorsList(
 }
 
 @Composable
-fun DoctorRow(
-    doc: Doctor,
-    onClick: (Doctor) -> Unit
-)
+fun DoctorRow(doc: Doctor, onClick: OnDoctorClicked)
 {
     //todo make this nicer
     // add image?
-    
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -152,7 +154,6 @@ fun DoctorRow(
             doc.apply {
                 //name
                 Text(text = doc.name)
-
 //                specialty?.let { Text(text = it) }
 //                address?.let { Text(text = it.getBasicAddress()) }
             }
