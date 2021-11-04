@@ -92,7 +92,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
     fun createOrUpdateDoctor()
     {
-        //todo handle invalid input
+        if (!validateInput())
+        {
+            return
+        }
 
         viewModelScope.launch(mainDispatcher) {
             uiState.value?.apply {
@@ -226,19 +229,24 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 //        }
 //    }
 
-//    fun validateInput(): Boolean
-//    {
-//        var isValid = true
-//        var (nameError, streetError, houseNumberError, cityError) = listOf("")
-//
-//        uiState.value!!.let { state ->
-//            state.doctor.apply {
-//                if (name.isBlank())
-//                {
-//                    nameError = getString(R.string.error_emptyField)
-//                    isValid = false
-//                }
-//
+    private fun validateInput(): Boolean
+    {
+        var isValid = true
+        var (nameError, streetError, houseNumberError, cityError) = listOf("")
+
+        uiState.value!!.let { state ->
+            state.doctor.apply {
+                name.apply {
+                    if (isBlank())
+                    {
+                        nameError = getString(R.string.error_emptyField)
+                        isValid = false
+                    }
+                }
+            }
+
+//                //todo make each of these in "apply" block
+//                // to make it clear which field we are validating
 //                potential bug .
 //                if user erases all address fields, is it set back to null?
 //                if not, this will trigger even though it shouldnt
@@ -263,20 +271,19 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 //                        isValid = false
 //                    }
 //                }
-//            }
-//
-//            updateUiState(
-//                state.copy(
-//                    nameError = nameError,
-//                    streetError = streetError,
-//                    houseNumberError = houseNumberError,
-//                    cityError = cityError
-//                )
-//            )
-//        }
-//
-//        return isValid
-//    }
+
+            updateUiState(
+                state.copy(
+                    nameError = nameError,
+                    streetError = streetError,
+                    houseNumberError = houseNumberError,
+                    cityError = cityError
+                )
+            )
+        }
+
+        return isValid
+    }
 
 //    fun onCountryInputChanged(newInput: String)
 //    {
