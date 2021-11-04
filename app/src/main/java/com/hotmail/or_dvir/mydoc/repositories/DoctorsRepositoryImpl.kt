@@ -1,6 +1,7 @@
 package com.hotmail.or_dvir.mydoc.repositories
 
 import com.hotmail.or_dvir.mydoc.database.daos.DoctorsDao
+import com.hotmail.or_dvir.mydoc.database.entities.DoctorEntity
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.other.toDoctor
 import com.hotmail.or_dvir.mydoc.other.toDoctorEntity
@@ -33,7 +34,7 @@ class DoctorsRepositoryImpl(private val doctorsDao: DoctorsDao) : DoctorsReposit
     override suspend fun addDoctor(doc: Doctor): Boolean
     {
         return withContext(IoDispatcher) {
-            val rowId = doctorsDao.insert(doc.toDoctorEntity())
+            val rowId = doctorsDao.insert(prepareDoctorForDb(doc))
             rowId != -1L
         }
     }
@@ -49,8 +50,18 @@ class DoctorsRepositoryImpl(private val doctorsDao: DoctorsDao) : DoctorsReposit
     override suspend fun updateDoctor(doc: Doctor): Boolean
     {
         return withContext(IoDispatcher) {
-            val updatedRows = doctorsDao.update(doc.toDoctorEntity())
+            val updatedRows = doctorsDao.update(prepareDoctorForDb(doc))
             updatedRows == 1
+        }
+    }
+
+    private fun prepareDoctorForDb(doc: Doctor): DoctorEntity
+    {
+        //todo make sure all fields are checked
+        return doc.let {
+            it.copy(
+                name = it.name.trim()
+            ).toDoctorEntity()
         }
     }
 }
