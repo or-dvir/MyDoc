@@ -211,8 +211,8 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            uiState.doctor.let { doc ->
-                doc.name.apply {
+            uiState.doctor.apply {
+                name.apply {
                     FormTextField(
                         text = this,
                         error = uiState.errors.nameError,
@@ -221,7 +221,7 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                     )
                 }
 
-                doc.specialty.apply {
+                specialty.apply {
                     FormTextField(
                         text = this.orEmpty(),
                         hint = R.string.hint_speciality,
@@ -231,14 +231,14 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
 
 //                AddressContent(doc.address, viewModel, uiState)
             }
-
-            //todo on last item in form, set keyboard IME action to "done" and clear focus on click
         }
 
-        //this should be the LAST composable so it shows above everything else
-        if (uiState.isLoading)
-        {
-            LoadingIndicatorFullScreen()
-        }
+        //todo on last item in form, set keyboard IME action to "done" and clear focus on click
+    }
+
+    //this should be the LAST composable so it shows above everything else
+    if (uiState.isLoading)
+    {
+        LoadingIndicatorFullScreen()
     }
 }
