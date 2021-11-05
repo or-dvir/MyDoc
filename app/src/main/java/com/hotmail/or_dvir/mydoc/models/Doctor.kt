@@ -25,4 +25,11 @@ object DoctorFactory
         null,
 //        AddressFactory.getDummyAddress()
     )
+
+    fun createDoctorForPreview() = Doctor(
+        UUID.randomUUID(),
+        "Dr. Evil",
+        "Evillness",
+//        AddressFactory.getDummyAddress()
+    )
 }
