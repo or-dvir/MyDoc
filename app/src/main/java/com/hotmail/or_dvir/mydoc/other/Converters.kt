@@ -13,7 +13,7 @@ fun List<DoctorEntity>.toDoctors(): List<Doctor> = this.map { it.toDoctor() }
 
 fun Doctor.toDoctorEntity(): DoctorEntity
 {
-    return DoctorEntity(id.toString(), name, specialty)
+    return DoctorEntity(id.toString(), name, specialty?.takeIf { it.isNotBlank()})
 }
 
 fun List<Doctor>.toDoctorEntities(): List<DoctorEntity> = this.map { it.toDoctorEntity() }
