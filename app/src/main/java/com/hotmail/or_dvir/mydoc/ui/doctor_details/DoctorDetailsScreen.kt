@@ -58,21 +58,24 @@ fun DoctorsDetailsScreen()
             scaffoldState = scaffoldState,
             content = { ScreenContent(uiState) },
             topBar = {
-                TopAppBar(
-                    //todo no need for title. already showing name in bold.
-                    // but then action bar will be empty... acn i add actions without
-                    // an action bar?
-                    title = { Text(uiState.doctor.name) },
-                    navigationIcon = {
-                        IconButton(onClick = { viewModel.navigateBack() }) {
-                            Icon(
-                                painterResource(id = R.drawable.ic_arrow_back),
-                                stringResource(id = R.string.contentDescription_back)
-                            )
-                        }
-                    },
-                    actions = { TopBarActions(uiState) }
-                )
+                if(uiState.error.isBlank())
+                {
+                    TopAppBar(
+                        //todo no need for title. already showing name in bold.
+                        // but then action bar will be empty... acn i add actions without
+                        // an action bar?
+                        title = { Text(uiState.doctor.name) },
+                        navigationIcon = {
+                            IconButton(onClick = { viewModel.navigateBack() }) {
+                                Icon(
+                                    painterResource(id = R.drawable.ic_arrow_back),
+                                    stringResource(id = R.string.contentDescription_back)
+                                )
+                            }
+                        },
+                        actions = { TopBarActions(uiState) }
+                    )
+                }
             }
         )
     }
@@ -249,11 +252,9 @@ fun ScreenContent(uiState: DoctorDetailsUiState)
         uiState.apply {
             if (error.isNotBlank())
             {
-                //todo test this
                 ErrorView(error)
             } else
             {
-                //todo test this
                 DoctorDetailsView(doctor)
             }
 
