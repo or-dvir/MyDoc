@@ -41,6 +41,7 @@ import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.Doctor
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
+import com.hotmail.or_dvir.mydoc.ui.theme.actionBarIcons
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -53,18 +54,19 @@ fun DoctorsDetailsScreen()
         val viewModel = getViewModel<DoctorDetailsViewModel>()
         val uiState by viewModel.uiState.observeAsState(DoctorDetailsUiState())
         val scaffoldState = rememberScaffoldState()
+        val actionBarIconsColor = MaterialTheme.colors.actionBarIcons
 
         Scaffold(
             scaffoldState = scaffoldState,
             content = { ScreenContent(uiState) },
             topBar = {
-                if(uiState.error.isBlank())
+                if (uiState.error.isBlank())
                 {
                     TopAppBar(
-                        //todo no need for title. already showing name in bold.
-                        // but then action bar will be empty... acn i add actions without
-                        // an action bar?
-                        title = { Text(uiState.doctor.name) },
+                        contentColor = actionBarIconsColor,
+                        elevation = 0.dp,
+                        backgroundColor = Color.Transparent,
+                        title = { /*no title*/ },
                         navigationIcon = {
                             IconButton(onClick = { viewModel.navigateBack() }) {
                                 Icon(
@@ -73,7 +75,7 @@ fun DoctorsDetailsScreen()
                                 )
                             }
                         },
-                        actions = { TopBarActions(uiState) }
+                        actions = { TopBarActions(uiState, actionBarIconsColor) }
                     )
                 }
             }
@@ -108,9 +110,8 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 }
 
 @Composable
-fun TopBarActions(uiState: DoctorDetailsUiState)
+fun TopBarActions(uiState: DoctorDetailsUiState, iconsTint: Color)
 {
-    val iconsTint = Color.White
     val context = LocalContext.current
     val viewModel = getViewModel<DoctorDetailsViewModel>()
 
@@ -185,8 +186,9 @@ fun DoctorDetailsView(doc: Doctor)
 {
     //todo make this nicer
     // add photo?
+    val padding = 8.dp
     Column(
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(padding, 0.dp, padding, padding)
     ) {
         //name and speciality
         Column(
