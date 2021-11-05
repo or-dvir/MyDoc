@@ -44,6 +44,7 @@ class DoctorDetailsViewModel(app: Application) : BaseViewModel<DoctorDetailsUiSt
                 )
             } else
             {
+                //successfully loaded doctor
                 updateUiState(
                     uiState.value!!.copy(
                         isLoading = false,
