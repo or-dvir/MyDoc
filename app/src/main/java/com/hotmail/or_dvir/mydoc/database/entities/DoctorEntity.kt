@@ -1,9 +1,11 @@
 package com.hotmail.or_dvir.mydoc.database.entities
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hotmail.or_dvir.mydoc.database.entities.DoctorEntity.Companion.TABLE_DOCTORS
+import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 
 @Entity(tableName = TABLE_DOCTORS)
 data class DoctorEntity(
@@ -13,9 +15,13 @@ data class DoctorEntity(
     @ColumnInfo(name = COLUMN_NAME)
     val name: String,
     @ColumnInfo(name = COLUMN_SPECIALITY)
-    val speciality: String?
+    val speciality: String?,
+    @Embedded
+    val address: SimpleAddress?
 )
 {
+    check all combinations of address object to see what it looks like in the database
+
     companion object
     {
         const val TABLE_DOCTORS = "Doctors"

@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 
-internal fun openMaps(context: Context, query: String)
+fun String.takeIfNotBlank() = takeIf { this.isNotBlank() }
+
+fun openMaps(context: Context, query: String)
 {
     //todo do i need this?
     //      mapIntent.setPackage("com.google.android.apps.maps")

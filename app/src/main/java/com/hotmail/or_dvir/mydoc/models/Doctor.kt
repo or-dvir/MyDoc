@@ -6,7 +6,7 @@ data class Doctor(
     val id: UUID,
     val name: String,
     val speciality: String?,
-//    val address: Address? = null
+    val address: SimpleAddress?
 )
 
 //todo
@@ -18,18 +18,10 @@ data class Doctor(
 
 object DoctorFactory
 {
-    //todo delete when no longer needed
     fun createEmptyDoctor() = Doctor(
         UUID.randomUUID(),
         "",
         null,
-//        AddressFactory.getDummyAddress()
-    )
-
-    fun createDoctorForPreview() = Doctor(
-        UUID.randomUUID(),
-        "Dr. Evil",
-        "Evillness",
-//        AddressFactory.getDummyAddress()
+        AddressFactory.createEmptyAddress()
     )
 }
