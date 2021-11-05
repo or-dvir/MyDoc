@@ -59,6 +59,9 @@ fun DoctorsDetailsScreen()
             content = { ScreenContent(uiState) },
             topBar = {
                 TopAppBar(
+                    //todo no need for title. already showing name in bold.
+                    // but then action bar will be empty... acn i add actions without
+                    // an action bar?
                     title = { Text(uiState.doctor.name) },
                     navigationIcon = {
                         IconButton(onClick = { viewModel.navigateBack() }) {
@@ -167,6 +170,13 @@ fun DoctorDetailsSpacer()
     Spacer(modifier = Modifier.height(5.dp))
 }
 
+//@Composable
+//@Preview (name = "doctor details", showBackground = true)
+//fun DoctorDetailsViewPreview()
+//{
+//    DoctorDetailsView(DoctorFactory.createDoctorForPreview())
+//}
+
 @Composable
 fun DoctorDetailsView(doc: Doctor)
 {
@@ -182,7 +192,14 @@ fun DoctorDetailsView(doc: Doctor)
         ) {
             doc.name.apply {
                 Text(
-                    style = Typography.h1,
+                    style = Typography.h3,
+                    text = this
+                )
+            }
+
+            doc.specialty?.apply {
+                Text(
+                    style = Typography.h5,
                     text = this
                 )
             }
