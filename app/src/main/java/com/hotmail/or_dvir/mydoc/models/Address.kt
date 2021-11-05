@@ -1,56 +1,83 @@
 package com.hotmail.or_dvir.mydoc.models
 
-import android.content.Context
-import com.hotmail.or_dvir.mydoc.R
+import androidx.room.ColumnInfo
 
-data class Address(
-    val street: String,
-    val houseNumber: String,
-    val city: String,
-    val postCode: Int? = null,
-    //todo should country be mandatory?
-    // if so, either get it from locale by default, or add it in preferences
-    val country: String? = null,
-    val apartmentNumber: String? = null,
-    val floor: Int? = null
+//todo addresses are complicated!!!!
+// "best" solution is probably google places but it requires a billing account.
+// for now use SimpleAddress which is just free text...
+//data class Address(
+//    val street: String,
+//    val houseNumber: String,
+//    val city: String,
+//    val postCode: Int? = null,
+//    //todo should country be mandatory?
+//    // if so, either get it from locale by default, or add it in preferences
+//    val country: String? = null,
+//    val apartmentNumber: String? = null,
+//    val floor: Int? = null
+////todo add state
+////todo add free text note (e.g. left to the pharmacy)
+//)
+//{
+//    /**
+//     * returns the address as a string containing street, house number, postcode (if available),
+//     * city, country (if available.
+//     * Example 1: Main Street 52, 12345 Los Angeles, United States
+//     */
+//    fun getShortAddress(): String
+//    {
+//        //todo format the address according to locale!!!
+//        return StringBuilder().apply {
+//            append("$street $houseNumber, ")
+//            postCode?.let { append("$it ") }
+//            append(city)
+//            country?.let { append(", $it") }
+//        }.toString()
+//    }
+//
+//    fun getAddressDetails(context: Context): String?
+//    {
+//        //todo present in a nicer way? handle "1st, 2nd, 3rd..."
+//        val details = StringBuilder().apply {
+//            //todo find a better way!
+//            // this class should NOT be dependent on R file!!!
+//            // this class should NOT be dependent on context!!!
+//            apartmentNumber?.let { append(context.getString(R.string.apartment_s, it)) }
+//            floor?.let { append(", ${context.getString(R.string.floor_d, it)}") }
+//        }.toString()
+//
+//        return details.takeIf { it.isNotEmpty() }
+//    }
+//}
+
+data class SimpleAddress(
+    //IMPORTANT NOTE!!!
+    // this class is used with @Embedded annotation
+    // DO NOT CHANGE FIELD NAMES!!!
+    //todo make sure these annotations work as expected even though this is not an entity...
+    // if so, delete the note above
+    @ColumnInfo(name = COLUMN_ADDRESS_LINE)
+    val addressLine: String,
+    @ColumnInfo(name = COLUMN_NOTE)
+    val note: String?
 )
 {
-    fun getBasicAddress(): String
+    companion object
     {
-        //todo format the address according to locale!!!
-        return StringBuilder().apply {
-            append("$street $houseNumber, ")
-            postCode?.let { append("$it ") }
-            append(city)
-            country?.let { append(", $it") }
-        }.toString()
+        const val COLUMN_ADDRESS_LINE = "_addressLine"
+        const val COLUMN_NOTE = "_addressNote"
     }
 
-    fun getDetailedAddress(context: Context): String?
-    {
-        //todo present in a nicer way? handle "1st, 2nd, 3rd..."
-        val details = StringBuilder().apply {
-            //todo find a better way!
-            // this class should NOT be dependent on R file!!!
-            // this class should NOT be dependent on context!!!
-            apartmentNumber?.let { append(context.getString(R.string.apartment_s, it)) }
-            floor?.let { append(", ${context.getString(R.string.floor_d, it)}") }
-        }.toString()
+    //todo can this be private?
+    fun isEmpty() = addressLine.isBlank() && note.isNullOrBlank()
 
-        return details.takeIf { it.isNotEmpty() }
-    }
+    fun takeIfNotEmpty() = if (isEmpty()) null else this
 }
 
-//object AddressFactory
-//{
-//    //todo remove when no longer needed
-//    fun getDummyAddress() = Address(
-//        "escher str.",
-//        "84d",
-//        "pulheim",
-//        50259,
-//        "Germany",
-//        "5",
-//        1
-//    )
-//}
+object AddressFactory
+{
+    fun createEmptyAddress() = SimpleAddress(
+        "",
+        null
+    )
+}
