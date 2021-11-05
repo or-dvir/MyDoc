@@ -146,7 +146,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     fun onSpecialityInputChanged(newInput: String)
     {
         uiState.value?.apply {
-            val newDoc = doctor.copy(specialty = newInput)
+            val newDoc = doctor.copy(speciality = newInput)
 
             updateUiState(
                 copy(doctor = newDoc)

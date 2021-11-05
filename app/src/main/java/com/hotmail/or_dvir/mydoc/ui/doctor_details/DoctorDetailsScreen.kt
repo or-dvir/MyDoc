@@ -202,7 +202,7 @@ fun DoctorDetailsView(doc: Doctor)
                 )
             }
 
-            doc.specialty?.apply {
+            doc.speciality?.apply {
                 Text(
                     style = Typography.h5,
                     text = this

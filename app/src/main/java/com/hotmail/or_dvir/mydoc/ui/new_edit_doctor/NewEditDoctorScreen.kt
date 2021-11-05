@@ -221,7 +221,7 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                     )
                 }
 
-                specialty.apply {
+                speciality.apply {
                     FormTextField(
                         text = this.orEmpty(),
                         hint = R.string.hint_speciality,

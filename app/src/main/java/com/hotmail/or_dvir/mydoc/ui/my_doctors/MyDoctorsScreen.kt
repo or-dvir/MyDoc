@@ -155,15 +155,17 @@ fun DoctorRow(doc: Doctor, onClick: OnDoctorClicked)
         //doctor details
         Column {
             doc.apply {
-                //name
-                Text(
-                    style = Typography.subtitle1,
-                    text = doc.name
-                )
-                specialty?.let {
+                name.apply {
                     Text(
-                        style = Typography.subtitle2,
-                        text = it
+                        style = Typography.body1,
+                        text = this
+                    )
+                }
+
+                speciality?.apply {
+                    Text(
+                        style = Typography.body2,
+                        text = this
                     )
                 }
 //                address?.let { Text(text = it.getBasicAddress()) }
