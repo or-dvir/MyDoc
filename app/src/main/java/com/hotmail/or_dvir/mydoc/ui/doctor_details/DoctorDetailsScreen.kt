@@ -121,14 +121,7 @@ fun TopBarActions(uiState: DoctorDetailsUiState)
 
     //edit
     IconButton(onClick = {
-        viewModel.apply {
-            navigateToAppDestination(NewEditDoctorScreen(uiState.doctor.id))
-        }
-
-        i stopped here. in ALL screens use koin to inject view model, then START OVER by adding
-        speciality to all screens (start over to make sure you dont forget anything)
-        fix me . use apply and the given ui state, not from the vm
-        viewModel.navigateToAppDestination(NewEditDoctorScreen(viewModel.uiState.value?.doctor?.id))
+        viewModel.navigateToAppDestination(NewEditDoctorScreen(uiState.doctor.id))
     }) {
         Icon(
             tint = iconsTint,

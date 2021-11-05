@@ -196,8 +196,6 @@ fun AddressContent(
 //    }
 }
 
-check ALL screens! where ever we pass down the view model, USE KOIN!!!
-
 @Composable
 fun ScreenContent(uiState: NewEditDoctorUiState)
 {

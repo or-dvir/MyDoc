@@ -14,7 +14,7 @@ class MyDoctorsFragment : BaseFragment<MyDoctorsViewModel>()
     override val fragmentId = R.id.myDoctorsFragment
 
     @Composable
-    override fun ScreenContent() = MyDoctorsScreen(viewModel)
+    override fun ScreenContent() = MyDoctorsScreen()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {

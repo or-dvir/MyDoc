@@ -12,10 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.hotmail.or_dvir.mydoc.NavGraphDirections
-import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragmentDirections
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.PopStack
+import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsFragmentDirections
 import kotlinx.coroutines.flow.collect
 
 abstract class BaseFragment<out VM : BaseViewModel<out Any>> : Fragment()
@@ -45,16 +45,14 @@ abstract class BaseFragment<out VM : BaseViewModel<out Any>> : Fragment()
             )
 
             collectNavigationEvents()
-            setContent {
-                ScreenContent()
-//                DoctorsDetailsScreen(viewModel)
-            }
+            setContent { ScreenContent() }
         }
     }
 
     private fun collectNavigationEvents()
     {
         //todo probably better for each fragment to handle their own navigation...
+        // then you can get rid of the viewModel abstract variable
 
         lifecycleScope.launchWhenStarted {
             viewModel.navDestinationFlow.collect {

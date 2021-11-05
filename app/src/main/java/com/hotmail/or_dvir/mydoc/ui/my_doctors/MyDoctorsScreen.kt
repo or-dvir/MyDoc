@@ -31,18 +31,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
-import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination
+import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.DoctorDetailsScreen
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.my_doctors.MyDoctorsViewModel.MyDoctorsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
+import org.koin.androidx.compose.getViewModel
 
 typealias OnDoctorClicked = (Doctor) -> Unit
 
 @Composable
-fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
+fun MyDoctorsScreen()
 {
+    val viewModel = getViewModel<MyDoctorsViewModel>()
     val uiState by viewModel.uiState.observeAsState(MyDoctorsUiState())
 
     //todo look into landscape mode
@@ -72,9 +74,9 @@ fun MyDoctorsScreen(viewModel: MyDoctorsViewModel)
             content = {
                 ScreenContent(uiState) {
                     //on doctor click
-                    viewModel.navigateToAppDestination(NavigationDestination.DoctorDetailsScreen(it.id))
+                    viewModel.navigateToAppDestination(DoctorDetailsScreen(it.id))
                 }
-            },
+            }
         )
     }
 }
