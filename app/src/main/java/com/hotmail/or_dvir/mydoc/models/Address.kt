@@ -80,8 +80,5 @@ data class SimpleAddress(
 
 object AddressFactory
 {
-    fun createEmptyAddress() = SimpleAddress(
-        "",
-        null
-    )
+    fun createEmptyAddress() = SimpleAddress(null, null)
 }

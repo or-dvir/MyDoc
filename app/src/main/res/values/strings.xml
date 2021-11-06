@@ -30,6 +30,8 @@
 
     <string name="hint_name">Name</string>
     <string name="hint_speciality">Speciality</string>
+    <string name="hint_addressLine">Address</string>
+    <string name="hint_addressNote">Address Note</string>
     <string name="hint_street">Street</string>
     <string name="hint_houseNumber">House Number</string>
     <string name="hint_city">City</string>

@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -86,8 +87,10 @@ fun NewEditDoctorScreen()
 fun FormTextField(
     text: String,
     @StringRes hint: Int,
+    modifier: Modifier = Modifier,
     error: String = "",
     isLast: Boolean = false,
+    singleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     onImeClicked: (() -> Unit)? = null,
@@ -97,10 +100,11 @@ fun FormTextField(
     val focusManager = LocalFocusManager.current
 
     OutlinedTextFieldWithError(
+        singleLine = singleLine,
         text = text,
         error = error,
         hint = hint,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         onTextChanged = onTextChanged,
         keyboardOptions = KeyboardOptions(
             imeAction = if (isLast) ImeAction.Done else imeAction,
@@ -225,6 +229,27 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                         text = this.orEmpty(),
                         hint = R.string.hint_speciality,
                         onTextChanged = { viewModel.onSpecialityInputChanged(it) }
+                    )
+                }
+
+                check all combinations (empty strings) to see what it looks like in the DB
+                address?.addressLine.apply {
+                    FormTextField(
+                        singleLine = false,
+                        text = this.orEmpty(),
+                        hint = R.string.hint_addressLine,
+                        onTextChanged = { viewModel.onAddressLineInputChanged(it) }
+                    )
+                }
+
+                address?.note.apply {
+                    FormTextField(
+                        imeAction = ImeAction.Default,
+                        modifier = Modifier.defaultMinSize(minHeight = 100.dp),
+                        singleLine = false,
+                        text = this.orEmpty(),
+                        hint = R.string.hint_addressNote,
+                        onTextChanged = { viewModel.onAddressNoteInputChanged(it) }
                     )
                 }
 

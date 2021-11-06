@@ -3,8 +3,10 @@ package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.AddressFactory
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
+import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
@@ -147,6 +149,40 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     {
         uiState.value?.apply {
             val newDoc = doctor.copy(speciality = newInput)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onAddressLineInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            //using AddressFactory here and not directly creating an instance because
+            //the factory might change in the future
+            val newAddress =
+                doctor.address?.copy(addressLine = newInput) ?:
+                AddressFactory.createEmptyAddress().copy(addressLine = newInput)
+
+            val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun onAddressNoteInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            //using AddressFactory here and not directly creating an instance because
+            //the factory might change in the future
+            val newAddress =
+                doctor.address?.copy(note = newInput) ?:
+                AddressFactory.createEmptyAddress().copy(note = newInput)
+
+            val newDoc = doctor.copy(address = newAddress)
 
             updateUiState(
                 copy(doctor = newDoc)
