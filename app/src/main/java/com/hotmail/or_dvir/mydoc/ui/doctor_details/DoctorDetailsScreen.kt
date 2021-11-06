@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -38,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.Doctor
+import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
@@ -170,12 +173,6 @@ fun TopBarActions(uiState: DoctorDetailsUiState, iconsTint: Color)
     }
 }
 
-@Composable
-fun DoctorDetailsSpacer()
-{
-    Spacer(modifier = Modifier.height(5.dp))
-}
-
 //@Composable
 //@Preview (name = "doctor details", showBackground = true)
 //fun DoctorDetailsViewPreview()
@@ -188,6 +185,10 @@ fun DoctorDetailsView(doc: Doctor)
 {
     //todo make this nicer
     // add photo?
+
+    //todo for all optional details (e.g. speciality/address...) should i just hide them
+    // or show something like "unknown" to encourage the user to add those details.
+    // maybe show something like "this doctor is incomplete. click edit button to add details"
 
     val padding = 8.dp
     Column(
@@ -213,28 +214,53 @@ fun DoctorDetailsView(doc: Doctor)
                     text = this
                 )
             }
-        }
 
-//        //todo should i just hide it or show something like "unknown"
-//        // to encourage the user to add those details
-//                doctor.specialty?.apply {
-//                    DoctorDetailsSpacer()
-//                    Text(stringResource(R.string.doctorDetails_speciality_s, this))
-//                }
-//
-//                doctor.address?.apply {
-//                    DoctorDetailsSpacer()
-//                    Text(stringResource(R.string.doctorDetails_address_s, this.getBasicAddress()))
-//
-//                    getDetailedAddress(context)?.let {
-//                        Text(
-//                            modifier = Modifier.offset(8.dp),
-//                            text = it
-//                        )
-//                    }
-//                }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            doc.address?.apply {
+                AddressCard(this)
+            }
+        }
     }
 }
+
+@Composable
+fun AddressCard(address: SimpleAddress)
+{
+    add navigation icon - always or only if has address?
+        i can maybe always show it, and if they want to navigate pop a message saying to add an address???
+    enough elevation?
+    bottom part is cut off?
+    add address notes (make subtitle?)
+
+    Card(
+        elevation = 10.dp,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
+        ) {
+            CardTitle(title = stringResource(id = R.string.address))
+
+            address.addressLine?.apply {
+                Text(text = address.addressLine)
+            }
+        }
+    }
+}
+
+@Composable
+fun CardTitle(title: String)
+{
+    Text(
+        modifier = Modifier.padding(bottom = 5.dp),
+        text = title,
+        style = Typography.h6,
+        //todo when settled on colors, try primary variant
+        color = colors.primary
+    )
+}
+
 
 @Composable
 fun ErrorView(error: String)

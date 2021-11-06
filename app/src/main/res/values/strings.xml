@@ -44,7 +44,7 @@
     <string name="hint_passwordConfirmation">Password Confirmation</string>
 
     <string name="doctorDetails_speciality_s">Speciality: %s</string>
-    <string name="doctorDetails_address_s">Address: %s</string>
+    <string name="address">Address</string>
 
     <string name="apartment_s">Apartment: %s</string>
     <string name="floor_d">Floor: %d</string>
