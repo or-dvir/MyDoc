@@ -231,8 +231,7 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                         onTextChanged = { viewModel.onSpecialityInputChanged(it) }
                     )
                 }
-
-                check all combinations (empty strings) to see what it looks like in the DB
+                
                 address?.addressLine.apply {
                     FormTextField(
                         singleLine = false,
