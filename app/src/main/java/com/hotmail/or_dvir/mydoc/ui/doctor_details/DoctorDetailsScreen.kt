@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -186,9 +188,12 @@ fun DoctorDetailsView(doc: Doctor)
 {
     //todo make this nicer
     // add photo?
+
     val padding = 8.dp
     Column(
-        modifier = Modifier.padding(padding, 0.dp, padding, padding)
+        modifier = Modifier
+            .padding(padding, 0.dp, padding, padding)
+            .verticalScroll(rememberScrollState())
     ) {
         //name and speciality
         Column(
