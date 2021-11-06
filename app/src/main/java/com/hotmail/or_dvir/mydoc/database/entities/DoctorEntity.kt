@@ -20,8 +20,6 @@ data class DoctorEntity(
     val address: SimpleAddress?
 )
 {
-    check all combinations of address object to see what it looks like in the database
-
     companion object
     {
         const val TABLE_DOCTORS = "Doctors"

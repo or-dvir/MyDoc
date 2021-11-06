@@ -54,24 +54,28 @@ data class SimpleAddress(
     //IMPORTANT NOTE!!!
     // this class is used with @Embedded annotation
     // DO NOT CHANGE FIELD NAMES!!!
-    //todo make sure these annotations work as expected even though this is not an entity...
-    // if so, delete the note above
     @ColumnInfo(name = COLUMN_ADDRESS_LINE)
-    val addressLine: String,
+    val addressLine: String?,
     @ColumnInfo(name = COLUMN_NOTE)
     val note: String?
 )
 {
+//    check all combinations fcor to see what database looks like
+//    make sure given column names are used
+//    if columns are correct, remove note in constructor
+
+    //todo all fields are nullable for initial convenience.
+    // should i make some mandatory?
+
     companion object
     {
         const val COLUMN_ADDRESS_LINE = "_addressLine"
         const val COLUMN_NOTE = "_addressNote"
     }
 
-    //todo can this be private?
-    fun isEmpty() = addressLine.isBlank() && note.isNullOrBlank()
-
-    fun takeIfNotEmpty() = if (isEmpty()) null else this
+//    //todo can this be private?
+//    fun isEmpty() = addressLine.isBlank() && note.isNullOrBlank()
+//    fun takeIfNotEmpty() = if (isEmpty()) null else this
 }
 
 object AddressFactory

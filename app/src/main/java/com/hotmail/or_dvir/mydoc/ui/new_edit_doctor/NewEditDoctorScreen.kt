@@ -31,7 +31,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
-import com.hotmail.or_dvir.mydoc.models.Address
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
@@ -127,12 +126,12 @@ fun FormTextField(
     }
 }
 
-@Composable
-fun AddressContent(
-    address: Address?,
-    uiState: NewEditDoctorUiState
-)
-{
+//@Composable
+//fun AddressContent(
+//    address: Address?,
+//    uiState: NewEditDoctorUiState
+//)
+//{
 //    address?.street.orEmpty().apply {
 //        FormTextField(
 //            text = this,
@@ -141,7 +140,7 @@ fun AddressContent(
 //            onTextChanged = { viewModel.onStreetInputChanged(it) }
 //        )
 //    }
-
+//
 //    address?.houseNumber.apply {
 //        FormTextField(
 //            text = this.orEmpty(),
@@ -150,7 +149,7 @@ fun AddressContent(
 //            onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
 //        )
 //    }
-
+//
 //    address?.city.apply {
 //        FormTextField(
 //            text = this.orEmpty(),
@@ -159,7 +158,7 @@ fun AddressContent(
 //            onTextChanged = { viewModel.onCityInputChanged(it) }
 //        )
 //    }
-
+//
 //    address?.postCode.apply {
 //        FormTextField(
 //            keyboardType = KeyboardType.Number,
@@ -168,7 +167,7 @@ fun AddressContent(
 //            onTextChanged = { viewModel.onPostcodeInputChanged(it) }
 //        )
 //    }
-
+//
 //    address?.country.apply {
 //        FormTextField(
 //            text = this.orEmpty(),
@@ -176,7 +175,7 @@ fun AddressContent(
 //            onTextChanged = { viewModel.onCountryInputChanged(it) }
 //        )
 //    }
-
+//
 //    address?.apartmentNumber.apply {
 //        FormTextField(
 //            text = this.orEmpty(),
@@ -184,7 +183,7 @@ fun AddressContent(
 //            onTextChanged = { viewModel.onApartmentInputChanged(it) }
 //        )
 //    }
-
+//
 //    address?.floor.apply {
 //        FormTextField(
 //            keyboardType = KeyboardType.Number,
@@ -194,7 +193,7 @@ fun AddressContent(
 //            isLast = true
 //        )
 //    }
-}
+//}
 
 @Composable
 fun ScreenContent(uiState: NewEditDoctorUiState)
