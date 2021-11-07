@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity()
     //      each doctor may have different days/hours at clinic
     //      probably will be even more complicated
     // in all text input fields, check long texts. multiline?
+    //      might push other views out of screen!!!
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
