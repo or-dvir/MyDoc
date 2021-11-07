@@ -5,6 +5,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hotmail.or_dvir.mydoc.database.entities.DoctorEntity.Companion.TABLE_DOCTORS
+import com.hotmail.or_dvir.mydoc.models.ContactDetails
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 
 @Entity(tableName = TABLE_DOCTORS)
@@ -17,7 +18,9 @@ data class DoctorEntity(
     @ColumnInfo(name = COLUMN_SPECIALITY)
     val speciality: String?,
     @Embedded
-    val address: SimpleAddress?
+    val address: SimpleAddress?,
+    @Embedded
+    val contactDetails: ContactDetails?
 )
 {
     //todo

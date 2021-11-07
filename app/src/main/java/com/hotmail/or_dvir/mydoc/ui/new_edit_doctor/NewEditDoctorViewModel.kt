@@ -6,7 +6,6 @@ import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.AddressFactory
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
-import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
@@ -163,7 +162,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             //the factory might change in the future
             val newAddress =
                 doctor.address?.copy(addressLine = newInput) ?:
-                AddressFactory.createEmptyAddress().copy(addressLine = newInput)
+                AddressFactory.createEmpty().copy(addressLine = newInput)
 
             val newDoc = doctor.copy(address = newAddress)
 
@@ -180,7 +179,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             //the factory might change in the future
             val newAddress =
                 doctor.address?.copy(note = newInput) ?:
-                AddressFactory.createEmptyAddress().copy(note = newInput)
+                AddressFactory.createEmpty().copy(note = newInput)
 
             val newDoc = doctor.copy(address = newAddress)
 
@@ -416,7 +415,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     //todo there are too many fields (long form), there has to be a better way than this!!!
     data class NewEditDoctorUiState(
         //todo just for initialization. should i use something else?
-        val doctor: Doctor = DoctorFactory.createEmptyDoctor(),
+        val doctor: Doctor = DoctorFactory.createEmpty(),
         val isLoading: Boolean = false,
         val errors: UiErrors = UiErrors()
     )
