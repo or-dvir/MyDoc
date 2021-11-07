@@ -130,75 +130,6 @@ fun FormTextField(
     }
 }
 
-//@Composable
-//fun AddressContent(
-//    address: Address?,
-//    uiState: NewEditDoctorUiState
-//)
-//{
-//    address?.street.orEmpty().apply {
-//        FormTextField(
-//            text = this,
-//            error = uiState.streetError,
-//            hint = R.string.hint_street,
-//            onTextChanged = { viewModel.onStreetInputChanged(it) }
-//        )
-//    }
-//
-//    address?.houseNumber.apply {
-//        FormTextField(
-//            text = this.orEmpty(),
-//            error = uiState.houseNumberError,
-//            hint = R.string.hint_houseNumber,
-//            onTextChanged = { viewModel.onHouseNumberInputChanged(it) }
-//        )
-//    }
-//
-//    address?.city.apply {
-//        FormTextField(
-//            text = this.orEmpty(),
-//            error = uiState.cityError,
-//            hint = R.string.hint_city,
-//            onTextChanged = { viewModel.onCityInputChanged(it) }
-//        )
-//    }
-//
-//    address?.postCode.apply {
-//        FormTextField(
-//            keyboardType = KeyboardType.Number,
-//            text = this?.toString() ?: "",
-//            hint = R.string.hint_postcode,
-//            onTextChanged = { viewModel.onPostcodeInputChanged(it) }
-//        )
-//    }
-//
-//    address?.country.apply {
-//        FormTextField(
-//            text = this.orEmpty(),
-//            hint = R.string.hint_country,
-//            onTextChanged = { viewModel.onCountryInputChanged(it) }
-//        )
-//    }
-//
-//    address?.apartmentNumber.apply {
-//        FormTextField(
-//            text = this.orEmpty(),
-//            hint = R.string.hint_apartment,
-//            onTextChanged = { viewModel.onApartmentInputChanged(it) }
-//        )
-//    }
-//
-//    address?.floor.apply {
-//        FormTextField(
-//            keyboardType = KeyboardType.Number,
-//            text = this?.toString() ?: "",
-//            hint = R.string.hint_floor,
-//            onTextChanged = { viewModel.onFloorInputChanged(it) },
-//            isLast = true
-//        )
-//    }
-//}
-
 @Composable
 fun ScreenContent(uiState: NewEditDoctorUiState)
 {
@@ -231,28 +162,34 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                         onTextChanged = { viewModel.onSpecialityInputChanged(it) }
                     )
                 }
-                
-                address?.addressLine.apply {
-                    FormTextField(
-                        singleLine = false,
-                        text = this.orEmpty(),
-                        hint = R.string.hint_addressLine,
-                        onTextChanged = { viewModel.onAddressLineInputChanged(it) }
-                    )
-                }
 
-                address?.note.apply {
-                    FormTextField(
-                        imeAction = ImeAction.Default,
-                        modifier = Modifier.defaultMinSize(minHeight = 100.dp),
-                        singleLine = false,
-                        text = this.orEmpty(),
-                        hint = R.string.hint_addressNote,
-                        onTextChanged = { viewModel.onAddressNoteInputChanged(it) }
-                    )
-                }
+                address.let {
+                    it?.addressLine.apply {
+                        FormTextField(
+                            singleLine = false,
+                            text = this.orEmpty(),
+                            hint = R.string.hint_addressLine,
+                            onTextChanged = { viewModel.onAddressLineInputChanged(it) }
+                        )
+                    }
 
-//                AddressContent(doc.address, viewModel, uiState)
+                    it?.note.apply {
+                        FormTextField(
+                            imeAction = ImeAction.Default,
+                            modifier = Modifier.defaultMinSize(minHeight = 100.dp),
+                            singleLine = false,
+                            text = this.orEmpty(),
+                            hint = R.string.hint_addressNote,
+                            onTextChanged = { viewModel.onAddressNoteInputChanged(it) }
+                        )
+                    }
+                }m
+
+
+
+                add contact fields
+                    phone number
+                            email
             }
         }
 
