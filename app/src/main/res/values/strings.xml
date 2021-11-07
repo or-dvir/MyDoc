@@ -9,6 +9,7 @@
     <string name="emptyString">""</string>
 
     <string name="error_invalidEmail">Invalid email address</string>
+    <string name="error_invalidPhoneNumber">Invalid phone number. Try removing special characters</string>
     <string name="error_loadingDoctor">
         There was an error loading this doctor. Please try again.
     </string>
@@ -30,6 +31,7 @@
 
     <string name="hint_name">Name</string>
     <string name="hint_speciality">Speciality</string>
+    <string name="hint_phoneNumber">Phone Number</string>
     <string name="hint_addressLine">Address</string>
     <string name="hint_addressNote">Address Note</string>
     <string name="hint_street">Street</string>

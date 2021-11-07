@@ -163,33 +163,40 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                     )
                 }
 
-                address.let {
-                    it?.addressLine.apply {
-                        FormTextField(
-                            singleLine = false,
-                            text = this.orEmpty(),
-                            hint = R.string.hint_addressLine,
-                            onTextChanged = { viewModel.onAddressLineInputChanged(it) }
-                        )
-                    }
+                address?.addressLine.apply {
+                    FormTextField(
+                        singleLine = false,
+                        text = this.orEmpty(),
+                        hint = R.string.hint_addressLine,
+                        onTextChanged = { viewModel.onAddressLineInputChanged(it) }
+                    )
+                }
 
-                    it?.note.apply {
-                        FormTextField(
-                            imeAction = ImeAction.Default,
-                            modifier = Modifier.defaultMinSize(minHeight = 100.dp),
-                            singleLine = false,
-                            text = this.orEmpty(),
-                            hint = R.string.hint_addressNote,
-                            onTextChanged = { viewModel.onAddressNoteInputChanged(it) }
-                        )
-                    }
-                }m
+                address?.note.apply {
+                    FormTextField(
+                        imeAction = ImeAction.Default,
+                        modifier = Modifier.defaultMinSize(minHeight = 100.dp),
+                        singleLine = false,
+                        text = this.orEmpty(),
+                        hint = R.string.hint_addressNote,
+                        onTextChanged = { viewModel.onAddressNoteInputChanged(it) }
+                    )
+                }
 
+                contactDetails?.phoneNumber.apply {
+                    FormTextField(
+                        keyboardType = KeyboardType.Phone,
+                        error = uiState.errors.phoneNumberError,
+                        text = this.orEmpty(),
+                        hint = R.string.hint_phoneNumber,
+                        onTextChanged = { viewModel.onPhoneNumberInputChanged(it) }
+                    )
+                }
 
-
-                add contact fields
-                    phone number
-                            email
+                //todo
+                // add email (not just here! all screens!)
+                //      validate input (already have function in class)
+                //      input type for keyboard
             }
         }
 

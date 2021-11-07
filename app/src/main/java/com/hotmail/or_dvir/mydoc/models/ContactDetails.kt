@@ -10,6 +10,15 @@ data class ContactDetails(
     val email: String?,
 )
 {
+    //todo
+    // website? (part of contact details?)
+
+    private companion object
+    {
+        const val COLUMN_PHONE_NUMBER = "_phoneNumber"
+        const val COLUMN_EMAIL = "_email"
+    }
+
     fun isEmailValid(): Boolean
     {
         if (email.isNullOrBlank())
@@ -31,17 +40,6 @@ data class ContactDetails(
 
         return Patterns.PHONE.matcher(phoneNumber).matches()
     }
-
-    private companion object
-    {
-        const val COLUMN_PHONE_NUMBER = "_phoneNumber"
-        const val COLUMN_EMAIL = "_email"
-    }
-
-    //todo
-    // phone (format with https://developer.android.com/reference/android/telephony/PhoneNumberUtils.html)
-    // email
-    // website? (part of contact details?)
 }
 
 object ContactDetailsFactory

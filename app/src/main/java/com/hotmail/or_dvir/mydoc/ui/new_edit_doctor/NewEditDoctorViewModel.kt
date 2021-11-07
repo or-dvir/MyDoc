@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.AddressFactory
+import com.hotmail.or_dvir.mydoc.models.ContactDetailsFactory
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
@@ -129,6 +130,28 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
     //todo way too many "on X input changed" functions.
     // can i make it better?
+    fun onPhoneNumberInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            //using factory here and not directly creating an instance because
+            //the factory might change in the future
+            val newContactDetails =
+                doctor.contactDetails?.copy(phoneNumber = newInput) ?: ContactDetailsFactory
+                    .createEmpty().copy(phoneNumber = newInput)
+
+            val newDoc = doctor.copy(contactDetails = newContactDetails)
+            val newErrors = errors.copy(phoneNumberError = "")
+
+            updateUiState(
+                copy(
+                    //reset previous error
+                    errors = newErrors,
+                    doctor = newDoc
+                )
+            )
+        }
+    }
+
     fun onNameInputChanged(newInput: String)
     {
         uiState.value?.apply {
@@ -159,11 +182,11 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     fun onAddressLineInputChanged(newInput: String)
     {
         uiState.value?.apply {
-            //using AddressFactory here and not directly creating an instance because
+            //using factory here and not directly creating an instance because
             //the factory might change in the future
             val newAddress =
-                doctor.address?.copy(addressLine = newInput) ?:
-                AddressFactory.createEmpty().copy(addressLine = newInput)
+                doctor.address?.copy(addressLine = newInput) ?: AddressFactory.createEmpty()
+                    .copy(addressLine = newInput)
 
             val newDoc = doctor.copy(address = newAddress)
 
@@ -176,11 +199,11 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     fun onAddressNoteInputChanged(newInput: String)
     {
         uiState.value?.apply {
-            //using AddressFactory here and not directly creating an instance because
+            //using factory here and not directly creating an instance because
             //the factory might change in the future
             val newAddress =
-                doctor.address?.copy(note = newInput) ?:
-                AddressFactory.createEmpty().copy(note = newInput)
+                doctor.address?.copy(note = newInput) ?: AddressFactory.createEmpty()
+                    .copy(note = newInput)
 
             val newDoc = doctor.copy(address = newAddress)
 
@@ -202,6 +225,15 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                     if (isBlank())
                     {
                         errors = errors.copy(nameError = getString(R.string.error_emptyField))
+                        isValid = false
+                    }
+                }
+
+                contactDetails?.apply {
+                    if (!isPhoneNumberValid())
+                    {
+                        errors =
+                            errors.copy(phoneNumberError = getString(R.string.error_invalidPhoneNumber))
                         isValid = false
                     }
                 }
@@ -235,6 +267,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         val nameError: String = "",
         val streetError: String = "",
         val houseNumberError: String = "",
-        val cityError: String = ""
+        val cityError: String = "",
+        val phoneNumberError: String = ""
     )
 }
