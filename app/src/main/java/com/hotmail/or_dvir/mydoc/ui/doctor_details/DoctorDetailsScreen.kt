@@ -1,5 +1,6 @@
 package com.hotmail.or_dvir.mydoc.ui.doctor_details
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,6 +46,7 @@ import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 import com.hotmail.or_dvir.mydoc.ui.theme.actionBarIcons
@@ -60,7 +62,6 @@ fun DoctorsDetailsScreen()
         val viewModel = getViewModel<DoctorDetailsViewModel>()
         val uiState by viewModel.uiState.observeAsState(DoctorDetailsUiState())
         val scaffoldState = rememberScaffoldState()
-        val actionBarIconsColor = MaterialTheme.colors.actionBarIcons
 
         Scaffold(
             scaffoldState = scaffoldState,
@@ -69,7 +70,7 @@ fun DoctorsDetailsScreen()
                 if (uiState.error.isBlank())
                 {
                     TopAppBar(
-                        contentColor = actionBarIconsColor,
+                        contentColor = colors.actionBarIcons,
                         elevation = 0.dp,
                         backgroundColor = Color.Transparent,
                         title = { /*no title*/ },
@@ -81,7 +82,7 @@ fun DoctorsDetailsScreen()
                                 )
                             }
                         },
-                        actions = { TopBarActions(uiState, actionBarIconsColor) }
+                        actions = { TopBarActions(uiState) }
                     )
                 }
             }
@@ -116,41 +117,28 @@ fun DeleteConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
 }
 
 @Composable
-fun TopBarActions(uiState: DoctorDetailsUiState, iconsTint: Color)
+fun TopBarActions(uiState: DoctorDetailsUiState)
 {
-    val context = LocalContext.current
     val viewModel = getViewModel<DoctorDetailsViewModel>()
-
-    //navigate
-//    uiState.doctor.address?.getBasicAddress()?.let {
-//        IconButton(onClick = { openMaps(context, it) }) {
-//            Icon(
-//                tint = iconsTint,
-//                painter = painterResource(id = R.drawable.ic_navigate),
-//                contentDescription = stringResource(id = R.string.contentDescription_navigate)
-//            )
-//        }
-//    }
 
     //edit
     IconButton(onClick = {
         viewModel.navigateToAppDestination(NewEditDoctorScreen(uiState.doctor.id))
     }) {
         Icon(
-            tint = iconsTint,
+            tint = colors.actionBarIcons,
             painter = painterResource(id = R.drawable.ic_edit),
             contentDescription = stringResource(id = R.string.contentDescription_edit)
         )
     }
 
     //overflow menu
-    //todo align menu end to end of icon
     var showMenu by remember { mutableStateOf(false) }
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
     IconButton(onClick = { showMenu = !showMenu }) {
         Icon(
-            tint = iconsTint,
+            tint = colors.actionBarIcons,
             imageVector = Icons.Default.MoreVert,
             contentDescription = stringResource(id = R.string.contentDescription_more)
         )
@@ -184,19 +172,20 @@ fun TopBarActions(uiState: DoctorDetailsUiState, iconsTint: Color)
 @Composable
 fun DoctorDetailsView(doc: Doctor)
 {
-    //todo make this nicer
-    // add photo?
-
     //todo for all optional details (e.g. speciality/address...) should i just hide them
     // or show something like "unknown" to encourage the user to add those details.
     // maybe show something like "this doctor is incomplete. click edit button to add details"
 
-    val padding = 8.dp
+    val padding = 16.dp
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(padding, 0.dp, padding, padding)
             .verticalScroll(rememberScrollState())
+            .padding(
+                start = padding,
+                end = padding,
+                bottom = padding
+            )
     ) {
         //todo not so nice and does not match the Card "theme"... make it better!
         //name and speciality
@@ -230,36 +219,33 @@ fun DoctorDetailsView(doc: Doctor)
 @Composable
 fun AddressCard(address: SimpleAddress)
 {
-//    add navigation icon - always or only if has address?
-//        i can maybe always show it, and if they want to navigate pop a message saying to add an address???
-
     Card(
         elevation = 5.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 8.dp)
         ) {
-            //todo
-            // copy padding from column
-            // title + address details as column
-            // navigation icon on right - center vertically
-            // space between
-        }
-
-
-
-        Column(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
-        ) {
-            CardTitle(title = stringResource(id = R.string.address))
-
-            address.addressLine?.let {
-                Text(text = it)
+            //weight modifier required so long text doesn't push row out of screen
+            Column(modifier = Modifier.weight(1f)) {
+                CardTitle(title = stringResource(id = R.string.address))
+                address.addressLine?.let { Text(text = it) }
+                address.note?.let { Text(text = it) }
             }
 
-            address.note?.let {
-                Text(text = it)
+            //only show navigation icon if we have an address
+            address.addressLine?.let {
+                val context = LocalContext.current
+                IconButton(onClick = { context.openMaps(it) }) {
+                    Icon(
+                        painterResource(id = R.drawable.ic_navigate),
+                        contentDescription = stringResource(id = R.string.contentDescription_navigate)
+                    )
+                }
             }
         }
     }
