@@ -11,7 +11,8 @@ data class ContactDetails(
 )
 {
     //todo
-    // website? (part of contact details?)
+    // email - add to all screens
+    // website - add to all screens
 
     private companion object
     {
