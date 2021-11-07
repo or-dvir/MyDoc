@@ -162,16 +162,17 @@ fun DoctorRow(doc: Doctor, onClick: OnDoctorClicked)
                     )
                 }
 
+                val secondaryTextTypography = Typography.body2
                 speciality?.apply {
                     Text(
-                        style = Typography.body2,
+                        style = secondaryTextTypography,
                         text = this
                     )
                 }
 
                 address?.addressLine?.let {
                     Text(
-
+                        style = secondaryTextTypography,
                         text = it
                     )
                 }
