@@ -18,6 +18,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 {
     private companion object
     {
+        //todo KEEP!!! WILL BE NEEDED IN THE FUTURE!!!
         private val PATTERN_NUMBER = Pattern.compile("^[0-9]*$")
         private val PATTERN_NEGATIVE_NUMBER = Pattern.compile("^-[0-9]*$")
     }
@@ -189,81 +190,6 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-//    fun onStreetInputChanged(newInput: String)
-//    {
-//        uiState.value?.apply {
-//            val newAddress =
-//                doctor.address?.copy(street = newInput) ?: Address(newInput, "", "")
-//            val newDoc = doctor.copy(address = newAddress)
-//
-//            updateUiState(
-//                copy(
-//                    streetError = "", //reset any errors
-//                    doctor = newDoc
-//                )
-//            )
-//        }
-//    }
-
-//    fun onHouseNumberInputChanged(newInput: String)
-//    {
-//        uiState.value?.apply {
-//            val newAddress =
-//                doctor.address?.copy(houseNumber = newInput) ?: Address("", newInput, "")
-//            val newDoc = doctor.copy(address = newAddress)
-//
-//            updateUiState(
-//                copy(
-//                    houseNumberError = "", //reset any errors
-//                    doctor = newDoc
-//                )
-//            )
-//        }
-//    }
-
-//    fun onCityInputChanged(newInput: String)
-//    {
-//        uiState.value?.apply {
-//            val newAddress =
-//                doctor.address?.copy(city = newInput) ?: Address("", "", newInput)
-//            val newDoc = doctor.copy(address = newAddress)
-//
-//            updateUiState(
-//                copy(
-//                    cityError = "", //reset any errors
-//                    doctor = newDoc
-//                )
-//            )
-//        }
-//    }
-
-//    fun onPostcodeInputChanged(newInput: String)
-//    {
-//        //only numbers are allowed for postcode
-//        if (!PATTERN_NUMBER.matcher(newInput).matches())
-//        {
-//            return
-//        }
-//
-//        uiState.value?.apply {
-//            val postcode = if (newInput.isNotBlank()) newInput.toInt() else null
-//            val newAddress =
-//                doctor.address?.copy(postCode = postcode)
-//                    ?: Address(
-//                        "",
-//                        "",
-//                        "",
-//                        postCode = postcode
-//                    )
-//
-//            val newDoc = doctor.copy(address = newAddress)
-//
-//            updateUiState(
-//                copy(doctor = newDoc)
-//            )
-//        }
-//    }
-
     private fun validateInput(): Boolean
     {
         var isValid = true
@@ -281,33 +207,6 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                 }
             }
 
-//                //todo make each of these in "apply" block
-//                // to make it clear which field we are validating
-//                potential bug .
-//                if user erases all address fields, is it set back to null?
-//                if not, this will trigger even though it shouldnt
-//                address?.apply {
-//                    val addressError = getString(R.string.error_emptyAddressField)
-//
-//                    if (street.isBlank())
-//                    {
-//                        streetError = addressError
-//                        isValid = false
-//                    }
-//
-//                    if (houseNumber.isBlank())
-//                    {
-//                        houseNumberError = addressError
-//                        isValid = false
-//                    }
-//
-//                    if (city.isBlank())
-//                    {
-//                        cityError = addressError
-//                        isValid = false
-//                    }
-//                }
-
             updateUiState(
                 state.copy(errors = errors)
             )
@@ -315,97 +214,6 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
         return isValid
     }
-
-//    fun onCountryInputChanged(newInput: String)
-//    {
-//        uiState.value?.apply {
-//            val newAddress =
-//                doctor.address?.copy(country = newInput) ?: Address(
-//                    "",
-//                    "",
-//                    "",
-//                    country = newInput
-//                )
-//
-//
-//
-//
-//            doctor.address?.copy(country = newInput) ?: run {
-//                if(newInput.isBlank()) {
-//                    set address to null
-//
-//                    this will not work. assume ONLY city is set to "g", now the user
-//                    erases it. this block will not be invoked because address is not null.
-//                            maybe similar logic needs to be invoked before copying???
-//                }
-//
-//                Address(
-//                    "",
-//                    "",
-//                    "",
-//                    country = newInput
-//                )
-//            }
-//
-//
-//
-//
-//                val newDoc = doctor.copy(address = newAddress)
-//
-//                updateUiState(
-//                    copy(doctor = newDoc)
-//                )
-//            }
-//        }
-//    }
-
-//    fun onApartmentInputChanged(newInput: String)
-//    {
-//        uiState.value?.apply {
-//            val newAddress =
-//                doctor.address?.copy(apartmentNumber = newInput) ?: Address(
-//                    "",
-//                    "",
-//                    "",
-//                    apartmentNumber = newInput
-//                )
-//
-//            val newDoc = doctor.copy(address = newAddress)
-//
-//            updateUiState(
-//                copy(doctor = newDoc)
-//            )
-//        }
-//    }
-
-//    fun onFloorInputChanged(newInput: String)
-//    {
-//        val numberMatcher = PATTERN_NUMBER.matcher(newInput)
-//        val negativeNumberMatcher = PATTERN_NEGATIVE_NUMBER.matcher(newInput)
-//
-//        //only numbers and negative numbers allowed for floor
-//        if (!numberMatcher.matches() && !negativeNumberMatcher.matches())
-//        {
-//            return
-//        }
-//
-//        uiState.value?.apply {
-//            val floor = if (newInput.isNotBlank()) newInput.toInt() else null
-//            val newAddress =
-//                doctor.address?.copy(floor = floor) ?: Address(
-//                    "",
-//                    "",
-//                    "",
-//                    floor = floor
-//                )
-//
-//            val newDoc = doctor.copy(address = newAddress)
-//
-//            updateUiState(
-//                copy(doctor = newDoc)
-//            )
-//        }
-//    }
 
     ////////////////////////////////
     ////////////////////////////////
