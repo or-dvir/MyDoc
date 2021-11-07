@@ -10,10 +10,27 @@ data class ContactDetails(
     val email: String?,
 )
 {
-    /**
-     * @return Boolean? whether or not [email] is in a valid email address, or `null` if [email] is null
-     */
-    fun isEmailValid() = email?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
+    fun isEmailValid(): Boolean
+    {
+        if (email.isNullOrBlank())
+        {
+            //email is not mandatory
+            return true
+        }
+
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    fun isPhoneNumberValid(): Boolean
+    {
+        if (phoneNumber.isNullOrBlank())
+        {
+            //phone number is not mandatory
+            return true
+        }
+
+        return Patterns.PHONE.matcher(phoneNumber).matches()
+    }
 
     private companion object
     {
