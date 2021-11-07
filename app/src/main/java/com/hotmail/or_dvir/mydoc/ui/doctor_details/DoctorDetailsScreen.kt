@@ -2,6 +2,7 @@ package com.hotmail.or_dvir.mydoc.ui.doctor_details
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -193,9 +194,11 @@ fun DoctorDetailsView(doc: Doctor)
     val padding = 8.dp
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(padding, 0.dp, padding, padding)
             .verticalScroll(rememberScrollState())
     ) {
+        //todo not so nice and does not match the Card "theme"... make it better!
         //name and speciality
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -227,23 +230,36 @@ fun DoctorDetailsView(doc: Doctor)
 @Composable
 fun AddressCard(address: SimpleAddress)
 {
-    add navigation icon - always or only if has address?
-        i can maybe always show it, and if they want to navigate pop a message saying to add an address???
-    enough elevation?
-    bottom part is cut off?
-    add address notes (make subtitle?)
+//    add navigation icon - always or only if has address?
+//        i can maybe always show it, and if they want to navigate pop a message saying to add an address???
 
     Card(
-        elevation = 10.dp,
+        elevation = 5.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
+        Row(
+
+        ) {
+            //todo
+            // copy padding from column
+            // title + address details as column
+            // navigation icon on right - center vertically
+            // space between
+        }
+
+
+
         Column(
             modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
         ) {
             CardTitle(title = stringResource(id = R.string.address))
 
-            address.addressLine?.apply {
-                Text(text = address.addressLine)
+            address.addressLine?.let {
+                Text(text = it)
+            }
+
+            address.note?.let {
+                Text(text = it)
             }
         }
     }
