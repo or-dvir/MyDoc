@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity()
     //      probably will be even more complicated
     // in all text input fields, check long texts. multiline?
     //      might push other views out of screen!!!
+    // check long lists
+    // make sure all screens are scrollable
 
     override fun onCreate(savedInstanceState: Bundle?)
     {

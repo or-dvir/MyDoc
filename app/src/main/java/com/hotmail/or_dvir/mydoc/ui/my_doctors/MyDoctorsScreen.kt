@@ -168,10 +168,18 @@ fun DoctorRow(doc: Doctor, onClick: OnDoctorClicked)
                         text = this
                     )
                 }
-//                address?.let { Text(text = it.getBasicAddress()) }
+
+                address?.addressLine?.let {
+                    Text(
+
+                        text = it
+                    )
+                }
             }
         }
 
+        //todo should i add navigation icon here? is it actually useful?
+        // when the app expands (phone, email...) i wont have all the icons here AND in details screen.
         //navigation icon
 //        doc.address?.let {
 //            val context = LocalContext.current
