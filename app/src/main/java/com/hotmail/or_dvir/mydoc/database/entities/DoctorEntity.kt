@@ -20,9 +20,16 @@ data class DoctorEntity(
     val address: SimpleAddress?
 )
 {
+    //todo
+    // is this class getting too big? too many columns in the database?
+    // should probably make separate tables (do i need relations? could get complicated!!!)
+    // in doctors list, any information we don't display to the user is unnecessarily extracted...
+    //      address, contact details, what else?
+
     companion object
     {
         const val TABLE_DOCTORS = "Doctors"
+
         const val COLUMN_ID = "_id"
         const val COLUMN_NAME = "_name"
         const val COLUMN_SPECIALITY = "_speciality"
