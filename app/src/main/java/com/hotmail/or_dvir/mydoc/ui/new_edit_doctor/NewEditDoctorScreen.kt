@@ -193,6 +193,10 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                     )
                 }
 
+                i stopped here
+                im done with phone number in this screen, add it to doctor details (Create "contact" card!)
+                should i also add it to the list of doctors?
+
                 //todo
                 // add email (not just here! all screens!)
                 //      validate input (already have function in class)
