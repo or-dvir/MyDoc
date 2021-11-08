@@ -3,7 +3,6 @@ package com.hotmail.or_dvir.mydoc.ui.shared
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.annotation.StringRes
 
 fun String.takeIfNotBlank() = takeIf { this.isNotBlank() }
 
@@ -29,43 +28,15 @@ fun Context.openDialer(number: String)
     )
 }
 
-//region email
-fun Context.email(
-    email: String,
-    @StringRes subjectRes: Int = -1,
-    @StringRes bodyRes: Int = -1
-): Boolean
-{
-    val subject =
-        if (subjectRes == -1)
-        {
-            ""
-        } else
-        {
-            resources.getString(subjectRes)
-        }
-
-    val body =
-        if (bodyRes == -1)
-        {
-            ""
-        } else
-        {
-            resources.getString(bodyRes)
-        }
-
-    return email(email, subject, body)
-}
-
-fun Context.email(
-    email: String,
+fun Context.sendEmail(
+    emailAddress: String,
     subject: String = "",
     body: String = ""
 ): Boolean
 {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         data = Uri.parse("mailto:")
-        putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
 
         subject.takeIfNotBlank()?.let {
             putExtra(Intent.EXTRA_SUBJECT, it)
@@ -84,4 +55,3 @@ fun Context.email(
 
     return false
 }
-//endregion

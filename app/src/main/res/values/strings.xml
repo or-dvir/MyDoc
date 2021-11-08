@@ -59,6 +59,7 @@
     <string name="contentDescription_save">Save</string>
     <string name="contentDescription_navigate">Navigate</string>
     <string name="contentDescription_makeCall">Make call</string>
+    <string name="contentDescription_sendEmail">Send email</string>
     <string name="contentDescription_more">More</string>
     <string name="contentDescription_edit">Edit</string>
 

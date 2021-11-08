@@ -47,6 +47,7 @@ import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.sendEmail
 import com.hotmail.or_dvir.mydoc.ui.shared.openDialer
 import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
@@ -277,8 +278,23 @@ fun ContactDetailsCard(contactDetails: ContactDetails, modifier: Modifier)
                 }
             }
 
-            //email
-            //todo
+            contactDetails.email?.let {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = it)
+
+                    val context = LocalContext.current
+                    IconButton(onClick = { context.sendEmail(it) }) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_email),
+                            contentDescription = stringResource(id = R.string.contentDescription_sendEmail)
+                        )
+                    }
+                }
+            }
         }
     }
 }
