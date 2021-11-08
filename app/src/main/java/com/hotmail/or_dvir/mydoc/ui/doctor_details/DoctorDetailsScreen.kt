@@ -47,13 +47,22 @@ import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
-import com.hotmail.or_dvir.mydoc.ui.shared.sendEmail
 import com.hotmail.or_dvir.mydoc.ui.shared.openDialer
 import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
+import com.hotmail.or_dvir.mydoc.ui.shared.sendEmail
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 import com.hotmail.or_dvir.mydoc.ui.theme.actionBarIcons
 import org.koin.androidx.compose.getViewModel
+
+/**
+ * First - icon resource
+ *
+ * Second - content description resource
+ *
+ * Third - click listener
+ */
+typealias CardAction = Triple<Int, Int, () -> Unit>
 
 @Composable
 fun DoctorsDetailsScreen()
@@ -165,13 +174,6 @@ fun TopBarActions(uiState: DoctorDetailsUiState)
     }
 }
 
-//@Composable
-//@Preview (name = "doctor details", showBackground = true)
-//fun DoctorDetailsViewPreview()
-//{
-//    DoctorDetailsView(DoctorFactory.createDoctorForPreview())
-//}
-
 @Composable
 fun DoctorDetailsView(doc: Doctor)
 {
@@ -213,11 +215,9 @@ fun DoctorDetailsView(doc: Doctor)
             //space from the title
             CardSpacer()
 
-            val cardModifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
-
-            doc.address?.apply { AddressCard(this, cardModifier) }
+            doc.address?.apply { AddressCard(this) }
             CardSpacer()
-            doc.contactDetails?.apply { ContactDetailsCard(this, cardModifier) }
+            doc.contactDetails?.apply { ContactDetailsCard(this) }
         }
     }
 }
@@ -231,7 +231,7 @@ fun CardSpacer()
 @Composable
 fun DoctorDetailsCard(
     title: String,
-    modifier: Modifier,
+    actions: List<CardAction>,
     content: @Composable () -> Unit
 )
 {
@@ -239,7 +239,9 @@ fun DoctorDetailsCard(
         elevation = 5.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Column(modifier = modifier) {
+        Column(
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
+        ) {
             Text(
                 text = title,
                 style = Typography.h6,
@@ -247,125 +249,95 @@ fun DoctorDetailsCard(
                 color = colors.primary
             )
 
+            Spacer(Modifier.height(5.dp))
             content()
+
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                actions.forEach {
+                    IconButton(onClick = it.third) {
+                        Icon(
+                            painterResource(id = it.first),
+                            contentDescription = stringResource(id = it.second)
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun ContactDetailsCard(contactDetails: ContactDetails, modifier: Modifier)
+fun ContactDetailsCard(contactDetails: ContactDetails)
 {
+    val context = LocalContext.current
+    val actions = mutableListOf<CardAction>()
+
+    contactDetails.phoneNumber?.let {
+        actions.add(
+            CardAction(
+                R.drawable.ic_phone,
+                R.string.contentDescription_makeCall
+            ) { context.openDialer(it) }
+        )
+    }
+
+    contactDetails.email?.let {
+        actions.add(
+            CardAction(
+                R.drawable.ic_email,
+                R.string.contentDescription_sendEmail
+            ) { context.sendEmail(it) }
+        )
+    }
+
     DoctorDetailsCard(
         title = stringResource(id = R.string.contact),
-        modifier = modifier
+        actions = actions
     ) {
         Column {
-            val context = LocalContext.current
-
             contactDetails.phoneNumber?.let {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = it)
-
-                    IconButton(onClick = { context.openDialer(it) }) {
-                        Icon(
-                            painterResource(id = R.drawable.ic_phone),
-                            contentDescription = stringResource(id = R.string.contentDescription_makeCall)
-                        )
-                    }
-                }
+                Text(text = it)
             }
 
             contactDetails.email?.let {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = it)
-
-                    IconButton(onClick = { context.sendEmail(it) }) {
-                        Icon(
-                            painterResource(id = R.drawable.ic_email),
-                            contentDescription = stringResource(id = R.string.contentDescription_sendEmail)
-                        )
-                    }
-                }
+                Text(text = it)
             }
         }
     }
 }
 
 @Composable
-fun AddressCard(address: SimpleAddress, modifier: Modifier)
+fun AddressCard(address: SimpleAddress)
 {
     //todo
     // the icons have their own padding, so if the last row has an icon, there will be extra padding.
     // same for all other card.
     // possible solution is to use Icon instead of IconButton
 
-    DoctorDetailsCard(
-        title = stringResource(id = R.string.address),
-        modifier = modifier
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            //weight modifier required so long text doesn't push row out of screen
-            Column(modifier = Modifier.weight(1f)) {
-                address.addressLine?.let { Text(text = it) }
-                address.note?.let { Text(text = it) }
-            }
+    val context = LocalContext.current
+    val actions = mutableListOf<CardAction>()
 
-            //only show navigation icon if we have an address
-            address.addressLine?.let {
-                val context = LocalContext.current
-                IconButton(onClick = { context.openMaps(it) }) {
-                    Icon(
-                        painterResource(id = R.drawable.ic_navigate),
-                        contentDescription = stringResource(id = R.string.contentDescription_navigate)
-                    )
-                }
-            }
-        }
+    address.addressLine?.let {
+        actions.add(
+            CardAction(
+                R.drawable.ic_navigate,
+                R.string.contentDescription_navigate
+            ) { context.openMaps(it) }
+        )
     }
 
-
-//    Card(
-//        elevation = 5.dp,
-//        modifier = Modifier.fillMaxWidth()
-//    ) {
-//        Row(
-//            horizontalArrangement = Arrangement.SpaceBetween,
-//            verticalAlignment = Alignment.CenterVertically,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 10.dp, vertical = 8.dp)
-//        ) {
-//            //weight modifier required so long text doesn't push row out of screen
-//            Column(modifier = Modifier.weight(1f)) {
-//                CardTitle(title = stringResource(id = R.string.address))
-//                address.addressLine?.let { Text(text = it) }
-//                address.note?.let { Text(text = it) }
-//            }
-//
-//            //only show navigation icon if we have an address
-//            address.addressLine?.let {
-//                val context = LocalContext.current
-//                IconButton(onClick = { context.openMaps(it) }) {
-//                    Icon(
-//                        painterResource(id = R.drawable.ic_navigate),
-//                        contentDescription = stringResource(id = R.string.contentDescription_navigate)
-//                    )
-//                }
-//            }
-//        }
-//    }
+    DoctorDetailsCard(
+        title = stringResource(id = R.string.address),
+        actions = actions
+    ) {
+        Column {
+            address.addressLine?.let { Text(text = it) }
+            address.note?.let { Text(text = it) }
+        }
+    }
 }
 
 @Composable
