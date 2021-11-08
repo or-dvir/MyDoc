@@ -217,22 +217,54 @@ fun DoctorDetailsView(doc: Doctor)
 }
 
 @Composable
-fun AddressCard(address: SimpleAddress)
+fun DetailsCard(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+)
 {
     Card(
         elevation = 5.dp,
         modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(modifier = modifier) {
+            Text(
+                text = title,
+                style = Typography.h6,
+                //todo when settled on colors, try primary variant
+                color = colors.primary
+            )
+
+            content()
+        }
+    }
+}
+
+@Composable
+fun AddressCard(address: SimpleAddress)
+{
+    //todo this will probably need to be "hoisted" so that all cards have
+    // the same padding
+    val paddingTop = 8.dp
+    val paddingBottom = address.note?.let { paddingTop } ?: 0.dp
+
+    DetailsCard(
+        title = stringResource(id = R.string.address),
+        modifier = Modifier.padding(
+            top = paddingTop,
+            bottom = paddingBottom,
+            start = 10.dp,
+            end = 10.dp,
+        )
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 8.dp)
         ) {
             //weight modifier required so long text doesn't push row out of screen
             Column(modifier = Modifier.weight(1f)) {
-                CardTitle(title = stringResource(id = R.string.address))
                 address.addressLine?.let { Text(text = it) }
                 address.note?.let { Text(text = it) }
             }
@@ -249,20 +281,39 @@ fun AddressCard(address: SimpleAddress)
             }
         }
     }
-}
 
-@Composable
-fun CardTitle(title: String)
-{
-    Text(
-        modifier = Modifier.padding(bottom = 5.dp),
-        text = title,
-        style = Typography.h6,
-        //todo when settled on colors, try primary variant
-        color = colors.primary
-    )
-}
 
+//    Card(
+//        elevation = 5.dp,
+//        modifier = Modifier.fillMaxWidth()
+//    ) {
+//        Row(
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 10.dp, vertical = 8.dp)
+//        ) {
+//            //weight modifier required so long text doesn't push row out of screen
+//            Column(modifier = Modifier.weight(1f)) {
+//                CardTitle(title = stringResource(id = R.string.address))
+//                address.addressLine?.let { Text(text = it) }
+//                address.note?.let { Text(text = it) }
+//            }
+//
+//            //only show navigation icon if we have an address
+//            address.addressLine?.let {
+//                val context = LocalContext.current
+//                IconButton(onClick = { context.openMaps(it) }) {
+//                    Icon(
+//                        painterResource(id = R.drawable.ic_navigate),
+//                        contentDescription = stringResource(id = R.string.contentDescription_navigate)
+//                    )
+//                }
+//            }
+//        }
+//    }
+}
 
 @Composable
 fun ErrorView(error: String)
