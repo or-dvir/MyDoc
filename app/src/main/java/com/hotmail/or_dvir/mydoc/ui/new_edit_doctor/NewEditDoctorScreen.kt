@@ -193,13 +193,15 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                     )
                 }
 
-                add emil here
-                add email to details screen (contact card)
-
-                //todo
-                // add email (not just here! all screens!)
-                //      validate input (already have function in class)
-                //      input type for keyboard
+                contactDetails?.email.apply {
+                    FormTextField(
+                        keyboardType = KeyboardType.Email,
+                        error = uiState.errors.emailError,
+                        text = this.orEmpty(),
+                        hint = R.string.hint_email,
+                        onTextChanged = { viewModel.onEmailInputChanged(it) }
+                    )
+                }
             }
         }
 
