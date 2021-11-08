@@ -41,11 +41,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.ContactDetails
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.openDialer
 import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
@@ -207,19 +209,28 @@ fun DoctorDetailsView(doc: Doctor)
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            //space from the title
+            CardSpacer()
 
-            doc.address?.apply {
-                AddressCard(this)
-            }
+            val cardModifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
+
+            doc.address?.apply { AddressCard(this, cardModifier) }
+            CardSpacer()
+            doc.contactDetails?.apply { ContactDetailsCard(this, cardModifier) }
         }
     }
 }
 
 @Composable
-fun DetailsCard(
+fun CardSpacer()
+{
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+@Composable
+fun DoctorDetailsCard(
     title: String,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     content: @Composable () -> Unit
 )
 {
@@ -241,27 +252,53 @@ fun DetailsCard(
 }
 
 @Composable
-fun AddressCard(address: SimpleAddress)
+fun ContactDetailsCard(contactDetails: ContactDetails, modifier: Modifier)
 {
-    //todo this will probably need to be "hoisted" so that all cards have
-    // the same padding
-    val paddingTop = 8.dp
-    val paddingBottom = address.note?.let { paddingTop } ?: 0.dp
+    DoctorDetailsCard(
+        title = stringResource(id = R.string.contact),
+        modifier = modifier
+    ) {
+        Column {
+            contactDetails.phoneNumber?.let {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = it)
 
-    DetailsCard(
+                    val context = LocalContext.current
+                    IconButton(onClick = { context.openDialer(it) }) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_phone),
+                            contentDescription = stringResource(id = R.string.contentDescription_makeCall)
+                        )
+                    }
+                }
+            }
+
+            //email
+            //todo
+        }
+    }
+}
+
+@Composable
+fun AddressCard(address: SimpleAddress, modifier: Modifier)
+{
+    //todo
+    // the icons have their own padding, so if the last row has an icon, there will be extra padding.
+    // same for all other card.
+    // possible solution is to use Icon instead of IconButton
+
+    DoctorDetailsCard(
         title = stringResource(id = R.string.address),
-        modifier = Modifier.padding(
-            top = paddingTop,
-            bottom = paddingBottom,
-            start = 10.dp,
-            end = 10.dp,
-        )
+        modifier = modifier
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             //weight modifier required so long text doesn't push row out of screen
             Column(modifier = Modifier.weight(1f)) {

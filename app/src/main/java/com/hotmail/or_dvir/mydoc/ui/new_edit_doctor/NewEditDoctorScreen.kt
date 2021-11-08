@@ -193,9 +193,8 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                     )
                 }
 
-                i stopped here
-                im done with phone number in this screen, add it to doctor details (Create "contact" card!)
-                should i also add it to the list of doctors?
+                add emil here
+                add email to details screen (contact card)
 
                 //todo
                 // add email (not just here! all screens!)
