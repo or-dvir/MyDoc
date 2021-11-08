@@ -260,6 +260,8 @@ fun ContactDetailsCard(contactDetails: ContactDetails, modifier: Modifier)
         modifier = modifier
     ) {
         Column {
+            val context = LocalContext.current
+
             contactDetails.phoneNumber?.let {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -268,7 +270,6 @@ fun ContactDetailsCard(contactDetails: ContactDetails, modifier: Modifier)
                 ) {
                     Text(text = it)
 
-                    val context = LocalContext.current
                     IconButton(onClick = { context.openDialer(it) }) {
                         Icon(
                             painterResource(id = R.drawable.ic_phone),
@@ -286,7 +287,6 @@ fun ContactDetailsCard(contactDetails: ContactDetails, modifier: Modifier)
                 ) {
                     Text(text = it)
 
-                    val context = LocalContext.current
                     IconButton(onClick = { context.sendEmail(it) }) {
                         Icon(
                             painterResource(id = R.drawable.ic_email),
