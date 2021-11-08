@@ -19,6 +19,11 @@ class MainActivity : AppCompatActivity()
     //      might push other views out of screen!!!
     // check long lists
     // make sure all screens are scrollable
+    // license - anyone can do whatever they want
+    // data privacy:
+    //      all data is stored on device (did i change this?)
+    //      data is saved as-is and not encrypted
+    //      data may be backed up by google or any other provider
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
