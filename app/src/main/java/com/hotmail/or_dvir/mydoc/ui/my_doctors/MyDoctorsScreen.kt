@@ -170,6 +170,9 @@ fun DoctorRow(doc: Doctor, onClick: OnDoctorClicked)
                     )
                 }
 
+                //todo should i add these here? are they useful?
+                // address?
+                // contact details?
                 address?.addressLine?.let {
                     Text(
                         style = secondaryTextTypography,
