@@ -64,8 +64,6 @@ import org.koin.androidx.compose.getViewModel
  */
 typealias CardAction = Triple<Int, Int, () -> Unit>
 
-i finished adding email to new/edit screen and details screen
-
 @Composable
 fun DoctorsDetailsScreen()
 {

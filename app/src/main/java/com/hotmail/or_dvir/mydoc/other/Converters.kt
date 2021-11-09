@@ -30,6 +30,7 @@ fun Doctor.toDoctorEntity(): DoctorEntity
     val dbContactDetails = ContactDetails(
         phoneNumber = contactDetails?.phoneNumber?.takeIfNotBlank(),
         email = contactDetails?.email?.takeIfNotBlank(),
+        website = contactDetails?.website?.takeIfNotBlank(),
     )
 
     return DoctorEntity(
