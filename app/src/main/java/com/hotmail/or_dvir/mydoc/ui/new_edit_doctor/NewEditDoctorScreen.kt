@@ -32,7 +32,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
+import com.hotmail.or_dvir.mydoc.models.ContactDetails
+import com.hotmail.or_dvir.mydoc.models.Doctor
+import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
+import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
@@ -61,7 +65,7 @@ fun NewEditDoctorScreen()
                         IconButton(onClick = { viewModel.navigateBack() }) {
                             Icon(
                                 painterResource(id = R.drawable.ic_arrow_back),
-                                stringResource(id = R.string.contentDescription_back)
+                                stringResource(R.string.contentDescription_back)
                             )
                         }
                     },
@@ -131,6 +135,109 @@ fun FormTextField(
 }
 
 @Composable
+fun PersonalDetailsSection(doc: Doctor, nameError: String)
+{
+    val viewModel = getViewModel<NewEditDoctorViewModel>()
+
+    Column {
+        doc.apply {
+            Header(text = stringResource(R.string.personalDetails))
+
+            name.apply {
+                FormTextField(
+                    text = this,
+                    error = nameError,
+                    hint = R.string.hint_name,
+                    onTextChanged = { viewModel.onNameInputChanged(it) }
+                )
+            }
+
+            speciality.apply {
+                FormTextField(
+                    text = this.orEmpty(),
+                    hint = R.string.hint_speciality,
+                    onTextChanged = { viewModel.onSpecialityInputChanged(it) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun AddressSection(address: SimpleAddress?)
+{
+    val viewModel = getViewModel<NewEditDoctorViewModel>()
+
+    Column {
+        Header(text = stringResource(R.string.address))
+
+        address?.addressLine.apply {
+            FormTextField(
+                singleLine = false,
+                text = this.orEmpty(),
+                hint = R.string.hint_addressLine,
+                onTextChanged = { viewModel.onAddressLineInputChanged(it) }
+            )
+        }
+
+        address?.note.apply {
+            FormTextField(
+                imeAction = ImeAction.Default,
+                modifier = Modifier.defaultMinSize(minHeight = 100.dp),
+                singleLine = false,
+                text = this.orEmpty(),
+                hint = R.string.hint_addressNote,
+                onTextChanged = { viewModel.onAddressNoteInputChanged(it) }
+            )
+        }
+    }
+}
+
+@Composable
+fun ContactDetailsSection(
+    contactDetails: ContactDetails?,
+    emailError: String,
+    websiteError: String,
+    phoneNumberError: String,
+)
+{
+    val viewModel = getViewModel<NewEditDoctorViewModel>()
+
+    Column {
+        Header(text = stringResource(R.string.contact))
+
+        contactDetails?.phoneNumber.apply {
+            FormTextField(
+                keyboardType = KeyboardType.Phone,
+                error = phoneNumberError,
+                text = this.orEmpty(),
+                hint = R.string.hint_phoneNumber,
+                onTextChanged = { viewModel.onPhoneNumberInputChanged(it) }
+            )
+        }
+
+        contactDetails?.email.apply {
+            FormTextField(
+                keyboardType = KeyboardType.Email,
+                error = emailError,
+                text = this.orEmpty(),
+                hint = R.string.hint_email,
+                onTextChanged = { viewModel.onEmailInputChanged(it) }
+            )
+        }
+
+        contactDetails?.website.apply {
+            FormTextField(
+                error = websiteError,
+                text = this.orEmpty(),
+                hint = R.string.hint_website,
+                onTextChanged = { viewModel.onWebsiteInputChanged(it) }
+            )
+        }
+    }
+}
+
+@Composable
 fun ScreenContent(uiState: NewEditDoctorUiState)
 {
     val viewModel = getViewModel<NewEditDoctorViewModel>()
@@ -145,72 +252,20 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
+            val spacerModifier = Modifier.height(8.dp)
+
             uiState.doctor.apply {
-                name.apply {
-                    FormTextField(
-                        text = this,
-                        error = uiState.errors.nameError,
-                        hint = R.string.hint_name,
-                        onTextChanged = { viewModel.onNameInputChanged(it) }
-                    )
-                }
-
-                speciality.apply {
-                    FormTextField(
-                        text = this.orEmpty(),
-                        hint = R.string.hint_speciality,
-                        onTextChanged = { viewModel.onSpecialityInputChanged(it) }
-                    )
-                }
-
-                address?.addressLine.apply {
-                    FormTextField(
-                        singleLine = false,
-                        text = this.orEmpty(),
-                        hint = R.string.hint_addressLine,
-                        onTextChanged = { viewModel.onAddressLineInputChanged(it) }
-                    )
-                }
-
-                address?.note.apply {
-                    FormTextField(
-                        imeAction = ImeAction.Default,
-                        modifier = Modifier.defaultMinSize(minHeight = 100.dp),
-                        singleLine = false,
-                        text = this.orEmpty(),
-                        hint = R.string.hint_addressNote,
-                        onTextChanged = { viewModel.onAddressNoteInputChanged(it) }
-                    )
-                }
-
-                contactDetails?.phoneNumber.apply {
-                    FormTextField(
-                        keyboardType = KeyboardType.Phone,
-                        error = uiState.errors.phoneNumberError,
-                        text = this.orEmpty(),
-                        hint = R.string.hint_phoneNumber,
-                        onTextChanged = { viewModel.onPhoneNumberInputChanged(it) }
-                    )
-                }
-
-                contactDetails?.email.apply {
-                    FormTextField(
-                        keyboardType = KeyboardType.Email,
-                        error = uiState.errors.emailError,
-                        text = this.orEmpty(),
-                        hint = R.string.hint_email,
-                        onTextChanged = { viewModel.onEmailInputChanged(it) }
-                    )
-                }
-
-                contactDetails?.website.apply {
-                    FormTextField(
-                        error = uiState.errors.websiteError,
-                        text = this.orEmpty(),
-                        hint = R.string.hint_website,
-                        onTextChanged = { viewModel.onWebsiteInputChanged(it) }
-                    )
-                }
+                //todo are the headers (in composables.kt) too big for this screen?
+                PersonalDetailsSection(this, uiState.errors.nameError)
+                Spacer(spacerModifier)
+                AddressSection(address)
+                Spacer(spacerModifier)
+                ContactDetailsSection(
+                    contactDetails = contactDetails,
+                    emailError = uiState.errors.emailError,
+                    websiteError = uiState.errors.websiteError,
+                    phoneNumberError = uiState.errors.phoneNumberError
+                )
             }
         }
 

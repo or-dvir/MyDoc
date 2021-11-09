@@ -66,6 +66,8 @@
     <string name="contentDescription_more">More</string>
     <string name="contentDescription_edit">Edit</string>
 
+    <string name="personalDetails">Personal Details</string>
+
     <string name="delete">Delete</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
