@@ -46,6 +46,7 @@ import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.navigation.NavigationDestination.NewEditDoctorScreen
 import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.DoctorDetailsUiState
+import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.openDialer
 import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
@@ -250,14 +251,7 @@ fun DoctorDetailsCard(
         Column(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
         ) {
-            Text(
-                text = title,
-                style = Typography.h6,
-                //todo when settled on colors, try primary variant
-                color = colors.primary
-            )
-
-            Spacer(Modifier.height(5.dp))
+            Header(text = title)
             content()
 
             Row(
