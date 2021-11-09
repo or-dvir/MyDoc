@@ -9,6 +9,7 @@
     <string name="emptyString">""</string>
 
     <string name="error_invalidEmail">Invalid email address</string>
+    <string name="error_invalidUrl">Invalid URL</string>
     <string name="error_invalidPhoneNumber">Invalid phone number. Try removing special characters</string>
     <string name="error_loadingDoctor">
         There was an error loading this doctor. Please try again.
@@ -42,6 +43,7 @@
     <string name="hint_apartment">Apartment</string>
     <string name="hint_floor">Floor</string>
     <string name="hint_email">Email</string>
+    <string name="hint_website">Website</string>
     <string name="hint_password">Password</string>
     <string name="hint_passwordConfirmation">Password Confirmation</string>
 
@@ -59,6 +61,7 @@
     <string name="contentDescription_save">Save</string>
     <string name="contentDescription_navigate">Navigate</string>
     <string name="contentDescription_makeCall">Make call</string>
+    <string name="contentDescription_openWebsite">Open website</string>
     <string name="contentDescription_sendEmail">Send email</string>
     <string name="contentDescription_more">More</string>
     <string name="contentDescription_edit">Edit</string>

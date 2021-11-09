@@ -32,7 +32,7 @@ fun Context.sendEmail(
     emailAddress: String,
     subject: String = "",
     body: String = ""
-): Boolean
+)
 {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         data = Uri.parse("mailto:")
@@ -47,11 +47,28 @@ fun Context.sendEmail(
         }
     }
 
-    if (intent.resolveActivity(packageManager) != null)
-    {
-        startActivity(intent)
-        return true
+    startActivity(intent)
+}
+
+fun Context.openUrl(url: String, newTask: Boolean = false)
+{
+    val httpUrl =
+        if (!url.startsWith("https://") && !url.startsWith("http://"))
+        {
+            "http://$url"
+        } else
+        {
+            url
+        }
+
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(httpUrl)
+
+        if (newTask)
+        {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
     }
 
-    return false
+    startActivity(intent)
 }
