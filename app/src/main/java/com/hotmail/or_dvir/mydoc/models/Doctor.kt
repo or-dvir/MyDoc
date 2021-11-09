@@ -12,10 +12,7 @@ data class Doctor(
 
 //todo
 // opening times
-// contact details
-//      phone (format with https://developer.android.com/reference/android/telephony/PhoneNumberUtils.html)
-//      email
-// link to website
+//      complex!!! add option for a break in the middle of the day
 
 object DoctorFactory
 {
