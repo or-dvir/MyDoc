@@ -130,6 +130,25 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
 
     //todo way too many "on X input changed" functions.
     // can i make it better?
+    fun onWebsiteInputChanged(newInput: String)
+    {
+        uiState.value?.apply {
+            val newContactDetails =
+                doctor.contactDetails?.copy(website = newInput) ?: ContactDetailsFactory
+                    .createEmpty().copy(website = newInput)
+
+            val newDoc = doctor.copy(contactDetails = newContactDetails)
+            val newErrors = errors.copy(websiteError = "")
+
+            updateUiState(
+                copy(
+                    errors = newErrors,
+                    doctor = newDoc
+                )
+            )
+        }
+    }
+
     fun onEmailInputChanged(newInput: String)
     {
         uiState.value?.apply {
@@ -253,6 +272,12 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                         errors = errors.copy(emailError = getString(R.string.error_invalidEmail))
                         isValid = false
                     }
+
+                    if (!isWebsiteValid())
+                    {
+                        errors = errors.copy(websiteError = getString(R.string.error_invalidUrl))
+                        isValid = false
+                    }
                 }
             }
 
@@ -286,6 +311,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         val houseNumberError: String = "",
         val cityError: String = "",
         val phoneNumberError: String = "",
-        val emailError: String = ""
+        val emailError: String = "",
+        val websiteError: String = "",
     )
 }

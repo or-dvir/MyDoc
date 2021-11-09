@@ -202,6 +202,15 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                         onTextChanged = { viewModel.onEmailInputChanged(it) }
                     )
                 }
+
+                contactDetails?.website.apply {
+                    FormTextField(
+                        error = uiState.errors.websiteError,
+                        text = this.orEmpty(),
+                        hint = R.string.hint_website,
+                        onTextChanged = { viewModel.onWebsiteInputChanged(it) }
+                    )
+                }
             }
         }
 
