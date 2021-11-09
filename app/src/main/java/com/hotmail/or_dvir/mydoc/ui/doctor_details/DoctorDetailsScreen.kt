@@ -49,6 +49,7 @@ import com.hotmail.or_dvir.mydoc.ui.doctor_details.DoctorDetailsViewModel.Doctor
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.openDialer
 import com.hotmail.or_dvir.mydoc.ui.shared.openMaps
+import com.hotmail.or_dvir.mydoc.ui.shared.openUrl
 import com.hotmail.or_dvir.mydoc.ui.shared.sendEmail
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import com.hotmail.or_dvir.mydoc.ui.theme.Typography
@@ -229,6 +230,13 @@ fun CardSpacer()
 }
 
 @Composable
+fun CardContentSpacer()
+{
+    Spacer(modifier = Modifier.height(3.dp))
+}
+
+
+@Composable
 fun DoctorDetailsCard(
     title: String,
     actions: List<CardAction>,
@@ -293,6 +301,15 @@ fun ContactDetailsCard(contactDetails: ContactDetails)
         )
     }
 
+    contactDetails.website?.let {
+        actions.add(
+            CardAction(
+                R.drawable.ic_internet,
+                R.string.contentDescription_openWebsite
+            ) { context.openUrl(it) }
+        )
+    }
+
     DoctorDetailsCard(
         title = stringResource(id = R.string.contact),
         actions = actions
@@ -302,7 +319,13 @@ fun ContactDetailsCard(contactDetails: ContactDetails)
                 Text(text = it)
             }
 
+            CardContentSpacer()
             contactDetails.email?.let {
+                Text(text = it)
+            }
+
+            CardContentSpacer()
+            contactDetails.website?.let {
                 Text(text = it)
             }
         }
@@ -335,6 +358,7 @@ fun AddressCard(address: SimpleAddress)
     ) {
         Column {
             address.addressLine?.let { Text(text = it) }
+            CardContentSpacer()
             address.note?.let { Text(text = it) }
         }
     }
