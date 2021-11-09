@@ -243,7 +243,8 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
     val viewModel = getViewModel<NewEditDoctorViewModel>()
 
     //todo handle uiState errors
-
+    i stopped after adding headers to this screen.
+            whats next???
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
