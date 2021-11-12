@@ -61,6 +61,8 @@ fun ExposedDropDownMenu(
     leadingIcon: @Composable (() -> Unit)? = null,
 )
 {
+    ExposedDropdownMenu will be added in compose 1.1!!!
+    you can try the preview with this version: 1.1.0-beta02
     there is a problem... the default click behaviour of text field does not allow
     to open the menu.
             try this:
