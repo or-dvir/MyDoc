@@ -62,6 +62,8 @@
     <string name="contentDescription_navigate">Navigate</string>
     <string name="contentDescription_makeCall">Make call</string>
     <string name="contentDescription_openWebsite">Open website</string>
+    <string name="contentDescription_openMenu">Open menu</string>
+    <string name="contentDescription_closeMenu">Close menu</string>
     <string name="contentDescription_sendEmail">Send email</string>
     <string name="contentDescription_more">More</string>
     <string name="contentDescription_edit">Edit</string>

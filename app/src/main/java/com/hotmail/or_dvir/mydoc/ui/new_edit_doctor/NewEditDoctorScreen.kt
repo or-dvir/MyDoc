@@ -1,5 +1,6 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import com.hotmail.or_dvir.mydoc.models.ContactDetails
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
+import com.hotmail.or_dvir.mydoc.ui.shared.ExposedDropDownMenu
 import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
@@ -241,8 +243,6 @@ fun ContactDetailsSection(
 fun ScreenContent(uiState: NewEditDoctorUiState)
 {
     //todo handle uiState errors
-    i stopped after adding headers to this screen.
-            whats next???
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -252,6 +252,29 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                 .padding(16.dp)
         ) {
             val spacerModifier = Modifier.height(8.dp)
+
+            //todo this is just for testing. remove when done
+            //todo test:
+            // displayed as expected
+            // adjust modifier
+            // menu is same width as text field
+            // listeners are invoked
+            // leading icon
+            //      on
+            //      off
+            // trailing icon displayed correctly
+            // clicking on text field open menu
+            //      next click closes menu
+            // clicking on icon field open menu
+            //      next click closes menu
+            // clicking outside menu closes it
+            ExposedDropDownMenu(
+                label = "day of week",
+                menuItems = listOf("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"),
+                onMenuItemSelected = { index, item ->
+                    Log.i("aaaaa", "index: $index, item: $item")
+                },
+            )
 
             uiState.doctor.apply {
                 //todo are the headers (in composables.kt) too big for this screen?
