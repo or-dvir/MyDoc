@@ -7,20 +7,24 @@ data class Doctor(
     val name: String,
     val speciality: String?,
     val address: SimpleAddress?,
-    val contactDetails: ContactDetails?
+    val contactDetails: ContactDetails?,
+    val openingTimes: List<OpeningTime>?
 )
 
 //todo
 // opening times
+//      day of week
+//          list of "from-to" hours
 //      complex!!! add option for a break in the middle of the day
 
 object DoctorFactory
 {
-    fun createEmpty() = Doctor(
+    fun createDefault() = Doctor(
         UUID.randomUUID(),
         "",
         null,
-        AddressFactory.createEmpty(),
-        ContactDetailsFactory.createEmpty()
+        AddressFactory.createDefault(),
+        ContactDetailsFactory.createDefault(),
+        null
     )
 }

@@ -2,7 +2,7 @@
 buildscript {
     ext {
         ext.global_compileSdk = 31
-        ext.global_minSdk = 23
+        ext.global_minSdk = 26
         ext.global_targetSdk = 29
         ext.global_versionCode = 1
         ext.global_versionName = "1.0"

@@ -135,7 +135,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         uiState.value?.apply {
             val newContactDetails =
                 doctor.contactDetails?.copy(website = newInput) ?: ContactDetailsFactory
-                    .createEmpty().copy(website = newInput)
+                    .createDefault().copy(website = newInput)
 
             val newDoc = doctor.copy(contactDetails = newContactDetails)
             val newErrors = errors.copy(websiteError = "")
@@ -154,7 +154,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         uiState.value?.apply {
             val newContactDetails =
                 doctor.contactDetails?.copy(email = newInput) ?: ContactDetailsFactory
-                    .createEmpty().copy(email = newInput)
+                    .createDefault().copy(email = newInput)
 
             val newDoc = doctor.copy(contactDetails = newContactDetails)
             val newErrors = errors.copy(emailError = "")
@@ -173,7 +173,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         uiState.value?.apply {
             val newContactDetails =
                 doctor.contactDetails?.copy(phoneNumber = newInput) ?: ContactDetailsFactory
-                    .createEmpty().copy(phoneNumber = newInput)
+                    .createDefault().copy(phoneNumber = newInput)
 
             val newDoc = doctor.copy(contactDetails = newContactDetails)
             val newErrors = errors.copy(phoneNumberError = "")
@@ -217,7 +217,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     {
         uiState.value?.apply {
             val newAddress =
-                doctor.address?.copy(addressLine = newInput) ?: AddressFactory.createEmpty()
+                doctor.address?.copy(addressLine = newInput) ?: AddressFactory.createDefault()
                     .copy(addressLine = newInput)
 
             val newDoc = doctor.copy(address = newAddress)
@@ -232,7 +232,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     {
         uiState.value?.apply {
             val newAddress =
-                doctor.address?.copy(note = newInput) ?: AddressFactory.createEmpty()
+                doctor.address?.copy(note = newInput) ?: AddressFactory.createDefault()
                     .copy(note = newInput)
 
             val newDoc = doctor.copy(address = newAddress)
@@ -297,7 +297,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
     //todo there are too many fields (long form), there has to be a better way than this!!!
     data class NewEditDoctorUiState(
         //todo just for initialization. should i use something else?
-        val doctor: Doctor = DoctorFactory.createEmpty(),
+        val doctor: Doctor = DoctorFactory.createDefault(),
         val isLoading: Boolean = false,
         val errors: UiErrors = UiErrors()
     )

@@ -20,7 +20,10 @@ data class DoctorEntity(
     @Embedded
     val address: SimpleAddress?,
     @Embedded
-    val contactDetails: ContactDetails?
+    val contactDetails: ContactDetails?,
+    add opening times.
+            need type converter because its a list!
+            use gson (or whatever else) to store it for easy conversion)
 )
 {
     //todo

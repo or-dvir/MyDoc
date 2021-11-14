@@ -45,5 +45,5 @@ data class ContactDetails(
 
 object ContactDetailsFactory
 {
-    fun createEmpty() = ContactDetails(null, null, null)
+    fun createDefault() = ContactDetails(null, null, null)
 }
