@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hotmail.or_dvir.mydoc.database.entities.DoctorEntity.Companion.TABLE_DOCTORS
 import com.hotmail.or_dvir.mydoc.models.ContactDetails
+import com.hotmail.or_dvir.mydoc.models.OpeningTime
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 
 @Entity(tableName = TABLE_DOCTORS)
@@ -21,11 +22,13 @@ data class DoctorEntity(
     val address: SimpleAddress?,
     @Embedded
     val contactDetails: ContactDetails?,
-    add opening times.
-            need type converter because its a list!
-            use gson (or whatever else) to store it for easy conversion)
+    @ColumnInfo(name = COLUMN_OPENING_TIMES)
+    val openingTimes: List<OpeningTime>?,
 )
 {
+    i just added opening time (with moshi and room typeconverter)
+    TEST IT!!!!
+
     //todo
     // is this class getting too big? too many columns in the database?
     // should probably make separate tables (do i need relations? could get complicated!!!)
@@ -39,5 +42,6 @@ data class DoctorEntity(
         const val COLUMN_ID = "_id"
         const val COLUMN_NAME = "_name"
         const val COLUMN_SPECIALITY = "_speciality"
+        const val COLUMN_OPENING_TIMES = "_openingTimes"
     }
 }
