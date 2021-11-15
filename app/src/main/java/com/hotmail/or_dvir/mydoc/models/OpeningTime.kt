@@ -1,71 +1,54 @@
 package com.hotmail.or_dvir.mydoc.models
 
-import java.text.DateFormat
+import com.hotmail.or_dvir.mydoc.ui.shared.atLeastOneNull
+import com.hotmail.or_dvir.mydoc.ui.shared.formatShort
 import java.time.DayOfWeek
-import java.util.Calendar
+import java.time.LocalTime
+import java.time.format.TextStyle
+import java.util.Locale
 
 data class OpeningTime(
+    //todo should all variables be nullable???
     val dayOfWeek: DayOfWeek,
-    val fromHour: TimeOfDay,
-    val toHour: TimeOfDay
+    val fromHour: LocalTime,
+    val toHour: LocalTime
 )
 {
-    add validity check (toHour is less than fromHour)
+    fun isValid(): Boolean
+    {
+        return if (atLeastOneNull(fromHour, toHour))
+        {
+            //fromHour and toHour are not mandatory
+            true
+        } else
+        {
+            fromHour.isAfter(toHour)
+        }
+    }
 
-    add function to get user-friendly SHORT string for dayOfWeek
-    add function to get user-friendly FULL string for dayOfWeek
+    //todo check the output (for for 24 and 12 hours
+    fun getFromHourShort() = fromHour.formatShort()
+    fun getToHourShort() = toHour.formatShort()
 
-    add function to get user-friendly string for fromHour
+    fun getDayOfWeekShort() = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
-    add function to get user-friendly string for toHour
+    //todo check output. try different text styles
+    fun getDayOfWeekLong() = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+
+    //todo
+    // do i need getFromHourLong()??
+    // check FULL VS LONG VS MEDIUM
+
+    //todo
+    // check which range the time picker returns!!!! what if the picker is in am/pm mode?
+    // does it return 10pm or 22?
 }
 
 object OpeningTimeFactory
 {
     fun createDefault() = OpeningTime(
-        DayOfWeek.MONDAY,
-        TimeOfDay(),
-        TimeOfDay()
+        dayOfWeek = DayOfWeek.MONDAY,
+        fromHour = LocalTime.MIN,
+        toHour = LocalTime.MAX
     )
-}
-
-class TimeOfDay
-{
-    init
-    {
-        Calendar.HOUR_OF_DAY
-    }
-
-    check which range the time picker returns!!!! what if the picker is in am/pm mode?
-    does it return 10pm or 22?
-
-    add function to get user-friendly SHORT string
-        use DateFormat.getTimeInstance(style: int)
-
-    add function to get user-friendly LONG string
-    use DateFormat.getTimeInstance(style: int)
-
-    do i need a function for MEDIUM user friendly string?
-    do i need a function for FULL user friendly string?
-
-    private companion object
-    {
-        private val HOUR_RANGE = 0..23
-        private val MINUTE_RANGE = 0..59
-
-        private val HOUR_DEFAULT = HOUR_RANGE.first
-        private val MINUTE_DEFAULT = MINUTE_RANGE.first
-    }
-
-    var hour: Int = HOUR_DEFAULT
-        set(value)
-        {
-            field = value.takeIf { it in HOUR_RANGE } ?: HOUR_DEFAULT
-        }
-
-    var minute: Int = MINUTE_DEFAULT
-        set(value)
-        {
-            field = value.takeIf { it in MINUTE_RANGE } ?: MINUTE_DEFAULT
-        }
 }
