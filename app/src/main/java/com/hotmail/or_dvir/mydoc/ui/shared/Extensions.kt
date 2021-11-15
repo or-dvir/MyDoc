@@ -3,6 +3,26 @@ package com.hotmail.or_dvir.mydoc.ui.shared
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+
+/**
+ * returns TRUE if at least one item in [objects] is not null, or FALSE if all [objects] are null
+ */
+fun atLeastOneNotNull(vararg objects: Any?) = objects.any { it != null }
+
+/**
+ * returns TRUE if at least one item in [objects] is null, or FALSE if all [objects] are not null
+ */
+fun atLeastOneNull(vararg objects: Any?) = objects.any { it == null }
+
+fun LocalTime.formatShort() = format(
+    DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+)
+
+fun Any?.isNull() = this == null
+fun Any?.isNotNull() = this != null
 
 fun String.takeIfNotBlank() = takeIf { this.isNotBlank() }
 
