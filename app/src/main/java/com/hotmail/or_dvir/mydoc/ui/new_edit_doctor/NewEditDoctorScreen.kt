@@ -294,8 +294,6 @@ fun OpeningTimesSection(
         Header(text = stringResource(R.string.openingTimes))
 
         //todo
-        // add button at bottom to add opening time
-        //      show button even if no rows are available
         // display each opening time as a row (OpeningTimeRow function)
         openingTimes?.forEach { OpeningTimeRow(it) }
 
@@ -303,9 +301,7 @@ fun OpeningTimesSection(
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
         ) {
-            IconButton(onClick = {
-                //todo add new row! update caller that a new opening time was added!
-            }) {
+            IconButton(onClick = { viewModel.addNewOpeningTime() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add_circle),
                     contentDescription = stringResource(id = R.string.contentDescription_addOpeningTime)
@@ -314,7 +310,7 @@ fun OpeningTimesSection(
         }
     }
 
-    i stopped in this function
+//    i stopped in this function
 }
 
 

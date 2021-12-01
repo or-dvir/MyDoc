@@ -7,6 +7,7 @@ import com.hotmail.or_dvir.mydoc.models.AddressFactory
 import com.hotmail.or_dvir.mydoc.models.ContactDetailsFactory
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
+import com.hotmail.or_dvir.mydoc.models.OpeningTimeFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
@@ -236,6 +237,20 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                     .copy(note = newInput)
 
             val newDoc = doctor.copy(address = newAddress)
+
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    fun addNewOpeningTime()
+    {
+        uiState.value?.apply {
+            val newOpeningTimes =
+                doctor.openingTimes.plus(OpeningTimeFactory.createDefault())
+
+            val newDoc = doctor.copy(openingTimes = newOpeningTimes)
 
             updateUiState(
                 copy(doctor = newDoc)

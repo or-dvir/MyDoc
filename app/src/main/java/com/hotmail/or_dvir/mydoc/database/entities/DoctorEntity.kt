@@ -23,7 +23,7 @@ data class DoctorEntity(
     @Embedded
     val contactDetails: ContactDetails?,
     @ColumnInfo(name = COLUMN_OPENING_TIMES)
-    val openingTimes: List<OpeningTime>?,
+    val openingTimes: List<OpeningTime>,
 )
 {
     //todo

@@ -8,7 +8,7 @@ data class Doctor(
     val speciality: String?,
     val address: SimpleAddress?,
     val contactDetails: ContactDetails?,
-    val openingTimes: List<OpeningTime>?
+    val openingTimes: List<OpeningTime>
 )
 
 //todo
@@ -25,6 +25,6 @@ object DoctorFactory
         null,
         AddressFactory.createDefault(),
         ContactDetailsFactory.createDefault(),
-        null
+        listOf()
     )
 }
