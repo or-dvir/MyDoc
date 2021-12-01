@@ -51,6 +51,7 @@ import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import org.koin.androidx.compose.getViewModel
+import java.sql.Timestamp
 
 @Composable
 fun NewEditDoctorScreen()
@@ -346,7 +347,11 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
         }
     }
 
-//    i stopped in this function
+    i stopped in this function
+        keep working on opening times:
+        add "delete" button to each row,
+        make "form" and "to" buttons functional (open time picker)
+        update doctor in viewmodel on changes
 }
 
 @Composable
