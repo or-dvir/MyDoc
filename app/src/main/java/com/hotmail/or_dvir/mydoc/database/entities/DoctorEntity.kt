@@ -26,9 +26,6 @@ data class DoctorEntity(
     val openingTimes: List<OpeningTime>?,
 )
 {
-    i just added opening time (with moshi and room typeconverter)
-    TEST IT!!!!
-
     //todo
     // is this class getting too big? too many columns in the database?
     // should probably make separate tables (do i need relations? could get complicated!!!)

@@ -14,7 +14,8 @@ fun DoctorEntity.toDoctor(): Doctor
         name = name,
         speciality = speciality,
         address = address,
-        contactDetails = contactDetails
+        contactDetails = contactDetails,
+        openingTimes = openingTimes
     )
 }
 
@@ -38,7 +39,8 @@ fun Doctor.toDoctorEntity(): DoctorEntity
         name = name,
         speciality = speciality?.takeIfNotBlank(),
         address = dbAddress,
-        contactDetails = dbContactDetails
+        contactDetails = dbContactDetails,
+        openingTimes = openingTimes
         )
 }
 

@@ -3,6 +3,7 @@ package com.hotmail.or_dvir.mydoc.models
 import com.hotmail.or_dvir.mydoc.moshi.MyMoshi
 import com.hotmail.or_dvir.mydoc.ui.shared.formatShort
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Types
 import java.time.DayOfWeek
@@ -27,7 +28,8 @@ data class OpeningTime(
             OpeningTime::class.java
         )
 
-        var moshiListAdapter = MyMoshi.instance.adapter<List<OpeningTime>>(listType)
+        var moshiListAdapter: JsonAdapter<List<OpeningTime>> =
+            MyMoshi.instance.adapter(listType)
     }
 
     fun isValid() = fromHour.isAfter(toHour)
