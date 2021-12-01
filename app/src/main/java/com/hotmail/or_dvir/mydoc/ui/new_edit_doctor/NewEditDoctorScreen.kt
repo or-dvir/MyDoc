@@ -269,6 +269,7 @@ fun OpeningTimeRow(openingTime: OpeningTime)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
+        //todo which spacing is best?
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -305,9 +306,7 @@ fun OpeningTimeRow(openingTime: OpeningTime)
 }
 
 @Composable
-fun OpeningTimesSection(
-    openingTimes: List<OpeningTime>?
-)
+fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
 {
     val viewModel = getViewModel<NewEditDoctorViewModel>()
 
@@ -324,7 +323,12 @@ fun OpeningTimesSection(
 
             //todo
             // display each opening time as a row (OpeningTimeRow function)
-            openingTimes?.forEach { OpeningTimeRow(it) }
+            openingTimes?.forEachIndexed { index, it ->
+                OpeningTimeRow(it)
+                if(index != openingTimes.lastIndex) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
 
             Row(
                 horizontalArrangement = Arrangement.End,
@@ -357,21 +361,21 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            val spacerModifier = Modifier.height(8.dp)
+            val sectionSpacerModifier = Modifier.height(8.dp)
 
             uiState.doctor.apply {
                 //todo are the headers (in composables.kt) too big for this screen?
                 PersonalDetailsSection(this, uiState.errors.nameError)
-                Spacer(spacerModifier)
+                Spacer(sectionSpacerModifier)
                 AddressSection(address)
-                Spacer(spacerModifier)
+                Spacer(sectionSpacerModifier)
                 ContactDetailsSection(
                     contactDetails = contactDetails,
                     emailError = uiState.errors.emailError,
                     websiteError = uiState.errors.websiteError,
                     phoneNumberError = uiState.errors.phoneNumberError
                 )
-                Spacer(spacerModifier)
+                Spacer(sectionSpacerModifier)
                 OpeningTimesSection(openingTimes)
             }
         }
