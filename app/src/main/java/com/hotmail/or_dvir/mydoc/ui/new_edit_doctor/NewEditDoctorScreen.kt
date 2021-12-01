@@ -1,6 +1,7 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,13 +13,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -40,6 +44,7 @@ import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.OpeningTime
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
+import com.hotmail.or_dvir.mydoc.ui.shared.ButtonWithHeader
 import com.hotmail.or_dvir.mydoc.ui.shared.ExposedDropDownMenu
 import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
@@ -264,9 +269,14 @@ fun OpeningTimeRow(openingTime: OpeningTime)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
+        //todo
+        // the size of the menu changes size according to which entry is selected!!!
+        // replace this with ButtonWithHeader so it matches the other ones?
+        //      the "drop down" is a DropDownMenu which i already implemented
+        //      in other places in the app
         //day of week
         ExposedDropDownMenu(
             values = OpeningTime.getDaysOfWeekShort(),
@@ -276,10 +286,21 @@ fun OpeningTimeRow(openingTime: OpeningTime)
             label = { Text(text = stringResource(id = R.string.hint_day)) },
         )
 
+        //from hour
+        ButtonWithHeader(
+            header = stringResource(id = R.string.from),
+            buttonText = openingTime.getFromHourShort()
+        ) {
+            //todo onclick -> do something
+        }
 
-        //todo
-        // add hour from
-        // add hour to
+        //to hour
+        ButtonWithHeader(
+            header = stringResource(id = R.string.to),
+            buttonText = openingTime.getToHourShort()
+        ) {
+            //todo onclick -> do something
+        }
     }
 }
 
@@ -293,26 +314,36 @@ fun OpeningTimesSection(
     Column {
         Header(text = stringResource(R.string.openingTimes))
 
-        //todo
-        // display each opening time as a row (OpeningTimeRow function)
-        openingTimes?.forEach { OpeningTimeRow(it) }
+        val borderColor = MaterialTheme.colors.onSurface.copy(
+            alpha = TextFieldDefaults.UnfocusedIndicatorLineOpacity
+        )
 
-        Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier.border(1.dp, borderColor, RoundedCornerShape(5.dp))
         ) {
-            IconButton(onClick = { viewModel.addNewOpeningTime() }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_add_circle),
-                    contentDescription = stringResource(id = R.string.contentDescription_addOpeningTime)
-                )
+
+            //todo
+            // display each opening time as a row (OpeningTimeRow function)
+            openingTimes?.forEach { OpeningTimeRow(it) }
+
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                //todo scroll down to new row on button click
+                IconButton(onClick = { viewModel.addNewOpeningTime() }) {
+                    Icon(
+                        tint = MaterialTheme.colors.primary,
+                        painter = painterResource(id = R.drawable.ic_add_circle),
+                        contentDescription = stringResource(id = R.string.contentDescription_addOpeningTime)
+                    )
+                }
             }
         }
     }
 
 //    i stopped in this function
 }
-
 
 @Composable
 fun ScreenContent(uiState: NewEditDoctorUiState)

@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +27,7 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.Text
@@ -217,6 +219,32 @@ fun Header(
         if (bottomSpace > 0.dp)
         {
             Spacer(Modifier.height(bottomSpace))
+        }
+    }
+}
+
+@Composable
+fun ButtonWithHeader(
+    header: String,
+    buttonText: String,
+    onClick: () -> Unit
+)
+{
+    Column {
+        Text(
+            text = header,
+            style = Typography.subtitle2,
+            color = MaterialTheme.colors.primary
+        )
+        //todo increase border alpha
+        OutlinedButton(
+            onClick = onClick,
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(
+                text = buttonText,
+                color = MaterialTheme.colors.onSurface
+            )
         }
     }
 }
