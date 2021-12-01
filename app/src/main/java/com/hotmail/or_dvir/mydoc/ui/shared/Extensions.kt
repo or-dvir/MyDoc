@@ -3,9 +3,12 @@ package com.hotmail.or_dvir.mydoc.ui.shared
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import java.time.format.TextStyle
+import java.util.Locale
 
 /**
  * returns TRUE if at least one item in [objects] is not null, or FALSE if all [objects] are null
@@ -17,9 +20,15 @@ fun atLeastOneNotNull(vararg objects: Any?) = objects.any { it != null }
  */
 fun atLeastOneNull(vararg objects: Any?) = objects.any { it == null }
 
-fun LocalTime.formatShort() = format(
+fun LocalTime.formatShort(): String = format(
     DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 )
+
+fun DayOfWeek.formatShort(locale: Locale = Locale.getDefault()): String =
+    getDisplayName(TextStyle.SHORT, locale)
+
+fun DayOfWeek.formatLong(locale: Locale = Locale.getDefault()): String =
+    getDisplayName(TextStyle.FULL, locale)
 
 fun Any?.isNull() = this == null
 fun Any?.isNotNull() = this != null

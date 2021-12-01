@@ -1,6 +1,7 @@
 package com.hotmail.or_dvir.mydoc.models
 
 import com.hotmail.or_dvir.mydoc.moshi.MyMoshi
+import com.hotmail.or_dvir.mydoc.ui.shared.formatLong
 import com.hotmail.or_dvir.mydoc.ui.shared.formatShort
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonAdapter
@@ -8,8 +9,6 @@ import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Types
 import java.time.DayOfWeek
 import java.time.LocalTime
-import java.time.format.TextStyle
-import java.util.Locale
 
 @JsonClass(generateAdapter = true)
 data class OpeningTime(
@@ -30,17 +29,19 @@ data class OpeningTime(
 
         var moshiListAdapter: JsonAdapter<List<OpeningTime>> =
             MyMoshi.instance.adapter(listType)
+
+        fun getDaysOfWeekShort() = DayOfWeek.values().map { it.formatShort() }
     }
 
     fun isValid() = fromHour.isAfter(toHour)
 
-    //todo check the output (for for 24 and 12 hours
+    //todo check the output (for for 24 and 12 hours)
     fun getFromHourShort() = fromHour.formatShort()
     fun getToHourShort() = toHour.formatShort()
-    fun getDayOfWeekShort() = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+    fun getDayOfWeekShort() = dayOfWeek.formatShort()
 
     //todo check output. try different text styles
-    fun getDayOfWeekLong() = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+    fun getDayOfWeekLong() = dayOfWeek.formatLong()
 
     //todo
     // do i need getFromHourLong()??

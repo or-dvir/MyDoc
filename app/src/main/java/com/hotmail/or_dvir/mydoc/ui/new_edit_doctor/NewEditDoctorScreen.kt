@@ -1,8 +1,10 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +24,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
@@ -34,8 +37,10 @@ import androidx.compose.ui.unit.dp
 import com.hotmail.or_dvir.mydoc.R
 import com.hotmail.or_dvir.mydoc.models.ContactDetails
 import com.hotmail.or_dvir.mydoc.models.Doctor
+import com.hotmail.or_dvir.mydoc.models.OpeningTime
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
+import com.hotmail.or_dvir.mydoc.ui.shared.ExposedDropDownMenu
 import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
@@ -238,6 +243,82 @@ fun ContactDetailsSection(
 }
 
 @Composable
+fun OpeningTimeRow(openingTime: OpeningTime)
+{
+    //todo
+    // add button at bottom to add opening time
+    // display each opening time as a row:
+    //      drop down for day of week
+    //          if already exists, show selected
+    //      drop down for open time
+    //          if already exists, show selected
+    //      drop down for close time
+    //          if already exists, show selected
+    //      button to delete the entry
+    // update caller on:
+    //      row added
+    //      row removed
+    //      day of week changed
+    //      from hour changed
+    //      to hour changed
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        //day of week
+        ExposedDropDownMenu(
+            values = OpeningTime.getDaysOfWeekShort(),
+            onChange = { index, value ->
+                //todo
+            },
+            label = { Text(text = stringResource(id = R.string.hint_day)) },
+        )
+
+
+        //todo
+        // add hour from
+        // add hour to
+    }
+}
+
+@Composable
+fun OpeningTimesSection(
+    openingTimes: List<OpeningTime>?
+)
+{
+    val viewModel = getViewModel<NewEditDoctorViewModel>()
+
+    Column {
+        Header(text = stringResource(R.string.openingTimes))
+
+        //todo
+        // add button at bottom to add opening time
+        //      show button even if no rows are available
+        // display each opening time as a row (OpeningTimeRow function)
+        openingTimes?.forEach { OpeningTimeRow(it) }
+
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            IconButton(onClick = {
+                //todo add new row! update caller that a new opening time was added!
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_add_circle),
+                    contentDescription = stringResource(id = R.string.contentDescription_addOpeningTime)
+                )
+            }
+        }
+    }
+
+    i stopped in this function
+}
+
+
+@Composable
 fun ScreenContent(uiState: NewEditDoctorUiState)
 {
     //todo handle uiState errors
@@ -263,6 +344,8 @@ fun ScreenContent(uiState: NewEditDoctorUiState)
                     websiteError = uiState.errors.websiteError,
                     phoneNumberError = uiState.errors.phoneNumberError
                 )
+                Spacer(spacerModifier)
+                OpeningTimesSection(openingTimes)
             }
         }
 

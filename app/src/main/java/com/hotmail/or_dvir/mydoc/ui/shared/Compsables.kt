@@ -67,9 +67,9 @@ import com.hotmail.or_dvir.mydoc.ui.theme.Typography
 @Composable
 fun ExposedDropDownMenu(
     values: List<String>,
-    onChange: (Int, String) -> Unit,
+    onChange: (index: Int, value: String) -> Unit,
     label: @Composable () -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colors.onSurface.copy(alpha = TextFieldDefaults.BackgroundOpacity),
     shape: Shape = MaterialTheme.shapes.small.copy(
         bottomEnd = ZeroCornerSize,
@@ -108,7 +108,7 @@ fun ExposedDropDownMenu(
 @Composable
 private fun ExposedDropDownMenuImpl(
     values: List<String>,
-    onChange: (Int, String) -> Unit,
+    onChange: (index: Int, value: String) -> Unit,
     label: @Composable () -> Unit,
     modifier: Modifier,
     backgroundColor: Color,
@@ -177,12 +177,12 @@ private fun ExposedDropDownMenuImpl(
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
-            values.forEachIndexed { i, v ->
+            values.forEachIndexed { index, value ->
 //                val scope = rememberCoroutineScope()
                 DropdownMenuItem(
                     onClick = {
-                        onChange(i, v)
-                        selectedIndex = i
+                        onChange(index, value)
+                        selectedIndex = index
                         expanded = false
 //                        scope.launch {
 //                            delay(150)
@@ -190,7 +190,7 @@ private fun ExposedDropDownMenuImpl(
 //                        }
                     }
                 ) {
-                    Text(v)
+                    Text(value)
                 }
             }
         }
