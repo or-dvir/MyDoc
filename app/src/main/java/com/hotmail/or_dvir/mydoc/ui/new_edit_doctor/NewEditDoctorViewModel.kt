@@ -7,10 +7,12 @@ import com.hotmail.or_dvir.mydoc.models.AddressFactory
 import com.hotmail.or_dvir.mydoc.models.ContactDetailsFactory
 import com.hotmail.or_dvir.mydoc.models.Doctor
 import com.hotmail.or_dvir.mydoc.models.DoctorFactory
+import com.hotmail.or_dvir.mydoc.models.OpeningTime
 import com.hotmail.or_dvir.mydoc.models.OpeningTimeFactory
 import com.hotmail.or_dvir.mydoc.repositories.DoctorsRepository
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.BaseViewModel
+import com.hotmail.or_dvir.mydoc.ui.shared.isNull
 import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 import java.util.UUID
@@ -244,11 +246,23 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun addNewOpeningTime()
+    private fun addOrRemoveOpeningTimeRow(timeToRemove: OpeningTime?)
     {
+        //todo potential bug
+        // add some time A -> add some time B -> add time A again -> remove the SECOND time A ->
+        // "minus" function removes the FIRST occurrence, which line will be removed?
+
+        val isAdding = timeToRemove.isNull()
+
         uiState.value?.apply {
             val newOpeningTimes =
-                doctor.openingTimes.plus(OpeningTimeFactory.createDefault())
+                if (isAdding)
+                {
+                    doctor.openingTimes.plus(OpeningTimeFactory.createDefault())
+                } else
+                {
+                    doctor.openingTimes.minus(OpeningTimeFactory.createDefault())
+                }
 
             val newDoc = doctor.copy(openingTimes = newOpeningTimes)
 
@@ -257,6 +271,9 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
             )
         }
     }
+
+    fun removeOpeningTimeRow(timeToRemove: OpeningTime) = addOrRemoveOpeningTimeRow(timeToRemove)
+    fun addOpeningTimeRow() = addOrRemoveOpeningTimeRow(null)
 
     private fun validateInput(): Boolean
     {
