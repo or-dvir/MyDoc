@@ -246,11 +246,12 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    private fun addOrRemoveOpeningTimeRow(timeToRemove: OpeningTime?)
+    private fun addOrRemoveOpeningTimeRow(indexToRemove: Int?)
     {
-        //todo potential bug
-        // add some time A -> add some time B -> add time A again -> remove the SECOND time A ->
-        // "minus" function removes the FIRST occurrence, which line will be removed?
+        //todo
+        // add explanation that using index to avoid this bug
+        //      add some time A -> add some time B -> add time A again -> remove the SECOND time A ->
+        //      "minus" function removes the FIRST occurrence
 
         val isAdding = timeToRemove.isNull()
 
@@ -261,7 +262,8 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                     doctor.openingTimes.plus(OpeningTimeFactory.createDefault())
                 } else
                 {
-                    doctor.openingTimes.minus(OpeningTimeFactory.createDefault())
+                    remove at given index
+
                 }
 
             val newDoc = doctor.copy(openingTimes = newOpeningTimes)
@@ -272,7 +274,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun removeOpeningTimeRow(timeToRemove: OpeningTime) = addOrRemoveOpeningTimeRow(timeToRemove)
+    fun removeOpeningTimeRow(indexToRemove: Int) = addOrRemoveOpeningTimeRow(indexToRemove)
     fun addOpeningTimeRow() = addOrRemoveOpeningTimeRow(null)
 
     private fun validateInput(): Boolean

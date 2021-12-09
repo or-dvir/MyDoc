@@ -31,6 +31,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -51,7 +52,7 @@ import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import org.koin.androidx.compose.getViewModel
-import java.sql.Timestamp
+import kotlin.text.Typography.times
 
 @Composable
 fun NewEditDoctorScreen()
@@ -252,14 +253,8 @@ fun ContactDetailsSection(
 fun OpeningTimeRow(openingTime: OpeningTime)
 {
     //todo
-    // add button at bottom to add opening time
     // display each opening time as a row:
-    //      drop down for day of week
-    //          if already exists, show selected
-    //      drop down for open time
-    //          if already exists, show selected
-    //      drop down for close time
-    //          if already exists, show selected
+    //      make day of week button look the same as from/to hours
     //      button to delete the entry
     // update caller on:
     //      row added
@@ -267,6 +262,8 @@ fun OpeningTimeRow(openingTime: OpeningTime)
     //      day of week changed
     //      from hour changed
     //      to hour changed
+
+    val viewModel = getViewModel<NewEditDoctorViewModel>()
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -303,6 +300,18 @@ fun OpeningTimeRow(openingTime: OpeningTime)
         ) {
             //todo onclick -> do something
         }
+
+        //todo
+        // center this vertically with the TIME BUTTONS
+        remove row by INDEX!!! add callback to this function so that the caller can
+        tell which index was removed
+        IconButton(onClick = { viewModel.removeOpeningTimeRow(openingTime) }) {
+            Icon(
+                tint = Color.Red,
+                painter = painterResource(id = R.drawable.ic_remove_circle),
+                contentDescription = stringResource(id = R.string.contentDescription_addOpeningTime)
+            )
+        }
     }
 }
 
@@ -324,6 +333,8 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
 
             //todo
             // display each opening time as a row (OpeningTimeRow function)
+            // should i do this???
+            //      if there are no opening times, add 1 row by default
             openingTimes?.forEachIndexed { index, it ->
                 OpeningTimeRow(it)
                 if(index != openingTimes.lastIndex) {
@@ -336,7 +347,7 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
                 modifier = Modifier.fillMaxWidth()
             ) {
                 //todo scroll down to new row on button click
-                IconButton(onClick = { viewModel.addNewOpeningTime() }) {
+                IconButton(onClick = { viewModel.addOpeningTimeRow() }) {
                     Icon(
                         tint = MaterialTheme.colors.primary,
                         painter = painterResource(id = R.drawable.ic_add_circle),
@@ -347,11 +358,11 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
         }
     }
 
-    i stopped in this function
-        keep working on opening times:
-        add "delete" button to each row,
-        make "form" and "to" buttons functional (open time picker)
-        update doctor in viewmodel on changes
+//    i stopped in this function
+//        keep working on opening times:
+//        add "delete" button to each row,
+//        make "form" and "to" buttons functional (open time picker)
+//        update doctor in viewmodel on changes
 }
 
 @Composable
