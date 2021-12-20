@@ -253,6 +253,10 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         //      add some time A -> add some time B -> add time A again -> remove the SECOND time A ->
         //      "minus" function removes the FIRST occurrence
 
+        adding index did not work last time, probably because i was not saving the state once
+        it was changed (removing item from the list re-draws the composables!!!)
+        FIRST save state, THEN remove by index and make sure it works
+
         val isAdding = timeToRemove.isNull()
 
         uiState.value?.apply {
