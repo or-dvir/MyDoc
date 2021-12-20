@@ -303,6 +303,8 @@ fun OpeningTimeRow(openingTime: OpeningTime)
 
         //todo
         // center this vertically with the TIME BUTTONS
+        remove row by INDEX!!! add callback to this function so that the caller can
+        tell which index was removed
         IconButton(onClick = { viewModel.removeOpeningTimeRow(openingTime) }) {
             Icon(
                 tint = Color.Red,

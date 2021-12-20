@@ -246,7 +246,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    private fun addOrRemoveOpeningTimeRow(timeToRemove: OpeningTime?)
+    private fun addOrRemoveOpeningTimeRow(indexToRemove: Int?)
     {
         //todo
         // add explanation that using index to avoid this bug
@@ -262,12 +262,8 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
                     doctor.openingTimes.plus(OpeningTimeFactory.createDefault())
                 } else
                 {
-                    //todo BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG BUG!!!!!
-                    //minus() removes the FIRST OCCURRENCE.
-                    //e.g.: add time A -> add time B -> add time A again ->
-                    //remove the LAST time A -> FIRST time A is the one removed.
-                    //effectively this does not matter, but it a strange UX/UI experience
-                    doctor.openingTimes.minus(OpeningTimeFactory.createDefault())
+                    remove at given index
+
                 }
 
             val newDoc = doctor.copy(openingTimes = newOpeningTimes)
@@ -278,7 +274,7 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    fun removeOpeningTimeRow(timeToRemove: OpeningTime) = addOrRemoveOpeningTimeRow(timeToRemove)
+    fun removeOpeningTimeRow(indexToRemove: Int) = addOrRemoveOpeningTimeRow(indexToRemove)
     fun addOpeningTimeRow() = addOrRemoveOpeningTimeRow(null)
 
     private fun validateInput(): Boolean
