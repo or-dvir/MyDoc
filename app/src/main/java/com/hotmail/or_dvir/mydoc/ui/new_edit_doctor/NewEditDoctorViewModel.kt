@@ -246,32 +246,47 @@ class NewEditDoctorViewModel(app: Application) : BaseViewModel<NewEditDoctorUiSt
         }
     }
 
-    private fun addOrRemoveOpeningTimeRow(indexToRemove: Int?)
+    fun onOpeningTimeChanged(changedIndex: Int, changedOpeningTime: OpeningTime)
     {
-        //todo
-        // add explanation that using index to avoid this bug
-        //      add some time A -> add some time B -> add time A again -> remove the SECOND time A ->
-        //      "minus" function removes the FIRST occurrence
-
-        adding index did not work last time, probably because i was not saving the state once
-        it was changed (removing item from the list re-draws the composables!!!)
-        FIRST save state, THEN remove by index and make sure it works
-
-        val isAdding = timeToRemove.isNull()
+        //NOTE:
+        // relying on index because there is no unique identifier for OpeningTime.
+        // cannot use equals() because OpeningTime is a data class which means all the values
+        // are compared, but we need to differentiate between rows with identical values
 
         uiState.value?.apply {
-            val newOpeningTimes =
-                if (isAdding)
-                {
-                    doctor.openingTimes.plus(OpeningTimeFactory.createDefault())
-                } else
-                {
-                    remove at given index
+            val newOpeningTimesList = doctor.openingTimes.toMutableList()
+            newOpeningTimesList[changedIndex] = changedOpeningTime
 
-                }
+            val newDoc = doctor.copy(openingTimes = newOpeningTimesList)
+            updateUiState(
+                copy(doctor = newDoc)
+            )
+        }
+    }
+
+    private fun addOrRemoveOpeningTimeRow(indexToRemove: Int?)
+    {
+        //todo can i combine this function with onOpeningTimeChanged()????
+
+        //NOTE:
+        // relying on index because there is no unique identifier for OpeningTime.
+        // cannot use equals() because OpeningTime is a data class which means all the values
+        // are compared, but we need to differentiate between rows with identical values
+
+        uiState.value?.apply {
+            val newOpeningTimes = doctor.openingTimes.toMutableList()
+
+            val isAdding = indexToRemove.isNull()
+            if (isAdding)
+            {
+                newOpeningTimes.add(0, OpeningTimeFactory.createDefault())
+            } else
+            {
+                //if we are here, indexToRemove should NOT be null
+                newOpeningTimes.removeAt(indexToRemove!!)
+            }
 
             val newDoc = doctor.copy(openingTimes = newOpeningTimes)
-
             updateUiState(
                 copy(doctor = newDoc)
             )

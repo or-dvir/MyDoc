@@ -30,7 +30,7 @@ data class OpeningTime(
         var moshiListAdapter: JsonAdapter<List<OpeningTime>> =
             MyMoshi.instance.adapter(listType)
 
-        fun getDaysOfWeekShort() = DayOfWeek.values().map { it.formatShort() }
+        fun getAllDaysOfWeekShort() = DayOfWeek.values().map { it.formatShort() }
     }
 
     fun isValid() = fromHour.isAfter(toHour)

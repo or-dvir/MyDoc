@@ -31,7 +31,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -46,13 +45,13 @@ import com.hotmail.or_dvir.mydoc.models.OpeningTime
 import com.hotmail.or_dvir.mydoc.models.SimpleAddress
 import com.hotmail.or_dvir.mydoc.ui.new_edit_doctor.NewEditDoctorViewModel.NewEditDoctorUiState
 import com.hotmail.or_dvir.mydoc.ui.shared.ButtonWithHeader
-import com.hotmail.or_dvir.mydoc.ui.shared.ExposedDropDownMenu
+import com.hotmail.or_dvir.mydoc.ui.shared.ButtonWithHeaderDropDownMenu
 import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import org.koin.androidx.compose.getViewModel
-import kotlin.text.Typography.times
+import java.time.DayOfWeek
 
 @Composable
 fun NewEditDoctorScreen()
@@ -250,16 +249,10 @@ fun ContactDetailsSection(
 }
 
 @Composable
-fun OpeningTimeRow(openingTime: OpeningTime)
+fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
 {
     //todo
-    // display each opening time as a row:
-    //      make day of week button look the same as from/to hours
-    //      button to delete the entry
     // update caller on:
-    //      row added
-    //      row removed
-    //      day of week changed
     //      from hour changed
     //      to hour changed
 
@@ -271,18 +264,19 @@ fun OpeningTimeRow(openingTime: OpeningTime)
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
-        //todo
-        // the size of the menu changes size according to which entry is selected!!!
-        // replace this with ButtonWithHeader so it matches the other ones?
-        //      the "drop down" is a DropDownMenu which i already implemented
-        //      in other places in the app
         //day of week
-        ExposedDropDownMenu(
-            values = OpeningTime.getDaysOfWeekShort(),
-            onChange = { index, value ->
-                //todo
-            },
-            label = { Text(text = stringResource(id = R.string.hint_day)) },
+        ButtonWithHeaderDropDownMenu(
+            header = stringResource(id = R.string.hint_day),
+            buttonText = openingTime.getDayOfWeekShort(),
+            menuItems = OpeningTime.getAllDaysOfWeekShort(),
+            onMenuItemClicked = { menuItemIndex, str ->
+                viewModel.onOpeningTimeChanged(
+                    changedIndex = rowIndex,
+                    //menuItemIndex is 0-based, but DayOfWeek.of() is 1-based
+                    changedOpeningTime =
+                    openingTime.copy(dayOfWeek = DayOfWeek.of(menuItemIndex + 1))
+                )
+            }
         )
 
         //from hour
@@ -302,10 +296,8 @@ fun OpeningTimeRow(openingTime: OpeningTime)
         }
 
         //todo
-        // center this vertically with the TIME BUTTONS
-        remove row by INDEX!!! add callback to this function so that the caller can
-        tell which index was removed
-        IconButton(onClick = { viewModel.removeOpeningTimeRow(openingTime) }) {
+        // center this vertically with the BUTTONS
+        IconButton(onClick = { viewModel.removeOpeningTimeRow(rowIndex) }) {
             Icon(
                 tint = Color.Red,
                 painter = painterResource(id = R.drawable.ic_remove_circle),
@@ -336,8 +328,9 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
             // should i do this???
             //      if there are no opening times, add 1 row by default
             openingTimes?.forEachIndexed { index, it ->
-                OpeningTimeRow(it)
-                if(index != openingTimes.lastIndex) {
+                OpeningTimeRow(it, index)
+                if (index != openingTimes.lastIndex)
+                {
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
@@ -346,7 +339,7 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                //todo scroll down to new row on button click
+                //todo new rows are added ON TOP - move this button next to the title of the section
                 IconButton(onClick = { viewModel.addOpeningTimeRow() }) {
                     Icon(
                         tint = MaterialTheme.colors.primary,
@@ -358,11 +351,8 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
         }
     }
 
-//    i stopped in this function
-//        keep working on opening times:
-//        add "delete" button to each row,
-//        make "form" and "to" buttons functional (open time picker)
-//        update doctor in viewmodel on changes
+        make "form" and "to" buttons functional (open time picker)
+        update doctor in viewmodel on changes
 }
 
 @Composable
