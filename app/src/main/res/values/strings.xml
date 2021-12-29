@@ -54,6 +54,9 @@
     <string name="apartment_s">Apartment: %s</string>
     <string name="floor_d">Floor: %d</string>
 
+
+    <string name="longDash">&#8211;</string>
+
     <string name="contentDescription_removeOpeningTime">Remove opening time</string>
     <string name="contentDescription_addOpeningTime">Add opening time</string>
     <string name="contentDescription_showPassword">Show password</string>

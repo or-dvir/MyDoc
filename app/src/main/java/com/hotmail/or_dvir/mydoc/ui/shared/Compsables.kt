@@ -129,6 +129,24 @@ fun ButtonWithHeader(
 }
 
 @Composable
+fun OutlinedButtonRound(
+    buttonText: String,
+    onClick: () -> Unit
+)
+{
+    //todo increase border alpha? or leave at default?
+    OutlinedButton(
+        onClick = onClick,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Text(
+            text = buttonText,
+            color = MaterialTheme.colors.onSurface
+        )
+    }
+}
+
+@Composable
 fun LoadingIndicatorFullScreen(modifier: Modifier = Modifier)
 {
     Box(

@@ -1,7 +1,6 @@
 package com.hotmail.or_dvir.mydoc.ui.new_edit_doctor
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -48,6 +46,7 @@ import com.hotmail.or_dvir.mydoc.ui.shared.ButtonWithHeader
 import com.hotmail.or_dvir.mydoc.ui.shared.ButtonWithHeaderDropDownMenu
 import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedButtonRound
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
 import org.koin.androidx.compose.getViewModel
@@ -261,7 +260,8 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         //todo which spacing is best?
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.SpaceBetween,
+//        horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
         //day of week
@@ -286,6 +286,11 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
         ) {
             //todo onclick -> do something
         }
+//        OutlinedButtonRound(openingTime.getFromHourShort()) {
+//            //todo onclick -> do something
+//        }
+
+        Text(stringResource(R.string.longDash))
 
         //to hour
         ButtonWithHeader(
@@ -294,6 +299,9 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
         ) {
             //todo onclick -> do something
         }
+//        OutlinedButtonRound(openingTime.getToHourShort()) {
+//            //todo onclick -> do something
+//        }
 
         //todo
         // center this vertically with the BUTTONS
@@ -313,18 +321,30 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
     val viewModel = getViewModel<NewEditDoctorViewModel>()
 
     Column {
-        Header(text = stringResource(R.string.openingTimes))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Header(text = stringResource(R.string.openingTimes))
+
+            IconButton(onClick = { viewModel.addOpeningTimeRow() }) {
+                Icon(
+                    tint = MaterialTheme.colors.primary,
+                    painter = painterResource(id = R.drawable.ic_add_circle),
+                    contentDescription = stringResource(id = R.string.contentDescription_addOpeningTime)
+                )
+            }
+        }
 
         val borderColor = MaterialTheme.colors.onSurface.copy(
             alpha = TextFieldDefaults.UnfocusedIndicatorLineOpacity
         )
 
         Column(
-            modifier = Modifier.border(1.dp, borderColor, RoundedCornerShape(5.dp))
+            //todo better with or without?
+//            modifier = Modifier.border(1.dp, borderColor, RoundedCornerShape(5.dp))
         ) {
-
-            //todo
-            // display each opening time as a row (OpeningTimeRow function)
             openingTimes?.forEachIndexed { index, it ->
                 OpeningTimeRow(it, index)
                 if (index != openingTimes.lastIndex)
@@ -332,25 +352,8 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                //todo new rows are added ON TOP - move this button next to the title of the section
-                IconButton(onClick = { viewModel.addOpeningTimeRow() }) {
-                    Icon(
-                        tint = MaterialTheme.colors.primary,
-                        painter = painterResource(id = R.drawable.ic_add_circle),
-                        contentDescription = stringResource(id = R.string.contentDescription_addOpeningTime)
-                    )
-                }
-            }
         }
     }
-
-        make "form" and "to" buttons functional (open time picker)
-        update doctor in viewmodel on changes
 }
 
 @Composable
