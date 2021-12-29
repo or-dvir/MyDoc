@@ -75,7 +75,6 @@ fun ButtonWithHeaderDropDownMenu(
     onMenuItemClicked: (index: Int, str: String) -> Unit
 )
 {
-    //todo drop down menu is too wide.
     var showMenu by remember { mutableStateOf(false) }
 
     Column {
@@ -109,15 +108,14 @@ fun ButtonWithHeader(
     onClick: () -> Unit
 )
 {
-    //todo header and button look misaligned. add some offset for the header
-
     Column {
         Text(
+            modifier = Modifier.offset(x = 5.dp),
             text = header,
             style = Typography.subtitle2,
             color = MaterialTheme.colors.primary
         )
-        //todo increase border alpha
+        //todo increase border alpha? or leave at default?
         OutlinedButton(
             onClick = onClick,
             shape = RoundedCornerShape(8.dp)
