@@ -260,25 +260,10 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        //todo which spacing is best?
         horizontalArrangement = Arrangement.SpaceBetween,
-//        horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
         //day of week
-//        ButtonWithHeaderDropDownMenu(
-//            header = stringResource(id = R.string.hint_day),
-//            buttonText = openingTime.getDayOfWeekShort(),
-//            menuItems = OpeningTime.getAllDaysOfWeekShort(),
-//            onMenuItemClicked = { menuItemIndex, str ->
-//                viewModel.onOpeningTimeChanged(
-//                    changedIndex = rowIndex,
-//                    //menuItemIndex is 0-based, but DayOfWeek.of() is 1-based
-//                    changedOpeningTime =
-//                    openingTime.copy(dayOfWeek = DayOfWeek.of(menuItemIndex + 1))
-//                )
-//            }
-//        )
         OutlinedButtonMenu(
             buttonText = openingTime.getDayOfWeekShort(),
             menuItems = OpeningTime.getAllDaysOfWeekShort(),
@@ -293,12 +278,6 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
         )
 
         //from hour
-//        ButtonWithHeader(
-//            header = stringResource(id = R.string.from),
-//            buttonText = openingTime.getFromHourShort()
-//        ) {
-//            //todo onclick -> do something
-//        }
         OutlinedButtonRound(openingTime.getFromHourShort()) {
             //todo onclick -> do something
         }
@@ -306,18 +285,10 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
         Text(stringResource(R.string.longDash))
 
         //to hour
-//        ButtonWithHeader(
-//            header = stringResource(id = R.string.to),
-//            buttonText = openingTime.getToHourShort()
-//        ) {
-//            //todo onclick -> do something
-//        }
         OutlinedButtonRound(openingTime.getToHourShort()) {
             //todo onclick -> do something
         }
 
-        //todo
-        // center this vertically with the BUTTONS
         IconButton(onClick = { viewModel.removeOpeningTimeRow(rowIndex) }) {
             Icon(
                 tint = Color.Red,
