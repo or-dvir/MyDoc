@@ -129,10 +129,39 @@ fun ButtonWithHeader(
 }
 
 @Composable
-fun OutlinedButtonRound(
+fun OutlinedButtonMenu(
     buttonText: String,
-    onClick: () -> Unit
+    menuItems: List<String>,
+    onMenuItemClicked: (index: Int, str: String) -> Unit
 )
+{
+    var showMenu by remember { mutableStateOf(false) }
+
+    Column {
+        OutlinedButtonRound(buttonText) {
+            showMenu = !showMenu
+        }
+
+        DropdownMenu(
+            expanded = showMenu,
+            onDismissRequest = { showMenu = false }
+        ) {
+            menuItems.forEachIndexed { index, str ->
+                DropdownMenuItem(
+                    onClick = {
+                        showMenu = false
+                        onMenuItemClicked(index, str)
+                    }
+                ) {
+                    Text(str)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun OutlinedButtonRound(buttonText: String, onClick: () -> Unit)
 {
     //todo increase border alpha? or leave at default?
     OutlinedButton(

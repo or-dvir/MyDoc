@@ -46,6 +46,7 @@ import com.hotmail.or_dvir.mydoc.ui.shared.ButtonWithHeader
 import com.hotmail.or_dvir.mydoc.ui.shared.ButtonWithHeaderDropDownMenu
 import com.hotmail.or_dvir.mydoc.ui.shared.Header
 import com.hotmail.or_dvir.mydoc.ui.shared.LoadingIndicatorFullScreen
+import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedButtonMenu
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedButtonRound
 import com.hotmail.or_dvir.mydoc.ui.shared.OutlinedTextFieldWithError
 import com.hotmail.or_dvir.mydoc.ui.theme.MyDocTheme
@@ -265,8 +266,20 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
         modifier = Modifier.fillMaxWidth()
     ) {
         //day of week
-        ButtonWithHeaderDropDownMenu(
-            header = stringResource(id = R.string.hint_day),
+//        ButtonWithHeaderDropDownMenu(
+//            header = stringResource(id = R.string.hint_day),
+//            buttonText = openingTime.getDayOfWeekShort(),
+//            menuItems = OpeningTime.getAllDaysOfWeekShort(),
+//            onMenuItemClicked = { menuItemIndex, str ->
+//                viewModel.onOpeningTimeChanged(
+//                    changedIndex = rowIndex,
+//                    //menuItemIndex is 0-based, but DayOfWeek.of() is 1-based
+//                    changedOpeningTime =
+//                    openingTime.copy(dayOfWeek = DayOfWeek.of(menuItemIndex + 1))
+//                )
+//            }
+//        )
+        OutlinedButtonMenu(
             buttonText = openingTime.getDayOfWeekShort(),
             menuItems = OpeningTime.getAllDaysOfWeekShort(),
             onMenuItemClicked = { menuItemIndex, str ->
@@ -280,28 +293,28 @@ fun OpeningTimeRow(openingTime: OpeningTime, rowIndex: Int)
         )
 
         //from hour
-        ButtonWithHeader(
-            header = stringResource(id = R.string.from),
-            buttonText = openingTime.getFromHourShort()
-        ) {
-            //todo onclick -> do something
-        }
-//        OutlinedButtonRound(openingTime.getFromHourShort()) {
+//        ButtonWithHeader(
+//            header = stringResource(id = R.string.from),
+//            buttonText = openingTime.getFromHourShort()
+//        ) {
 //            //todo onclick -> do something
 //        }
+        OutlinedButtonRound(openingTime.getFromHourShort()) {
+            //todo onclick -> do something
+        }
 
         Text(stringResource(R.string.longDash))
 
         //to hour
-        ButtonWithHeader(
-            header = stringResource(id = R.string.to),
-            buttonText = openingTime.getToHourShort()
-        ) {
-            //todo onclick -> do something
-        }
-//        OutlinedButtonRound(openingTime.getToHourShort()) {
+//        ButtonWithHeader(
+//            header = stringResource(id = R.string.to),
+//            buttonText = openingTime.getToHourShort()
+//        ) {
 //            //todo onclick -> do something
 //        }
+        OutlinedButtonRound(openingTime.getToHourShort()) {
+            //todo onclick -> do something
+        }
 
         //todo
         // center this vertically with the BUTTONS
