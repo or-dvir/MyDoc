@@ -325,8 +325,6 @@ fun OpeningTimesSection(openingTimes: List<OpeningTime>?)
 
             //todo
             // display each opening time as a row (OpeningTimeRow function)
-            // should i do this???
-            //      if there are no opening times, add 1 row by default
             openingTimes?.forEachIndexed { index, it ->
                 OpeningTimeRow(it, index)
                 if (index != openingTimes.lastIndex)
